@@ -81,20 +81,23 @@ Represents a complete Parsons Problem.
 A saved puzzle result will be serialised by Jackson XML into the following structure:
 
 ```xml
-<Puzzle>
-  <title>TITLE</title>
-  <instructions>POSSIBLY MANY LINES OF INSTRUCTIONS.</instructions>
-  <blocks>
-    <block>
-      <codeContent>CODE LINE OR BLOCK</codeContent>
-      <isDistractor>BOOLEAN</isDistractor>
-      <orderIndex>INT</orderIndex>
-    </block>
-    ...
-    ...
-    
-  </blocks>
-</Puzzle>
+<Puzzles>
+  <Puzzle>
+    <id>1</id>
+    <title>TITLE</title>
+    <instructions>POSSIBLY MANY LINES OF INSTRUCTIONS.</instructions>
+    <blocks>
+      <block>
+        <codeContent>CODE LINE OR BLOCK</codeContent>
+        <isDistractor>BOOLEAN</isDistractor>
+        <orderIndex>INT</orderIndex>
+      </block>
+      ...
+      ...
+      
+    </blocks>
+  </Puzzle>
+</Puzzles>
 ```
 
 ---
