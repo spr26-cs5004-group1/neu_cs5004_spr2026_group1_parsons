@@ -1,7 +1,7 @@
 # Project Proposal: Parsons Problem Authoring & Delivery Tool
 
 ## Summary
-This proposal outlines the design and development of a desktop tool for creating and delivering Parsons Problems — a teaching exercise format where students arrange shuffled lines of code into the correct order. The tool targets computer science educators and students. It is launched from the terminal by passing a puzzle file as an argument, and saves problem state as XML.
+This proposal outlines the design and development of a desktop tool for creating and delivering Parsons Problems — a teaching exercise format where students arrange shuffled lines of code into the correct order. The tool targets computer science educators and students. It is launched from the terminal by passing a Problem file as an argument, and saves problem state as XML.
 
 ---
 
@@ -13,8 +13,8 @@ Parsons Problems are an effective and low-barrier method for teaching programmin
 ## Proposed Solution
 A self-contained Java desktop application with two distinct roles:
 
-- **Problem Setter**: An educator who authors a puzzle as a plain text file and passes it to the application at the terminal.
-- **Student**: A learner who solves the puzzle using a drag-and-drop Swing interface and submits their answer.
+- **Problem Setter**: An educator who authors a Problem as a plain text file and passes it to the application at the terminal.
+- **Student**: A learner who solves the Problem using a drag-and-drop Swing interface and submits their answer.
 
 The application is packaged as a single executable JAR file requiring no internet connection or external server.
 
@@ -38,7 +38,7 @@ The application follows the **Model-View-Controller** pattern with clear package
 ```
 com.parsons/
 |
-+── model/      -> Data structures (Puzzle, CodeBlock)
++── model/      -> Data structures (Problem, CodeBlock)
 |
 +── controller/ -> Terminal arg handling, application flow
 |
@@ -62,9 +62,9 @@ Represents a single draggable block of code.
 | `orderIndex` | `Integer` | Correct position (null for distractors) |
 | `feedBack `$^*$ | `String`$^*$ | Feedback if there is error with this code Block |
 
-  $^*$ Only if we have time when we create puzzle examples.
+  $^*$ Only if we have time when we create Problem examples.
 
-### `Puzzle`
+### `Problem`
 Represents a complete Parsons Problem.
 
 | Field | Type | Description |
@@ -78,11 +78,11 @@ Represents a complete Parsons Problem.
 ---
 
 ## XML Save Format
-A saved puzzle result will be serialised by Jackson XML into the following structure:
+A saved Problem result will be serialised by Jackson XML into the following structure:
 
 ```xml
-<Puzzles>
-  <Puzzle>
+<Problems>
+  <Problem>
     <id>1</id>
     <title>TITLE</title>
     <instructions>POSSIBLY MANY LINES OF INSTRUCTIONS.</instructions>
@@ -96,8 +96,8 @@ A saved puzzle result will be serialised by Jackson XML into the following struc
       ...
       
     </blocks>
-  </Puzzle>
-</Puzzles>
+  </Problem>
+</Problems>
 ```
 
 ---
@@ -113,7 +113,7 @@ Three kinds of testing are implemented:
 Validation rules tested independently. Tests cover blank fields, null values, and correct shuffling behaviour.
 
 **2. XML Tests**
-Tests verify that a `Puzzle` object serialises to valid XML and deserialises back to an equal object without data loss.
+Tests verify that a `Problem` object serialises to valid XML and deserialises back to an equal object without data loss.
 
 **3. Controller Tests**
 Use manually created simulated objects. 
@@ -128,8 +128,8 @@ Use manually created simulated objects.
 ## Key Features
 
 ### Problem Setter
-- Author puzzles as plain `.txt` files
-- Pass puzzle file at terminal: `java -jar parsons.jar puzzle.txt`
+- Author Problems as plain `.txt` files
+- Pass Problem file at terminal: `java -jar parsons.jar Problem.txt`
 - Saved results written as XML to the same directory
 
 ### Student
@@ -147,10 +147,10 @@ Three-stage validation in the Model layer:
 
 ## Packaging & Deployment
 * The application is packaged as a single self-contained Gradle-built JAR. 
-* No installation, internet connection, or external database required. Puzzle results are saved locally as XML files.
+* No installation, internet connection, or external database required. Problem results are saved locally as XML files.
 * One way to write problems will be via CLI.
 ```
-$ java -jar parsons.jar puzzle.txt
+$ java -jar parsons.jar Problem.txt
 ```
 * Other will be to open the GUI and write the code blocks (`JTextField`) and assign the boolean `isDistractor` using a radio button.$^*$
 
