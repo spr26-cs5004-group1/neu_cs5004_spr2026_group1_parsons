@@ -1,8 +1,19 @@
-# Parsons Problem Authoring & Delivery Tool
-## Northeastern University - Khoury College of Computer Sciences
-## CS 5004, Spr 2026
-### Instructor:
-## Thomas, Jack
-### Authors: (Group 1)
-## McKillop, Parker; O'Bannon, Michael; Pooley, Oksana; and Singh, Arsh.
+<!-- 
+(remove this and add your sections/elements)
+This readme should contain the following information: 
 
+* The group member's names and github accounts
+* The application name and a brief description of the application
+* Links to design documents and manuals
+* Instructions on how to run the application
+
+Ask yourself, if you started here in the readme, would you have what you need to work on this project and/or use the application?
+-->
+
+# Final Project for CS 5004 - Parsons Problem Authoring & Delivery Tool
+
+## Authors: (Group 1)
+### McKillop, Parker (GitHub Account)
+### O'Bannon, Michael (GitHub Account)
+### Pooley, Oksana (GitHub Account)
+### Singh, Arsh @arshsinghphd
