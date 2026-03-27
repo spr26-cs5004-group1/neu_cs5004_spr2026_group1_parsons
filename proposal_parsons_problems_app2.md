@@ -60,6 +60,9 @@ Represents a single draggable block of code.
 | `codeContent` | `String` | The code string displayed to the student |
 | `isDistractor` | `boolean` | Whether this block is a red herring |
 | `orderIndex` | `Integer` | Correct position (null for distractors) |
+| `feedBack `$^*$ | `String`$^*$ | Feedback if there is error with this code Block |
+
+  $^*$ Only if we have time when we create puzzle examples.
 
 ### `Puzzle`
 Represents a complete Parsons Problem.
@@ -69,6 +72,8 @@ Represents a complete Parsons Problem.
 | `title` | `String` | Problem title |
 | `instructions` | `String` | Instructions shown to the student |
 | `blocks` | `List<CodeBlock>` | All blocks including distractors |
+| `isCorrect` | `Boolean` | Correct or not |
+
 
 ---
 
@@ -139,9 +144,12 @@ Three-stage validation in the Model layer:
 
 ## Packaging & Deployment
 The application is packaged as a single self-contained Gradle-built JAR:
-
+* One way to write problems will be via CLI.
 ```
 $ java -jar parsons.jar puzzle.txt
 ```
+* Other will be to open the GUI and write the code blocks (`JTextField`) and assign the boolean `isDistractor` using a radio button.$^*$
+* No installation, internet connection, or external database required. Puzzle results are saved locally as XML files.
+* 
 
-No installation, internet connection, or external database required. Puzzle results are saved locally as XML files.
+$^*$ Will do if we get to it. 
