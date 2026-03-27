@@ -143,13 +143,37 @@ Three-stage validation in the Model layer:
 ---
 
 ## Packaging & Deployment
-The application is packaged as a single self-contained Gradle-built JAR:
+* The application is packaged as a single self-contained Gradle-built JAR. 
+* No installation, internet connection, or external database required. Puzzle results are saved locally as XML files.
 * One way to write problems will be via CLI.
 ```
 $ java -jar parsons.jar puzzle.txt
 ```
 * Other will be to open the GUI and write the code blocks (`JTextField`) and assign the boolean `isDistractor` using a radio button.$^*$
-* No installation, internet connection, or external database required. Puzzle results are saved locally as XML files.
-* 
 
-$^*$ Will do if we get to it. 
+
+$^*$ Will be good to do. 
+
+
+---
+
+## Time-Line
+
+Week 1 ending 27 Mar: 
+* Proposal
+* Splitting making groups
+
+Week 2 end 3 Apr:
+* Oksana and Parker: Model + Controller
+* Michael and Arsh: GUI (view) + main
+
+Week 3 end 10 Apr:
+* Should have finished and tested (screenshots for GUI) app
+* Start writing the Parson's Problems for 5004.
+
+Week 4 end 17 Apr:
+* Design docs
+* Writing report 
+* Manual
+* Demo
+* Retrospective
