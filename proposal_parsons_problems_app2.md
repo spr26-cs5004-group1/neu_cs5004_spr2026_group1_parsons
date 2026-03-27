@@ -173,7 +173,6 @@ Week 3 end 10 Apr:
 
 Week 4 end 17 Apr:
 * Design docs
-* Writing report 
 * Manual
 * Demo
 * Retrospective
