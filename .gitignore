@@ -32,6 +32,7 @@ bin
 # ingore ide files
 .vscode
 idea/
+.idea
 
 # MacOS files
 .DS_Store
