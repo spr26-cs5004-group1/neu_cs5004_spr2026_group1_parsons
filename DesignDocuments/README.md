@@ -460,19 +460,26 @@ SolverView --> AppMetadata
 
 I want to start the design with the part that is most novel for us - we have not encountered a drag and drop in this class. 
 
+### Mock-up:
+
 ```
  ---------------------------------------------------
 │                                           [quit]  │
-|                  Instructions                     |
+|                  Instructions:                    |
+|             Related to: while loops               |
+|          Drag and drop to form correct            |
+|          syntax for a while loop in java.         |
 | ---------------------  -------------------------- |
 │  BLOCKS (pick up)     │  ANSWER (drop here)       │
-│   ---------------     │                           │
-│   │  int i;      │    │                           │
-│   ├──────────────┤    │                           │
-│   │  i = 0;      │    │                           │
-│   ├──────────────┤    │                           │
-│   │while(i<10){  │    │                           │
-│   ----------------    │                           │
+│   ------------------  │                           │
+│   │ int i;          │ |                           │
+│   ------------------  │                           │
+│   │ i = 0;          │ │                           │
+│   ------------------  │                           │
+│   │ while(i < 10) { │ │                           │
+│   ------------------  │                           │
 │                       │          [Submit]         │
  ---------------------------------------------------
 ```
+
+### Step 1: Only Drag and Drop
