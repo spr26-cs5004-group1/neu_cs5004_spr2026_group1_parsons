@@ -19,6 +19,14 @@ public class DragAndDrop {
         ));
         label.setOpaque(true);
         label.setBackground(Color.WHITE);
+        label.setTransferHandler(new TransferHandler("text"));
+        label.addMouseListener(new MouseAdapter() {
+            @Override
+            public void mousePressed(MouseEvent e) {
+                JLabel l = (JLabel) e.getSource();
+                l.getTransferHandler().exportAsDrag(l, e, TransferHandler.MOVE);
+            }
+        });
         return label;
     }
 
@@ -42,16 +50,6 @@ public class DragAndDrop {
             JLabel label1 = makeCodeBlock("int i;");
             JLabel label2 = makeCodeBlock("i = 0;");
             JLabel label3 = makeCodeBlock("while (i < 10) {");
-
-            label.setTransferHandler(new TransferHandler("text"));
-            label.addMouseListener(new MouseAdapter() {
-            @Override
-            public void mousePressed(MouseEvent e) {
-                JLabel l = (JLabel) e.getSource();
-                TransferHandler handler = l.getTransferHandler();
-                handler.exportAsDrag(l, e, TransferHandler.MOVE);
-            }
-            });
 
             // two panels side by side
             // allowing 20 code blocks in height
