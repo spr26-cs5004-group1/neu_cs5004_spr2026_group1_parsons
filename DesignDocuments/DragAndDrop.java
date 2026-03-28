@@ -1,7 +1,9 @@
 import java.awt.*;
 import javax.swing.*;
+import java.awt.datatransfer.DataFlavor;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+
 
 public class DragAndDrop {
     private static final int MAX_COLS = 80;
@@ -10,6 +12,7 @@ public class DragAndDrop {
     private static final int FRAME_HEIGHT = 720;        // keeping 16:9 ratio, about 35 lines
     private static final int DIVIDER_LOCATION = 1280 / 2;
 
+    // make code blocks as labels that are mouse draggable
     private static JLabel makeCodeBlock(String code) {
         JLabel label = new JLabel(code, JLabel.LEFT);
         label.setFont(new Font("Courier New", Font.PLAIN, 13));
@@ -30,8 +33,32 @@ public class DragAndDrop {
         return label;
     }
 
-    
+    // make panels targets for transfer handle 
+    // move label from left-> right, right -> left
+    private static void makeDropTarget(JPanel panel) {
+        panel.setTransferHandler(new TransferHandler("text") {
+            @Override
+            public boolean canImport(TransferSupport support) {
+                return true;
+            }
 
+            @Override
+            public boolean importData(TransferSupport support) {
+                try {
+                    String text = (String) support.getTransferable()
+                        .getTransferData(DataFlavor.stringFlavor);
+                    panel.add(makeCodeBlock(text));
+                    panel.revalidate();
+                    panel.repaint();
+                    return true;
+                } catch (Exception e) {
+                    return false;
+                }
+            }
+        });
+    }
+
+    // main
     public static void main(String[] args) {
         SwingUtilities.invokeLater(() -> {
             JFrame frame = new JFrame("Parsons Problems");
@@ -47,6 +74,7 @@ public class DragAndDrop {
             JPanel instrPanel = new JPanel(new FlowLayout());
             instrPanel.add(instrTextArea);
 
+            // make mouse draggable CodeBlocks as labels
             JLabel label1 = makeCodeBlock("int i;");
             JLabel label2 = makeCodeBlock("i = 0;");
             JLabel label3 = makeCodeBlock("while (i < 10) {");
