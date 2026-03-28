@@ -178,7 +178,7 @@ flowchart TD
     SOLUTION --> RETRY
 
     CORRECT --> BACK
-    RETRY --> DRAG
+    RETRY --> SOLVER
     BACK --> WELCOME
 ```
 
