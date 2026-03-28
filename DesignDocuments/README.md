@@ -4,51 +4,78 @@ You may have multiple design documents for this project. Place them all in this 
 
 ## Initial Design Thoughts
 
-### Model and Controller UML
-
-Vision:
-
-Dependency Map (--> =  depends on)
-
-GUI (Swing) --> Controller  --> Service --> Repository --> Model
+Swing UI supports drag and drop:
+https://docs.oracle.com/javase/tutorial/uiswing/examples/dnd/index.html
 
 
-Application Flow:
+### Dependency Map
+[Legend: --> =  depends on]
 
-ParsonsApplication (main) --creates--> XmlParsonsProblemsRepository --injected into--> ParsonsProblemsService
---injected into-->Swing UI--calls-->ParsonsProblemsService (when button clicked)
+Swing UI/Controller  --> Service --> Repository --> Model
 
+
+### Application Flow
+
+`ParsonsApplication` (main) --creates--> `XmlParsonsProblemsRepository` --injected into--> `ParsonsProblemsService`
+--injected into-->Swing UI--calls-->`ParsonsProblemsService` (when button clicked)
+
+
+### File Structure
+```
+com.parsons/
+|
+|-- model/
+|   |-- CodeBlock.java
+|   |-- ParsonsProblem.java
+|   |-- ProblemsList.java
+|
+|-- repository/
+|   |-- IParsonsProblemsRepository.java
+|   |-- XmlParsonsProblemsRepository.java
+|
+|-- service/
+|   |-- ParsonsProblemsService.java
+|
+|-- controller/
+|   |-- setter/
+|   |   |-- SetterCli.java
+|   |   |-- SetterView.java* (maybe)
+|   |   |-- EditorView.java* (maybe)
+|   |-- student/
+|       |-- StudentView.java
+|       |-- SolverView.java
+|
+|-- AppMetadata.java
+|-- ParsonsApplication.java
+```
+### Design/Vision UML
 
 ```mermaid
-
 classDiagram
-direction TB
+direction TD
 
 %%--- ENTRY POINT ---
 class ParsonsApplication {
-  + ParsonsApplication() 
-  + main(String[]) void
+    +main(String[]) void
 }
 
-%% ---- STATIC PROPERTIES: used in all UI ---
+%%--- APP-WIDE METADATA ---
 class AppMetadata {
     +String APP_NAME$
     +String SETTER_BUTTON_DESC$
     +String STUDENT_BUTTON_DESC$
     +String CREDITS$
-    %% to be expanded as needed
 }
 
 namespace model {
 
     class CodeBlock {
-        +CodeBlock(String, boolean, Integer) 
-        +CodeBlock()
-        -Integer orderIndex
-        -String codeContent
         -int id
+        -String codeContent
         -boolean isDistractor
-
+        -Integer orderIndex
+        +CodeBlock()
+        +CodeBlock(String, boolean, Integer)
         +getId() int
         +setId(int) void
         +getCodeContent() String
@@ -57,18 +84,15 @@ namespace model {
         +setIsDistractor(boolean) void
         +getOrderIndex() Integer
         +setOrderIndex(Integer) void
-        +CodeBlock()
-        +CodeBlock(String, boolean, Integer)
     }
 
     class ParsonsProblem {
-        +ParsonsProblem(String, String, List~CodeBlock~) 
-        +ParsonsProblem()
         -int id
         -String title
         -String instructions
         -List~CodeBlock~ code
-
+        +ParsonsProblem()
+        +ParsonsProblem(String, String, List~CodeBlock~)
         +getId() int
         +setId(int) void
         +getTitle() String
@@ -77,39 +101,25 @@ namespace model {
         +setInstructions(String) void
         +getCode() List~CodeBlock~
         +setCode(List~CodeBlock~) void
-        +ParsonsProblem()
-        +ParsonsProblem(String, String, List~CodeBlock~)
     }
 
     class ProblemsList {
-        +ProblemsList() 
         -List~ParsonsProblem~ problems
-
+        +ProblemsList()
         +getProblems() List~ParsonsProblem~
         +setProblems(List~ParsonsProblem~) void
     }
-
-    class ParsonsProblemsService {
-        -IParsonsProblemsRepository repo
-
-        +ParsonsProblemsService(IParsonsProblemsRepository)
-        +saveProblem(ParsonsProblem) int
-        +updateProblem(int, ParsonsProblem) ParsonsProblem
-        +deleteProblem(int) void
-        +getAllProblems() List~ParsonsProblem~
-        +getProblemById(int) ParsonsProblem
-        +checkAnswer(int, List~CodeBlock~) boolean
-    }
 }
 
-namespace Repository {
+namespace repository {
+
     class IParsonsProblemsRepository {
         <<Interface>>
-        +existsById(int) boolean
-        +findById(int) ParsonsProblem
         +save(ParsonsProblem) int
+        +findById(int) ParsonsProblem
         +findAll() List~ParsonsProblem~
         +deleteById(int) void
+        +existsById(int) boolean
     }
 
     class XmlParsonsProblemsRepository {
@@ -126,78 +136,94 @@ namespace Repository {
     }
 }
 
-%%--- NOT WRITTEN YET: UI is combined controller and view ---
+namespace service {
 
-namespace UI {  
-    class HomeView {
+    class ParsonsProblemsService {
+        -IParsonsProblemsRepository repo
+        +ParsonsProblemsService(IParsonsProblemsRepository)
+        +saveProblem(ParsonsProblem) int
+        +updateProblem(int, ParsonsProblem) ParsonsProblem
+        +deleteProblem(int) void
+        +getAllProblems() List~ParsonsProblem~
+        +getProblemById(int) ParsonsProblem
+        +checkAnswer(int, List~CodeBlock~) boolean
+    }
+}
+
+%%--- NOT WRITTEN YET ---
+
+namespace controller.setter {
+
+    class SetterCli {
         -ParsonsProblemsService service
-        +HomeView(ParsonsProblemsService)
-        +show() void
+        +SetterCli(ParsonsProblemsService)
+        +run(String filePath) void
+        -parseFile(String filePath) List~ParsonsProblem~
     }
 
     class SetterWelcomeView {
         -ParsonsProblemsService service
-        +SetterView(ParsonsProblemsService)
+        +SetterWelcomeView(ParsonsProblemsService)
         +show() void
     }
 
-    class SetterEditorView {
+    class EditorView {
         -ParsonsProblemsService service
-        +SetterEditorView(ParsonsProblemsService)
-        +show() void
-    }
-
-    class StudentWelcomeView {
-        -ParsonsProblemsService service
-        +StudentView(ParsonsProblemsService)
-        +show() void
-    }
-
-    class StudentSolverView {
-        -ParsonsProblemsService service
-        +StudentSolverView(ParsonsProblemsService)
+        +EditorView(ParsonsProblemsService)
         +show() void
     }
 }
 
-ParsonsApplication  -->  ParsonsProblemsService: has a
-ParsonsApplication  -->  XmlParsonsProblemsRepository : has a
-ParsonsApplication --> HomeView
+namespace controller.student {
 
-ParsonsProblem --> CodeBlock: has a
+    class StudentWelcomeView {
+        -ParsonsProblemsService service
+        +StudentWelcomeView(ParsonsProblemsService)
+        +show() void
+    }
 
-ProblemsList --> ParsonsProblem : has a
+    class SolverView {
+        -ParsonsProblemsService service
+        +SolverView(ParsonsProblemsService)
+        +show() void
+    }
+}
 
-IParsonsProblemsRepository  -->  ParsonsProblem : has a
+%%--- RELATIONSHIPS ---
 
-XmlParsonsProblemsRepository  ..|>  IParsonsProblemsRepository : implements
-XmlParsonsProblemsRepository  -->  ProblemsList : has a 
-XmlParsonsProblemsRepository  -->  ParsonsProblem : has  
+%% entry point
+ParsonsApplication --> ParsonsProblemsService
+ParsonsApplication --> XmlParsonsProblemsRepository
+ParsonsApplication --> SetterCli
+ParsonsApplication --> SetterWelcomeView
+ParsonsApplication --> StudentWelcomeView
 
-ParsonsProblemsService  -->  CodeBlock : has a
-ParsonsProblemsService  -->  IParsonsProblemsRepository: has a
-ParsonsProblemsService  -->  ParsonsProblem : has a
+%% model
+ParsonsProblem --> CodeBlock
+ProblemsList --> ParsonsProblem
 
-HomeView --> ParsonsProblemsService
-HomeView --> SetterWelcomeView
-HomeView --> StudentWelcomeView
-HomeView --> AppMetadata: uses
+%% repository
+XmlParsonsProblemsRepository ..|> IParsonsProblemsRepository
+XmlParsonsProblemsRepository --> ProblemsList
 
-SetterWelcomeView --> EditorView
+%% service
+ParsonsProblemsService --> IParsonsProblemsRepository
+ParsonsProblemsService --> ParsonsProblem
+ParsonsProblemsService --> CodeBlock
+
+%% setter controller
+SetterCli --> ParsonsProblemsService
+SetterCli --> AppMetadata
 SetterWelcomeView --> ParsonsProblemsService
-SetterWelcomeView --> AppMetadata: uses
-
+SetterWelcomeView --> EditorView
+SetterWelcomeView --> AppMetadata
 EditorView --> ParsonsProblemsService
-EditorView --> AppMetadata: uses
+EditorView --> AppMetadata
 
-StudentWelcomeView --> SolverView
+%% student controller
 StudentWelcomeView --> ParsonsProblemsService
-StudentWelcomeView --> AppMetadata: uses
-
+StudentWelcomeView --> SolverView
+StudentWelcomeView --> AppMetadata
 SolverView --> ParsonsProblemsService
-SolverView --> AppMetadata: uses
+SolverView --> AppMetadata
 ```
-
-
-reference:
-https://docs.oracle.com/javase/tutorial/uiswing/examples/dnd/index.html
