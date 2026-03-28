@@ -456,7 +456,9 @@ SolverView --> AppMetadata
 ```
 
 
-## Initial Design: Student GUI SolverView 
+## Initial Design: Student.SolverView GUI
+
+I want to start the design with the part that is most novel for us - we have not encountered a drag and drop in this class. 
 
 ```
  ---------------------------------------------------
@@ -474,4 +476,3 @@ SolverView --> AppMetadata
 │                       │          [Submit]         │
  ---------------------------------------------------
 ```
-
