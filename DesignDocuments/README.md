@@ -153,15 +153,14 @@ flowchart TD
     SHOW_SOL{show solution?}
     SOLUTION[reveal correct order\n highlight differences]
 
-    RETRY[click Retry\n blocks reshuffled]
+    RETRY[click Retry]
     BACK[click Back\n return to list]
 
-    DONE([exit app])
+    DONE([exit app at any time])
 
     START --> WELCOME
 
     WELCOME -- select problem --> SELECT
-    WELCOME -- quit --> DONE
 
     SELECT --> SOLVER
     SOLVER --> DRAG
@@ -174,12 +173,11 @@ flowchart TD
     INCORRECT --> SHOW_SOL
     SHOW_SOL -- yes --> SOLUTION
     SHOW_SOL -- no --> RETRY
-
     SOLUTION --> RETRY
-
-    CORRECT --> BACK
     RETRY --> SOLVER
     BACK --> WELCOME
+    CORRECT --> BACK
+    
 ```
 
 
