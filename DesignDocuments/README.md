@@ -454,3 +454,24 @@ StudentWelcomeView --> AppMetadata
 SolverView --> ParsonsProblemsService
 SolverView --> AppMetadata
 ```
+
+
+## Initial Design: Student GUI SolverView 
+
+```
+ ---------------------------------------------------
+│                                           [quit]  │
+|                  Instructions                     |
+| ---------------------  -------------------------- |
+│  BLOCKS (pick up)     │  ANSWER (drop here)       │
+│   ---------------     │                           │
+│   │  int i;      │    │                           │
+│   ├──────────────┤    │                           │
+│   │  i = 0;      │    │                           │
+│   ├──────────────┤    │                           │
+│   │while(i<10){  │    │                           │
+│   ----------------    │                           │
+│                       │          [Submit]         │
+ ---------------------------------------------------
+```
+
