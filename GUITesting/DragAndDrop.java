@@ -114,7 +114,8 @@ public class DragAndDrop {
                 "Instructions\n"
                 + "Related to: While loop in Java.\n"
                 + "Drag code blocks from the left panel to the right panel "
-                + "to form the correct sequence."
+                + "to form the correct sequence of code to print \"Hello\" " 
+                + "exactly 10 times."
             );
             instrTextArea.setEditable(false);
             instrTextArea.setFont(new Font("Arial", Font.PLAIN, 13));
