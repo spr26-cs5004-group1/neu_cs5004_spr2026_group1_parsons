@@ -1,5 +1,11 @@
 plugins {
     id 'java'
+    id 'checkstyle'
+}
+
+checkstyle {
+    toolVersion = '10.12.0'
+    configFile = file('checkstyle-rules.xml')
 }
 
 group = 'com'
