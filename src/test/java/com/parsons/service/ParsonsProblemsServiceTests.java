@@ -85,7 +85,8 @@ public class ParsonsProblemsServiceTests {
     }
 
     /**
-     * Verifies that updateProblem() updates fields of an existing problem.
+     * Verifies that updateProblem() updates fields of an existing problem
+     * and that the returned object reflects the new values.
      */
     @Test
     void testUpdateWithValidId() {
@@ -94,6 +95,21 @@ public class ParsonsProblemsServiceTests {
         ParsonsProblem result = service.updateProblem(id, updatedProblem);
         assertEquals("New Title", result.getTitle());
         assertEquals("New Instructions", result.getInstructions());
+    }
+
+    /**
+     * Verifies that after updateProblem(), retrieving the problem
+     * by id returns the updated values — confirming persistence.
+     */
+    @Test
+    void testUpdatePersistsToRepository() {
+        int id = service.saveProblem(problem);
+        ParsonsProblem updatedProblem = new ParsonsProblem("New Title", "New Instructions", code);
+        service.updateProblem(id, updatedProblem);
+        ParsonsProblem retrieved = service.getProblemById(id);
+        assertNotNull(retrieved);
+        assertEquals("New Title", retrieved.getTitle());
+        assertEquals("New Instructions", retrieved.getInstructions());
     }
 
     /**
@@ -108,13 +124,14 @@ public class ParsonsProblemsServiceTests {
     }
 
     /**
-     * Verifies that deleteProblem() removes a problem from the repository.
+     * Verifies that deleteProblem() removes a problem from the repository
+     * by checking via the service layer, not directly via the repository.
      */
     @Test
     void testDeleteWithValidId() {
         int id = service.saveProblem(problem);
         service.deleteProblem(id);
-        assertNull(repository.findById(id));
+        assertNull(service.getProblemById(id));
     }
 
     /**
