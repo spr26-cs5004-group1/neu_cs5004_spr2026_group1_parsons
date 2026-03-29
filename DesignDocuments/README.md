@@ -483,3 +483,8 @@ I want to start the design with the part that is most novel for us - we have not
 ```
 
 ### Step 1: Only Drag and Drop
+
+Created a stand along DragAndDrop.java.
+
+created Drag and Drop without business logic.
+
