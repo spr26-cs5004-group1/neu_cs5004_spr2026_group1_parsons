@@ -14,14 +14,14 @@ import java.util.List;
 @JacksonXmlRootElement(localName = "Problems")
 public class ProblemsList {
 
-    /** Stores the list of ParsonsProblems that are stored in the repo. */
+    /** Stores the list of ParsonsProblems that are stored in the repo. Managed using Jackson. */
     @JacksonXmlElementWrapper(useWrapping = false)
     @JacksonXmlProperty(localName = "Problem")
     private List<ParsonsProblem> problems = new ArrayList<>();
 
 
     /**
-     * Sets the list of ParsonsProblem objects.
+     * Setter for problems.
      *
      * @param problems the list of problems to set.
      *                 should not be null.
@@ -32,7 +32,7 @@ public class ProblemsList {
 
 
     /**
-     * Returns the list of all ParsonsProblem objects.
+     * Getter for problems.
      *
      * @return list of problems, empty list if none exist.
      */

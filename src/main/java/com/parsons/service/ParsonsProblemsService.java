@@ -16,7 +16,7 @@ import java.util.List;
 
 public class ParsonsProblemsService {
 
-    // repository for persisting ParsonsProblem objects
+    /** Repository for persisting ParsonsProblem objects. */
     private final IParsonsProblemsRepository repo;
 
     /**
@@ -60,6 +60,7 @@ public class ParsonsProblemsService {
         throw new IllegalArgumentException("Problem not found with id: " + id);
     }
 
+
     /**
      * Deletes the ParsonsProblem at id in the repository if it exists.
      *
@@ -69,6 +70,7 @@ public class ParsonsProblemsService {
         repo.deleteById(id); // delete by id from repository
     }
 
+
     /**
      * Returns all the ParsonsProblems in repository as a List of ParsonProblem objects.
      *
@@ -77,6 +79,7 @@ public class ParsonsProblemsService {
     public List<ParsonsProblem> getAllProblems() {
         return repo.findAll();
     }
+
 
     /**
      * Get the ParsonsProblem in repository at id.

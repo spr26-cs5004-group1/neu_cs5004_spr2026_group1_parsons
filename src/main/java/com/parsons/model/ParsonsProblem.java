@@ -18,7 +18,7 @@ public class ParsonsProblem {
     /** Stores instructions of the ParsonsProblem. */
     private String instructions;
 
-    /** Stores List<CodeBlock> that make the ParsonsProblem. */
+    /** Stores List<CodeBlock> that make the ParsonsProblem. Managed using Jackson. */
     @JacksonXmlElementWrapper(localName = "blocks")
     @JacksonXmlProperty(localName = "block")
     private List<CodeBlock> code = new ArrayList<>();
@@ -98,10 +98,20 @@ public class ParsonsProblem {
         return code;
     }
 
+    /**
+     * Empty constructor for ParsonsProblem.
+     */
     public ParsonsProblem() {
         // empty
     }
 
+    /**
+     * Constructor for ParsonsProblem.
+     *
+     * @param title for the parson's problem
+     * @param instructions for the parson's problem
+     * @param code list<CodeBlock> that make the parson's problem. Includes distractors. 
+     */
     public ParsonsProblem(String title, String instructions,  List<CodeBlock> code) {
         this.setTitle(title);
         this.setInstructions(instructions);

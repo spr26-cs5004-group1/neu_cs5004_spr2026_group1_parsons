@@ -10,7 +10,10 @@ import java.util.List;
 
 public class XmlParsonsProblemsRepository implements IParsonsProblemsRepository{
 
+    /** Stores Jackson XMLMapper. */
     private final XmlMapper xmlMapper = new XmlMapper();
+
+    /** Repository for persisting ParsonsProblem objects. */
     private final File repo;
 
     /**
