@@ -9,13 +9,16 @@ import java.util.List;
 
 @JacksonXmlRootElement(localName = "Problem")
 public class ParsonsProblem {
-
+    /** Stores ParsonsProblem id, initiated at -1. */
     private int id = -1;
 
+    /** Stores title of the ParsonsProblem. */
     private String title;
 
+    /** Stores instructions of the ParsonsProblem. */
     private String instructions;
 
+    /** Stores List<CodeBlock> that make the ParsonsProblem. */
     @JacksonXmlElementWrapper(localName = "blocks")
     @JacksonXmlProperty(localName = "block")
     private List<CodeBlock> code = new ArrayList<>();

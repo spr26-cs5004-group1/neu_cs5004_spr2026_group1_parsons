@@ -2,12 +2,14 @@ package com.parsons.model;
 import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlRootElement;
 
 @JacksonXmlRootElement(localName = "block")
-public class CodeBlock{
-
+public class CodeBlock {
+    /** Stores codeBlock id. */
     private int id = -1;
-
+    /** Stores codeContent. */
     private String codeContent;
+    /** Stores isDistractor. */
     private boolean isDistractor;
+    /** Stores orderIndex. */
     private Integer orderIndex;
 
     /**
@@ -21,6 +23,8 @@ public class CodeBlock{
 
     /**
      * Getter for id.
+     *
+     * @return id
      */
     public int getId() {
         return id;
@@ -63,7 +67,7 @@ public class CodeBlock{
     }
 
     /**
-     * Setter for orderIndex
+     * Setter for orderIndex.
      *
      * @param orderIndex
      */
