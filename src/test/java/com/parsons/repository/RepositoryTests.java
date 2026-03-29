@@ -4,89 +4,45 @@ import com.parsons.model.CodeBlock;
 import com.parsons.model.ParsonsProblem;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.io.TempDir;
 import static org.junit.jupiter.api.Assertions.*;
 
+import java.io.File;
+import java.nio.file.Path;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 /**
- * Unit tests for repository operations.
- * Uses an anonymous class implementation of IParsonsProblemsRepository
- * to test repository behavior in memory without touching the XML file.
+ * Tests for XmlParsonsProblemsRepository.
+ * Tests actual XML file read/write operations
+ * temporary directory that is automatically cleaned up after each test.
  */
 public class RepositoryTests {
 
-    private IParsonsProblemsRepository repo;
+    @TempDir
+    Path tempDir;
+
+    private XmlParsonsProblemsRepository repo;
     private List<CodeBlock> code;
 
     /**
-     * Creates a fresh anonymous repo as a Map
-     * and an empty code list before each test.
+     * Creates a fresh repository pointing to a temp XML file
+     * and a sample code list before each test.
      */
     @BeforeEach
     void setUp() {
+        String testFile = tempDir.resolve("test-problems.xml").toString();
+        repo = new XmlParsonsProblemsRepository(testFile);
         code = new ArrayList<>();
-        code.add(new CodeBlock("return;", false, 0));
-
-        repo = new IParsonsProblemsRepository() {
-
-            private final Map<Integer, ParsonsProblem> store = new HashMap<>();
-            private int nextId = 1;
-
-            /**
-             * Saves a ParsonsProblem to the in-memory store.
-             * Assigns a new id if the problem has the default id of -1.
-             * Updates the existing entry otherwise.
-             */
-            @Override
-            public int save(ParsonsProblem problem) {
-                if (problem.getId() == -1) {
-                    problem.setId(nextId++);
-                }
-                store.put(problem.getId(), problem);
-                return problem.getId();
-            }
-
-            /**
-             * Retrieves a ParsonsProblem by its id.
-             * Returns null if not found.
-             */
-            @Override
-            public ParsonsProblem findById(int id) {
-                return store.get(id);
-            }
-
-            /**
-             * Returns all ParsonsProblem objects in the store.
-             */
-            @Override
-            public List<ParsonsProblem> findAll() {
-                return new ArrayList<>(store.values());
-            }
-
-            /**
-             * Deletes the ParsonsProblem with the given id from the store.
-             */
-            @Override
-            public void deleteById(int id) {
-                store.remove(id);
-            }
-
-            /**
-             * Returns true if a ParsonsProblem with the given id exists.
-             */
-            @Override
-            public boolean existsById(int id) {
-                return store.containsKey(id);
-            }
-        };
+        code.add(new CodeBlock("int i;", false, 0));
+        code.add(new CodeBlock("i = 0;", false, 1));
+        code.add(new CodeBlock("while (i < 10) {", false, 2));
+        code.add(new CodeBlock("while (i <= 10) {", true, null));
     }
 
     /**
-     * Verifies that a saved ParsonsProblem can be
-     * retrieved by its assigned id with matching fields.
+     * Verifies that a saved problem can be retrieved by its assigned id
+     * with matching title and instructions — tests XML write then read.
      */
     @Test
     void savedProblemCanBeRetrievedById() {
@@ -94,41 +50,99 @@ public class RepositoryTests {
         int assignedId = repo.save(problem);
         ParsonsProblem retrieved = repo.findById(assignedId);
         assertNotNull(retrieved);
-        assertEquals(problem.getTitle(), retrieved.getTitle());
-        assertEquals(problem.getInstructions(), retrieved.getInstructions());
+        assertEquals("Try This", retrieved.getTitle());
+        assertEquals("Arrange these", retrieved.getInstructions());
+    }
+
+    /**
+     * Verifies that a saved problem's code blocks are
+     * correctly serialized and deserialized from XML.
+     */
+    @Test
+    void savedProblemShouldPreserveCodeBlocks() {
+        ParsonsProblem problem = new ParsonsProblem("Try This", "Arrange these", code);
+        int assignedId = repo.save(problem);
+        ParsonsProblem retrieved = repo.findById(assignedId);
+        assertNotNull(retrieved);
+        assertEquals(4, retrieved.getCode().size());
+        assertEquals("int i;", retrieved.getCode().get(0).getCodeContent());
+        assertEquals("while (i <= 10) {", retrieved.getCode().get(3).getCodeContent());
+        assertTrue(retrieved.getCode().get(3).getIsDistractor());
+    }
+
+    /**
+     * Verifies that a new problem is assigned id 1
+     * when the repository is empty.
+     */
+    @Test
+    void firstSavedProblemShouldHaveIdOne() {
+        ParsonsProblem problem = new ParsonsProblem("Try This", "Arrange these", code);
+        int assignedId = repo.save(problem);
+        assertEquals(1, assignedId);
+    }
+
+    /**
+     * Verifies that sequential saves assign incrementing ids.
+     */
+    @Test
+    void sequentialSavesShouldAssignIncrementingIds() {
+        int id1 = repo.save(new ParsonsProblem("Problem 1", "Instructions 1", code));
+        int id2 = repo.save(new ParsonsProblem("Problem 2", "Instructions 2", code));
+        assertEquals(1, id1);
+        assertEquals(2, id2);
     }
 
     /**
      * Verifies that searching for a non-existent id returns null.
      */
     @Test
-    void callingForAnIdThatDoesNotExistShouldReturnNull() {
-        ParsonsProblem problem = new ParsonsProblem("Try This", "Arrange these", code);
-        int assignedId = repo.save(problem);
-        ParsonsProblem retrieved = repo.findById(assignedId + 10);
-        assertNull(retrieved);
+    void findByIdWithNonExistentIdShouldReturnNull() {
+        assertNull(repo.findById(999));
     }
 
     /**
-     * Verifies that a deleted ParsonsProblem can no
-     * longer be retrieved by its id.
-     */
-    @Test
-    void callingForAnIdThatIsRemovedShouldReturnNull() {
-        ParsonsProblem problem = new ParsonsProblem("Try This", "Arrange these", code);
-        int assignedId = repo.save(problem);
-        repo.deleteById(assignedId);
-        assertNull(repo.findById(assignedId));
-    }
-
-    /**
-     * Verifies that findAll() returns all saved problems.
+     * Verifies that findAll() returns all saved problems
+     * after multiple saves.
      */
     @Test
     void findAllShouldReturnAllSavedProblems() {
         repo.save(new ParsonsProblem("Problem 1", "Instructions 1", code));
         repo.save(new ParsonsProblem("Problem 2", "Instructions 2", code));
-        assertEquals(2, repo.findAll().size());
+        repo.save(new ParsonsProblem("Problem 3", "Instructions 3", code));
+        assertEquals(3, repo.findAll().size());
+    }
+
+    /**
+     * Verifies that findAll() returns an empty list
+     * when no problems have been saved.
+     */
+    @Test
+    void findAllOnEmptyRepoShouldReturnEmptyList() {
+        assertTrue(repo.findAll().isEmpty());
+    }
+
+    /**
+     * Verifies that a deleted problem can no longer
+     * be retrieved by its id.
+     */
+    @Test
+    void deletedProblemShouldNotBeRetrievable() {
+        int assignedId = repo.save(new ParsonsProblem("Try This", "Arrange these", code));
+        repo.deleteById(assignedId);
+        assertNull(repo.findById(assignedId));
+    }
+
+    /**
+     * Verifies that deleting one problem does not affect others.
+     */
+    @Test
+    void deletingOneProblemShouldNotAffectOthers() {
+        int id1 = repo.save(new ParsonsProblem("Problem 1", "Instructions 1", code));
+        int id2 = repo.save(new ParsonsProblem("Problem 2", "Instructions 2", code));
+        repo.deleteById(id1);
+        assertNull(repo.findById(id1));
+        assertNotNull(repo.findById(id2));
+        assertEquals(1, repo.findAll().size());
     }
 
     /**
@@ -136,8 +150,7 @@ public class RepositoryTests {
      */
     @Test
     void existsByIdShouldReturnTrueForSavedProblem() {
-        ParsonsProblem problem = new ParsonsProblem("Try This", "Arrange these", code);
-        int assignedId = repo.save(problem);
+        int assignedId = repo.save(new ParsonsProblem("Try This", "Arrange these", code));
         assertTrue(repo.existsById(assignedId));
     }
 
@@ -147,5 +160,31 @@ public class RepositoryTests {
     @Test
     void existsByIdShouldReturnFalseForNonExistentId() {
         assertFalse(repo.existsById(999));
+    }
+
+    /**
+     * Verifies that updating a problem persists the new
+     * title and instructions to the XML file.
+     */
+    @Test
+    void updatedProblemShouldPersistChanges() {
+        ParsonsProblem problem = new ParsonsProblem("Original Title", "Original Instructions", code);
+        int assignedId = repo.save(problem);
+        problem.setTitle("Updated Title");
+        problem.setInstructions("Updated Instructions");
+        repo.save(problem);
+        ParsonsProblem retrieved = repo.findById(assignedId);
+        assertNotNull(retrieved);
+        assertEquals("Updated Title", retrieved.getTitle());
+        assertEquals("Updated Instructions", retrieved.getInstructions());
+    }
+
+    /**
+     * Verifies that the XML file is created on disk after saving.
+     */
+    @Test
+    void saveShouldCreateXmlFile() {
+        repo.save(new ParsonsProblem("Try This", "Arrange these", code));
+        assertTrue(new File(tempDir.resolve("test-problems.xml").toString()).exists());
     }
 }
