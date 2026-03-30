@@ -25,10 +25,10 @@ public class ParsonsApplication {
         // service receives repository via dependency injection
         ParsonsProblemsService service = new ParsonsProblemsService(repository);
 
-        // logic to work out - call HomeView
-        // HomeView will call
-        // setter.SetterCli OR
-        // setter.SetterView (welcome/browse problems) OR
-        // student.StudentView (welcome/browse problems)
+        // logic to work out - call controller.HomeView
+        // controller.HomeView will call
+        //      controller.setter.SetterCli OR
+        //      controller.setter.SetterView (welcome/browse problems) OR
+        //      controller.student.StudentView (welcome/browse problems)
     }
 }
