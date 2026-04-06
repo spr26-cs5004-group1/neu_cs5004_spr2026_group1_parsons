@@ -11,14 +11,29 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
 
+/**
+ * Controller class for Problem setter, allows problem creation via CLI.
+ */
 public class SetterCli {
 
+    /**
+     * Instance of service for parsons problem management.
+     */
     private ParsonsProblemsService service;
 
+    /**
+     * SetterCLI constructor that assigns and uses the passed in service instance..
+     * @param service Instance of service for parsons problem management.
+     */
     public SetterCli(ParsonsProblemsService service){
         this.service = service;
     }
 
+    /**
+     * Setter CLI main run method, contains logic for parsing, tracking, and storing
+     * a new problem or list of problems provided via text file.
+     * @param filePath the user provided path to the new problems file.
+     */
     public void run(String filePath) {
         try {
             int updated = 0;
@@ -43,6 +58,12 @@ public class SetterCli {
         }
     }
 
+    /**
+     * File parser helper method for extracting new parsons problem from a .txt file.
+     * @param filepath the user provided path to the new problems file.
+     * @return A list of parsed ParsonsProblem objects.
+     * @throws IOException Occurs when the input file cannot be found or read.
+     */
     private List<ParsonsProblem> parseFile(String filepath) throws IOException {
         List<ParsonsProblem> problemList = new ArrayList<>();
 
