@@ -20,15 +20,27 @@ public class SetterCli {
     }
 
     public void run(String filePath) {
-        List<ParsonsProblem> problemList = parseFile(filePath);
-
-        //call parseFile(filepath)
-        //loop over parsed problems
-            //check if id exists in repo (service.getproblembyid(id)
-                // if yes service.updateProblem(id, problem)
-                // if no service.saveProblem(problem)
-        // print how many were inserted and how many are updated, return
-        return;
+        try {
+            int updated = 0;
+            int added = 0;
+            //call parseFile(filepath)
+            List<ParsonsProblem> problemList = parseFile(filePath);
+            //call parseFile(filepath)
+            for (int i = 0; i < problemList.size(); i++) {
+                if (service.getProblemById(problemList.get(i).getId()) != null) {
+                    service.updateProblem(i, problemList.get(i));
+                    updated++;
+                } else {
+                    service.saveProblem(problemList.get(i));
+                    added++;
+                }
+                // TODO: UPDATE TO OUTPUTSTREAM
+                System.out.printf("Problems Updated: %d\nNewProblemsSaved: %d\n", updated, added);
+            }
+        } catch (IOException e) {
+            // TODO: update this catch and class to take an outputstream, that way errors can bubble to here and send to gui or system.out
+            return;
+        }
     }
 
     private List<ParsonsProblem> parseFile(String filepath) throws IOException {
