@@ -23,15 +23,17 @@ public class SetterCli {
 
     /**
      * SetterCLI constructor that assigns and uses the passed in service instance..
+     *
      * @param service Instance of service for parsons problem management.
      */
-    public SetterCli(ParsonsProblemsService service){
+    public SetterCli(ParsonsProblemsService service) {
         this.service = service;
     }
 
     /**
      * Setter CLI main run method, contains logic for parsing, tracking, and storing
      * a new problem or list of problems provided via text file.
+     *
      * @param filePath the user provided path to the new problems file.
      */
     public void run(String filePath) {
@@ -60,31 +62,36 @@ public class SetterCli {
 
     /**
      * File parser helper method for extracting new parsons problem from a .txt file.
+     *
      * @param filepath the user provided path to the new problems file.
      * @return A list of parsed ParsonsProblem objects.
      * @throws IOException Occurs when the input file cannot be found or read.
      */
     private List<ParsonsProblem> parseFile(String filepath) throws IOException {
+        int errorCount = 0;
+        List<String> errorLines = new ArrayList<>();
+
         List<ParsonsProblem> problemList = new ArrayList<>();
+        // Note: Caller is responsible for error catching/reporting
+        List<String> lines = Files.readAllLines(Path.of(filepath));
+        List<List<String>> problemChunks = new ArrayList<>();
+        List<String> current = new ArrayList<>();
 
-            List<String> lines = Files.readAllLines(Path.of(filepath));
-            List<List<String>> problemChunks = new ArrayList<>();
-            List<String> current = new ArrayList<>();
 
-
-            for (String line : lines) {
-                if (line.trim().isEmpty() || line.trim().startsWith("//")) continue;
-                if (line.trim().equals("---")) {
-                    problemChunks.add(current);
-                    current = new ArrayList<>();
-                } else {
-                    current.add(line);
-                }
+        for (String line : lines) {
+            if (line.trim().isEmpty() || line.trim().startsWith("//")) continue;
+            if (line.trim().equals("---")) {
+                problemChunks.add(current);
+                current = new ArrayList<>();
+            } else {
+                current.add(line);
             }
+        }
 
-            problemChunks.add(current);
+        problemChunks.add(current);
 
-            for (List<String> chunk : problemChunks) {
+        for (List<String> chunk : problemChunks) {
+            try {
                 int id = Integer.parseInt(chunk.getFirst());
                 String instructions = chunk.get(1);
                 List<CodeBlock> codeBlocks = new ArrayList<>();
@@ -96,11 +103,17 @@ public class SetterCli {
                     String codeContent = parts[2].stripTrailing();
                     codeBlocks.add(new CodeBlock(codeContent, isDistractor, orderIndex));
                 }
-
+                // TODO: title set in gui editor, but probably should add title to file that way fresh ones dont
+                //  have to be titled manually.
                 ParsonsProblem problem = new ParsonsProblem("", instructions, codeBlocks);
                 problem.setId(id);
                 problemList.add(problem);
+            } catch (Exception e) {
+                errorCount++;
+                errorLines.add("Failed to parse chunk starting at: '" + (chunk.isEmpty() ?
+                        "(empty)" : chunk.getFirst()) + "' \n" + e.getMessage());
             }
+        }
         return problemList;
     }
 }
