@@ -7,7 +7,12 @@ import java.awt.*;
 import java.util.List;
 
 /**
- * ref: https://docs.oracle.com/javase/tutorial/uiswing/events/intro.html
+ * StudentWelcomeView displays a list of Parsons problems for the student.
+ * The student can click a row to open the problem in a new window.
+ *
+ * Layout:
+ *   NORTH  -- welcome label + instructions
+ *   CENTER -- scrollable table of problems (ID, Title)
  */
 public class StudentWelcomeView extends JFrame implements GuiConstants {
     public StudentWelcomeView(List<ParsonsProblem> problems) {
@@ -30,8 +35,33 @@ public class StudentWelcomeView extends JFrame implements GuiConstants {
         // create the datasheet that will be displayed in the JTable below the welcome message and instructions table
         String[] columns = {"ID", "Title"};
         DefaultTableModel tableModel = new DefaultTableModel(columns, 0);
+        // fill the tableModel. DefaultTableModel only accepts array of Object class
+        for (ParsonsProblem p : problems) {
+            tableModel.addRow(new Object[]{p.getId(), p.getTitle()});
+        }
+
+        // create a JTable object that displays the datasheet tableModel
         JTable problemsTable = new JTable(tableModel);
 
+        // wrap the JTable in a scrolling pane and add to the center of frame
+        add(new JScrollPane(problemsTable), BorderLayout.CENTER);
+
+        // now to tackle making the mouse click open a new window
+        // doing this for the first time so this will be learning.
+        problemsTable.getSelectionModel().addListSelectionListener(e -> {
+            if (!e.getValueIsAdjusting()) {
+                int row = problemsTable.getSelectedRow();
+                if (row != -1) {    // protect against click anywhere but a row, which leads to deselection
+                    int id = (int) tableModel.getValueAt(row, 0); // extract id from row
+                    // find problem with id from problems
+                    ParsonsProblem selected = problems.stream()
+                            .filter(p -> p.getId() == id)
+                            .findFirst()
+                            .orElse(null);
+                    new SolverView(selected);   // a new SolverView window opens and stays open
+                }
+            }
+        });
     }
 }
 
