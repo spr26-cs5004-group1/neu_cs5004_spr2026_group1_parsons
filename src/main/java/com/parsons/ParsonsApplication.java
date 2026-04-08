@@ -1,5 +1,6 @@
 package com.parsons;
 
+import com.parsons.controller.MainController;
 import com.parsons.repository.XmlParsonsProblemsRepository;
 import com.parsons.service.ParsonsProblemsService;
 
@@ -24,7 +25,7 @@ public class ParsonsApplication {
 
         // service receives repository via dependency injection
         ParsonsProblemsService service = new ParsonsProblemsService(repository);
-
+        SwingUtilities.invokeLater(() -> new MainController(service));
         // logic to work out - call controller.HomeView
         // controller.HomeView will call
         //      controller.setter.SetterCli OR
