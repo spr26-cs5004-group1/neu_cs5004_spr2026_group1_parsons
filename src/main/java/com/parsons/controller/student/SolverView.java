@@ -8,11 +8,85 @@ import javax.swing.*;
 
 import java.awt.*;
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
+import java.util.Comparator;
+import java.util.stream.Collectors;
 
 import static com.parsons.controller.GuiConstants.*;
 
 public class SolverView extends JFrame{
-    public SolverView(ParsonsProblem problem, ParsonsProblemsService service) {
+    /**
+     * The Parsons problem being solved by the student.
+     * Stored as a field so it can be accessed by checkAnswer() outside the constructor.
+     */
+    private ParsonsProblem problem;
+
+    /**
+     * Populates the blocks panel with shuffled code blocks from the problem.
+     * Called on load and again when the student clicks Retry.
+     *
+     * @param blocksPanelLeft the panel to populate with code blocks
+     */
+    private void populateBlocks(JPanel blocksPanelLeft) {
+        if (blocksPanelLeft == null || problem == null || problem.getCode() == null)
+            return;
+        blocksPanelLeft.removeAll();
+        List<CodeBlock> shuffled = new ArrayList<>(problem.getCode());
+        System.out.println("Block count: " + problem.getCode().size());
+        Collections.shuffle(shuffled);
+        for (CodeBlock block : shuffled) {
+            if (block != null && block.getCodeContent() != null) {
+                blocksPanelLeft.add(GuiConstants.makeCodeBlock(block.getCodeContent()));
+            }
+        }
+        blocksPanelLeft.revalidate();
+        blocksPanelLeft.repaint();
+    }
+
+    /**
+     * Extracts the student's answer from the answer panel as a list of CodeBlocks.
+     *
+     * @param answerPanel the panel containing the student's arranged code blocks
+     * @return list of CodeBlocks in the order the student arranged them
+     */
+    private List<CodeBlock> extractAnswer(JPanel answerPanel) {
+        List<CodeBlock> answer = new ArrayList<>();
+        for (Component c : answerPanel.getComponents()) {
+            if (c instanceof JLabel labelBlock) {
+                answer.add(new CodeBlock(labelBlock.getText(), false, null));
+            }
+        }
+        return answer;
+    }
+
+    /**
+     * Checks the student's answer against the correct solution.
+     *
+     * NOTE: This is a local implementation for development and testing.
+     * In production, this will be replaced by a call to ParsonsProblemsService.checkAnswer().
+     *
+     * @param answer the list of CodeBlocks the student arranged in the answer panel
+     * @return true if the answer matches the solution, false otherwise
+     */
+    private boolean checkAnswer(List<CodeBlock> answer) {
+        List<CodeBlock> solution = problem.getCode().stream()
+                .filter(b -> !b.getIsDistractor())
+                .sorted(Comparator.comparing(CodeBlock::getOrderIndex))
+                .collect(Collectors.toList());
+        if (answer.size() != solution.size()) return false;
+        for (int i = 0; i < solution.size(); i++) {
+            if (!solution.get(i).getCodeContent().equals(answer.get(i).getCodeContent())) {
+                return false;
+            }
+        }
+        return true;
+    }
+
+    public SolverView(ParsonsProblem problem) {
+        /* Set problem */
+        this.problem = problem;
+
         /* Set frame title and size. */
         String title = problem.getTitle();
         this.setTitle("Solving Parson's Problem: " + title);
@@ -52,7 +126,8 @@ public class SolverView extends JFrame{
         /* Create submit button */
         JButton submitButton = new JButton("Submit");
         submitButton.addActionListener(e -> {
-            // TODO: check answer
+            List<CodeBlock> answer = extractAnswer(answerPanelRight);
+            boolean correct = checkAnswer(answer);
             // TODO: change frame color
             // TODO: update responseLabelResult
         });
@@ -63,20 +138,42 @@ public class SolverView extends JFrame{
         responseLabel.setHorizontalAlignment(JLabel.CENTER);
         southPanel.add(responseLabel);
 
-        /* Add southPanel to centerPanel */
+        /* Create retry button */
+        JButton retryButton = new JButton("Retry");
+        southPanel.add(retryButton);
+
+        /* Add southPanel to centerPanel. */
         centerPanel.add(southPanel, BorderLayout.SOUTH);
-        
-        /* Add centerPanel to this frame */
+
+        /* Add centerPanel to this frame, */
         this.add(centerPanel, BorderLayout.CENTER);
 
-        /* Business Logic */
-//        List<CodeBlock> answer = new ArrayList<>();
-//        for (Component c : answerPanelRight.getComponents()) {
-//            if (c instanceof JLabel labelBlock) {
-//                CodeBlock blockAnswer = new CodeBlock(labelBlock.getText(), false, null);
-//                answer.add(blockAnswer);
-//            }
-//        }
+        /* Business Logic. */
+
+        /* Scramble codeBlocks and add to blocksPanelLeft. */
+        this.populateBlocks(blocksPanelLeft);
+
+        /* Submit and check response */
+        submitButton.addActionListener(e -> {
+            List<CodeBlock> answer = extractAnswer(answerPanelRight);
+            boolean correct = checkAnswer(answer);
+            if (correct) {
+                responseLabel.setText("Correct! Well done!");
+                answerPanelRight.setBorder(BorderFactory.createLineBorder(Color.GREEN, 3));
+            } else {
+                responseLabel.setText("Incorrect. Try again!");
+                answerPanelRight.setBorder(BorderFactory.createLineBorder(Color.RED, 3));
+            }
+        });
+        /* retryButton listener. */
+        retryButton.addActionListener(e -> {
+            answerPanelRight.setBorder(null);
+            answerPanelRight.removeAll();
+            answerPanelRight.revalidate();
+            answerPanelRight.repaint();
+            populateBlocks(blocksPanelLeft);
+            responseLabel.setText(" ");
+        });
 
         setVisible(true);
     }
