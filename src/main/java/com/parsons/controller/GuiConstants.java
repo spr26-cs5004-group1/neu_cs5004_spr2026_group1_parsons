@@ -24,6 +24,11 @@ public class GuiConstants {
      maintain 16:9 ratio
      */
 
+    /** Height for launcher window */
+    public static final int LAUNCHER_WIDTH = 500;
+    public static final int LAUNCHER_HEIGHT = 500;
+
+
     /** Width for single-panel views such as StudentWelcomeView */
     public static final int NARROW_FRAME_WIDTH = 720;
 
