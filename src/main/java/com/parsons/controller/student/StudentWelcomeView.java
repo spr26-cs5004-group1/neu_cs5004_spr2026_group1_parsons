@@ -70,6 +70,8 @@ public class StudentWelcomeView extends JFrame {
         add(centerPanel, BorderLayout.CENTER);
         /* Add credit footer using helper functions. */
         add(GuiConstants.createCreditsPanel(), BorderLayout.SOUTH);
+        setVisible(true);
     }
+
 }
 
