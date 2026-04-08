@@ -6,15 +6,19 @@ import javax.swing.table.DefaultTableModel;
 import java.awt.*;
 import java.util.List;
 
+import static com.parsons.controller.GuiConstants.FRAME_HEIGHT;
+import static com.parsons.controller.GuiConstants.NARROW_FRAME_WIDTH;
+
 /**
  * StudentWelcomeView displays a list of Parsons problems for the student.
  * The student can click a row to open the problem in a new window.
  *
- * Layout:
- *   NORTH  -- welcome label + instructions
- *   CENTER -- scrollable table of problems (ID, Title)
+ * Frame Layout:
+ *   NORTH  -- nav bar
+ *   CENTER -- welcome + instructions + table
+ *   SOUTH  -- credits
  */
-public class StudentWelcomeView extends JFrame implements GuiConstants {
+public class StudentWelcomeView extends JFrame {
     public StudentWelcomeView(List<ParsonsProblem> problems) {
         setTitle("Parsons Problems: Student View");
         setSize(NARROW_FRAME_WIDTH, FRAME_HEIGHT);
@@ -23,31 +27,24 @@ public class StudentWelcomeView extends JFrame implements GuiConstants {
                 "The problem will open in a new window.");
         instr.setEditable(false);
 
-        // add welcome and instructions to a grid layout panel stacked vertically
+        /* Add welcome and instructions to a grid layout panel stacked vertically. */
         JPanel topPanel = new JPanel();
         topPanel.setLayout(new GridLayout(2, 1));
         topPanel.add(welcome);
         topPanel.add(instr);
 
-        // Add this panel to the NORTH of the frame
-        add(topPanel, BorderLayout.NORTH);
-
-        // create the datasheet that will be displayed in the JTable below the welcome message and instructions table
+        /* create the datasheet that will be displayed in the JTable below the welcome message and instructions table */
         String[] columns = {"ID", "Title"};
         DefaultTableModel tableModel = new DefaultTableModel(columns, 0);
-        // fill the tableModel. DefaultTableModel only accepts array of Object class
+        /* fill the tableModel. DefaultTableModel only accepts array of Object class */
         for (ParsonsProblem p : problems) {
             tableModel.addRow(new Object[]{p.getId(), p.getTitle()});
         }
 
-        // create a JTable object that displays the datasheet tableModel
+        /* Create a JTable object that displays the datasheet tableModel */
         JTable problemsTable = new JTable(tableModel);
 
-        // wrap the JTable in a scrolling pane and add to the center of frame
-        add(new JScrollPane(problemsTable), BorderLayout.CENTER);
-
-        // now to tackle making the mouse click open a new window
-        // doing this for the first time so this will be learning.
+        /* Now to tackle making the mouse click open a new window */
         problemsTable.getSelectionModel().addListSelectionListener(e -> {
             if (!e.getValueIsAdjusting()) {
                 int row = problemsTable.getSelectedRow();
@@ -62,6 +59,17 @@ public class StudentWelcomeView extends JFrame implements GuiConstants {
                 }
             }
         });
+        /* Add nav bar using helper functions. */
+        add(GuiConstants.createNavBar(false,false, this), BorderLayout.NORTH);
+
+        JPanel centerPanel = new JPanel(new BorderLayout());
+        centerPanel.add(topPanel, BorderLayout.NORTH);
+        /* Wrap the JTable in a scrolling pane and add to the center of panel */
+        centerPanel.add(new JScrollPane(problemsTable), BorderLayout.CENTER);
+        /* Add center panel in center of frame */
+        add(centerPanel, BorderLayout.CENTER);
+        /* Add credit footer using helper functions. */
+        add(GuiConstants.createCreditsPanel(), BorderLayout.SOUTH);
     }
 }
 
