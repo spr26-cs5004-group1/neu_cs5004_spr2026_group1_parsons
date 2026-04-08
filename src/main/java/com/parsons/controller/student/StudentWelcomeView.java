@@ -57,7 +57,7 @@ public class StudentWelcomeView extends JFrame {
                             .filter(p -> p.getId() == id)
                             .findFirst()
                             .orElse(null);
-                    new SolverView(selected, new ParsonsProblemsService());   // a new SolverView window opens and stays open
+                    new SolverView(selected); // for testing
                 }
             }
         });
