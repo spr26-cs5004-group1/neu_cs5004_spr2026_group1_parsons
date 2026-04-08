@@ -45,7 +45,7 @@ public class SetterCli {
             //call parseFile(filepath)
             for (int i = 0; i < problemList.size(); i++) {
                 if (service.getProblemById(problemList.get(i).getId()) != null) {
-                    service.updateProblem(i, problemList.get(i));
+                    service.updateProblem(problemList.get(i).getId(), problemList.get(i));
                     updated++;
                 } else {
                     service.saveProblem(problemList.get(i));
@@ -55,7 +55,7 @@ public class SetterCli {
                 System.out.printf("Problems Updated: %d\nNewProblemsSaved: %d\n", updated, added);
             }
         } catch (IOException e) {
-            // TODO: update this catch and class to take an outputstream, that way errors can bubble to here and send to gui or system.out
+            System.out.printf("Error while processing input file: %s\n", e);
             return;
         }
     }
@@ -68,6 +68,7 @@ public class SetterCli {
      * @throws IOException Occurs when the input file cannot be found or read.
      */
     private List<ParsonsProblem> parseFile(String filepath) throws IOException {
+        //TODO: if time allows abstract this out to its own parser class.
         int errorCount = 0;
         List<String> errorLines = new ArrayList<>();
 
@@ -103,12 +104,14 @@ public class SetterCli {
                     String codeContent = parts[2].stripTrailing();
                     codeBlocks.add(new CodeBlock(codeContent, isDistractor, orderIndex));
                 }
-                // TODO: title set in gui editor, but probably should add title to file that way fresh ones dont
-                //  have to be titled manually.
+                // TODO: title set in gui editor, but probably should add title to file, that way fresh ones dont
+                // have to be titled manually.
                 ParsonsProblem problem = new ParsonsProblem("", instructions, codeBlocks);
                 problem.setId(id);
                 problemList.add(problem);
             } catch (Exception e) {
+                // TODO: instantiate these variables as fields instead of local so they can
+                //  be reported in error catch under the run method.
                 errorCount++;
                 errorLines.add("Failed to parse chunk starting at: '" + (chunk.isEmpty() ?
                         "(empty)" : chunk.getFirst()) + "' \n" + e.getMessage());
