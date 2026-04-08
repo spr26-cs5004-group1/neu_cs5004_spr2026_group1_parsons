@@ -1,6 +1,8 @@
 package com.parsons.controller.student;
 import com.parsons.controller.GuiConstants;
 import com.parsons.model.*;
+import com.parsons.service.ParsonsProblemsService;
+
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
 import java.awt.*;
@@ -55,7 +57,7 @@ public class StudentWelcomeView extends JFrame {
                             .filter(p -> p.getId() == id)
                             .findFirst()
                             .orElse(null);
-                    new SolverView(selected);   // a new SolverView window opens and stays open
+                    new SolverView(selected, new ParsonsProblemsService());   // a new SolverView window opens and stays open
                 }
             }
         });
