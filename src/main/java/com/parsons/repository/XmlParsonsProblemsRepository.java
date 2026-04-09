@@ -77,7 +77,7 @@ public class XmlParsonsProblemsRepository implements IParsonsProblemsRepository{
             problems.add(problem);
         } else {
             // update existing — find and replace
-            for (int i = 1; i < problems.size(); i++) {
+            for (int i = 0; i < problems.size(); i++) {
                 if (problems.get(i).getId() == problem.getId()) {
                     problems.set(i, problem);
                     break;
