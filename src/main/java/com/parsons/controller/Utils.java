@@ -63,6 +63,7 @@ public class Utils {
 
         for (java.util.List<String> chunk : problemChunks) {
             try {
+                // TODO: Remove id from txt file format entirely -- user provided id is very risky
                 int id = Integer.parseInt(chunk.getFirst());
                 String title = chunk.get(1);        // added this
                 String instructions = chunk.get(2); // was chunk.get(1)
@@ -78,7 +79,11 @@ public class Utils {
                 }
                 // Done Arsh TODO: title set in gui editor,
                 ParsonsProblem problem = new ParsonsProblem(title, instructions, codeBlocks);
-                problem.setId(id);
+                // id from file is ignored -- always saved as new problem -- user provided id is very risky
+                // when editing an existing problem using GUI just upload the file by opening the exact problem
+                // when adding using NEW row, setId(-1), repo expects this flag.
+                // problem.setId(id);
+                problem.setId(-1);
                 problemList.add(problem);
             } catch (Exception e) {
                 // TODO: instantiate these variables as fields instead of local so they can
