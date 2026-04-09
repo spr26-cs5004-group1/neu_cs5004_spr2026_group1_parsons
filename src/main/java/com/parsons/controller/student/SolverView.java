@@ -17,7 +17,7 @@ public class SolverView extends JFrame{
      * The Parsons problem being solved by the student.
      * Stored as a field so it can be accessed by checkAnswer() outside the constructor.
      */
-    private ParsonsProblem problem;
+    private final ParsonsProblem problem;
 
     /**
      * Populates the blocks panel with shuffled code blocks from the problem.

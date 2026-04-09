@@ -6,6 +6,7 @@ import com.parsons.service.ParsonsProblemsService;
 
 import java.awt.*;
 import javax.swing.*;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -17,7 +18,7 @@ public class EditorView extends JFrame{
      * The Parsons problem being solved by the student.
      * Stored as a field so it can be accessed by checkAnswer() outside the constructor.
      */
-    private ParsonsProblem problem;
+    private final ParsonsProblem problem;
 
     /**
      * Populates the blocks panel with shuffled code blocks from the problem.
