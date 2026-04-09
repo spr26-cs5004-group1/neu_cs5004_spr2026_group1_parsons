@@ -99,7 +99,7 @@ public class ParsonsProblemsServiceTests {
 
     /**
      * Verifies that after updateProblem(), retrieving the problem
-     * by id returns the updated values — confirming persistence.
+     * by id returns the updated values.
      */
     @Test
     void testUpdatePersistsToRepository() {
