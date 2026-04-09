@@ -4,14 +4,11 @@ import com.parsons.model.CodeBlock;
 import com.parsons.model.ParsonsProblem;
 import com.parsons.service.ParsonsProblemsService;
 
-import javax.swing.*;
-
 import java.awt.*;
+import javax.swing.*;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
-import java.util.Comparator;
-import java.util.stream.Collectors;
 
 import static com.parsons.controller.GuiConstants.*;
 
@@ -60,30 +57,8 @@ public class SolverView extends JFrame{
         return answer;
     }
 
-    /**
-     * Checks the student's answer against the correct solution.
-     *
-     * NOTE: This is a local implementation for development and testing.
-     * In production, this will be replaced by a call to ParsonsProblemsService.checkAnswer().
-     *
-     * @param answer the list of CodeBlocks the student arranged in the answer panel
-     * @return true if the answer matches the solution, false otherwise
-     */
-    private boolean checkAnswer(List<CodeBlock> answer) {
-        List<CodeBlock> solution = problem.getCode().stream()
-                .filter(b -> !b.getIsDistractor())
-                .sorted(Comparator.comparing(CodeBlock::getOrderIndex))
-                .collect(Collectors.toList());
-        if (answer.size() != solution.size()) return false;
-        for (int i = 0; i < solution.size(); i++) {
-            if (!solution.get(i).getCodeContent().equals(answer.get(i).getCodeContent())) {
-                return false;
-            }
-        }
-        return true;
-    }
-
-    public SolverView(ParsonsProblem problem) {
+    // ADD JAVA DOC FOR CONSTRUCTOR
+    public SolverView(ParsonsProblem problem, ParsonsProblemsService service) {
         /* Set problem */
         this.problem = problem;
 
@@ -125,12 +100,6 @@ public class SolverView extends JFrame{
 
         /* Create submit button */
         JButton submitButton = new JButton("Submit");
-        submitButton.addActionListener(e -> {
-            List<CodeBlock> answer = extractAnswer(answerPanelRight);
-            boolean correct = checkAnswer(answer);
-            // TODO: change frame color
-            // TODO: update responseLabelResult
-        });
         southPanel.add(submitButton);
 
         /* Create response label */
@@ -148,7 +117,9 @@ public class SolverView extends JFrame{
         /* Add centerPanel to this frame, */
         this.add(centerPanel, BorderLayout.CENTER);
 
+        /*******************/
         /* Business Logic. */
+        /*******************/
 
         /* Scramble codeBlocks and add to blocksPanelLeft. */
         this.populateBlocks(blocksPanelLeft);
@@ -156,7 +127,7 @@ public class SolverView extends JFrame{
         /* Submit and check response */
         submitButton.addActionListener(e -> {
             List<CodeBlock> answer = extractAnswer(answerPanelRight);
-            boolean correct = checkAnswer(answer);
+            boolean correct = service.checkAnswer(problem.getId(), answer);
             if (correct) {
                 responseLabel.setText("Correct! Well done!");
                 answerPanelRight.setBorder(BorderFactory.createLineBorder(Color.GREEN, 3));
