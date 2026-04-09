@@ -1,7 +1,6 @@
 package com.parsons.controller.setter;
 
-import com.parsons.controller.GuiConstants;
-import com.parsons.controller.student.SolverView;
+import com.parsons.controller.Utils;
 import com.parsons.model.ParsonsProblem;
 import com.parsons.service.ParsonsProblemsService;
 
@@ -13,17 +12,18 @@ import javax.swing.table.DefaultTableModel;
 
 
 
-import static com.parsons.controller.GuiConstants.*;
-import static com.parsons.controller.GuiConstants.PANEL_PAD;
+import static com.parsons.controller.Utils.*;
+import static com.parsons.controller.Utils.PANEL_PAD;
 
 public class SetterWelcomeView extends JFrame {
     public SetterWelcomeView(ParsonsProblemsService service) {
         setTitle("Parsons Problems: Setter's View");
         setSize(NARROW_FRAME_WIDTH, FRAME_HEIGHT);
         JLabel welcome = new JLabel("Welcome Setter!", JLabel.LEFT);
-        JTextArea instr = new JTextArea("Add a new problem: click first row, \n" +
-                "or select a parson's problem from the table to edit below.\n" +
-                "The problem will open in a new window.");
+        JTextArea instr = new JTextArea("""
+                Add a new problem: click first row,\s
+                or select a parson's problem from the table to edit below.
+                The problem will open in a new window.""");
         instr.setEditable(false);
 
         /* Add welcome and instructions to a grid layout panel stacked vertically. */
@@ -52,13 +52,11 @@ public class SetterWelcomeView extends JFrame {
             if (!e.getValueIsAdjusting()) {
                 int row = problemsTable.getSelectedRow();
                 if (row != -1) {// protect against click anywhere but a row, which leads to deselection
-                    String ids = (String) tableModel.getValueAt(row, 0);
-                    if (ids.equals("NEW") || row == 0) {
-                        // opens new editorView
+                    Object idValue = tableModel.getValueAt(row, 0);
+                    if (row == 0 || idValue.equals("NEW")) {
                         new EditorView(null, service);
                     } else {
-                        // find problem with id from problems
-                        int id = (int) tableModel.getValueAt(row, 0); // extract id from row
+                        int id = (int) idValue;
                         ParsonsProblem selected = problems.stream()
                                 .filter(p -> p.getId() == id)
                                 .findFirst()
@@ -69,7 +67,7 @@ public class SetterWelcomeView extends JFrame {
             }
         });
         /* Add nav bar using helper functions. */
-        JPanel navBar = GuiConstants.createNavBar(false,false, this);
+        JPanel navBar = Utils.createNavBar(false,false, this);
         navBar.setBorder(BorderFactory.createEmptyBorder(PANEL_PAD, PANEL_PAD, PANEL_PAD, PANEL_PAD));
         this.add(navBar, BorderLayout.NORTH);
 
@@ -82,7 +80,7 @@ public class SetterWelcomeView extends JFrame {
         add(centerPanel, BorderLayout.CENTER);
 
         /* Add credit footer using helper functions. */
-        add(GuiConstants.createCreditsPanel(), BorderLayout.SOUTH);
+        add(Utils.createCreditsPanel(), BorderLayout.SOUTH);
         setVisible(true);
     }
 }

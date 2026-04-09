@@ -4,12 +4,12 @@ import com.parsons.model.ParsonsProblem;
 import com.parsons.service.ParsonsProblemsService;
 import com.parsons.controller.student.*;
 import com.parsons.controller.setter.*;
-import static com.parsons.controller.GuiConstants.*;
+import static com.parsons.controller.Utils.*;
 import javax.swing.*;
 import java.awt.*;
 
 
-public class MainController extends JFrame {
+public class HomeController extends JFrame {
     /*
     +----------------------------------+
     |   Parsons Problems               |
@@ -19,7 +19,7 @@ public class MainController extends JFrame {
     |  [ Setter ]      [ Student ]     |
     +----------------------------------+
      */
-    public MainController(ParsonsProblemsService service) {
+    public HomeController(ParsonsProblemsService service) {
         /* Set up JFrame */
         this.setTitle("Parson's Problem App: Choose Your Role");
         this.setSize(LAUNCHER_WIDTH, LAUNCHER_HEIGHT);
@@ -58,8 +58,19 @@ public class MainController extends JFrame {
                 JOptionPane.showMessageDialog(this, "Please enter an account name.");
                 return;
             }
-            new StudentWelcomeView(service.getAllProblems(), service);
+            new StudentWelcomeView(service);
         });
+
+        /* setterButton actionListener */
+        setterButton.addActionListener(e -> {
+            String name = accountNameField.getText().trim();
+            if (name.isEmpty()) {
+                JOptionPane.showMessageDialog(this, "Please enter an account name.");
+                return;
+            }
+            new SetterWelcomeView(service);
+        });
+
         setVisible(true);
     }
 }

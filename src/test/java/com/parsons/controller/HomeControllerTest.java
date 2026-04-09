@@ -5,10 +5,10 @@ import com.parsons.service.ParsonsProblemsService;
 
 import javax.swing.*;
 
-public class MainControllerTest {
+public class HomeControllerTest {
     public static void main(String[] args) {
         XmlParsonsProblemsRepository repo = new XmlParsonsProblemsRepository("src/main/resources/DemoRepo.xml");
         ParsonsProblemsService service = new ParsonsProblemsService(repo);
-        SwingUtilities.invokeLater(() -> new MainController(service));
+        SwingUtilities.invokeLater(() -> new HomeController(service));
     }
 }

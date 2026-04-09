@@ -1,23 +1,24 @@
 package com.parsons.controller.setter;
-import com.parsons.controller.GuiConstants;
+import com.parsons.controller.Utils;
 import com.parsons.model.CodeBlock;
 import com.parsons.model.ParsonsProblem;
 import com.parsons.service.ParsonsProblemsService;
 
 import java.awt.*;
 import javax.swing.*;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
-import static com.parsons.controller.GuiConstants.*;
+import static com.parsons.controller.Utils.*;
 
 public class EditorView extends JFrame{
     /**
      * The Parsons problem being solved by the student.
      * Stored as a field so it can be accessed by checkAnswer() outside the constructor.
      */
-    private ParsonsProblem problem;
+    private final ParsonsProblem problem;
 
     /**
      * Populates the blocks panel with shuffled code blocks from the problem.
@@ -34,7 +35,7 @@ public class EditorView extends JFrame{
         Collections.shuffle(shuffled);
         for (CodeBlock block : shuffled) {
             if (block != null && block.getCodeContent() != null) {
-                blocksPanelLeft.add(GuiConstants.makeCodeBlock(block.getCodeContent()));
+                blocksPanelLeft.add(Utils.makeCodeBlock(block.getCodeContent()));
             }
         }
         blocksPanelLeft.revalidate();
@@ -77,7 +78,9 @@ public class EditorView extends JFrame{
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
         /* Add navigation bar using helper functions. */
-        this.add(GuiConstants.createNavBar(true,true, this), BorderLayout.NORTH);
+        JPanel navBar = Utils.createNavBar(true,true, this);
+        this.add(navBar, BorderLayout.NORTH);
+        navBar.setBorder(BorderFactory.createEmptyBorder(PANEL_PAD, PANEL_PAD, PANEL_PAD, PANEL_PAD));
 
         /* Make a centerPanel which will hold topPanel (title, instructions), SplitPane, and submit button. */
         JPanel centerPanel = new JPanel(new BorderLayout());
@@ -108,8 +111,8 @@ public class EditorView extends JFrame{
         /* Create the Split Pane */
         JPanel blocksPanelLeft = new JPanel(new GridLayout(20, 1, TIGHT_GAP, TIGHT_GAP));
         JPanel answerPanelRight = new JPanel(new GridLayout(20, 1, TIGHT_GAP, TIGHT_GAP));
-        GuiConstants.makeDropTarget(blocksPanelLeft);
-        GuiConstants.makeDropTarget(answerPanelRight);
+        Utils.makeDropTarget(blocksPanelLeft);
+        Utils.makeDropTarget(answerPanelRight);
         JSplitPane splitPane = new JSplitPane(JSplitPane.HORIZONTAL_SPLIT,
                 new JScrollPane(blocksPanelLeft),
                 new JScrollPane(answerPanelRight));
@@ -141,13 +144,6 @@ public class EditorView extends JFrame{
 
         /* Create a Save problem button at panel South */
         JButton saveButton = new JButton("Save This Problem");
-        saveButton.addActionListener(e -> {
-            if (problem == null) {
-                service.saveProblem(problem);   // what do you pass here?
-            } else {
-                service.updateProblem(problem.getId(), problem);   // and here?
-            }
-        });
         add(saveButton, BorderLayout.SOUTH);
 
         /*******************/
@@ -178,6 +174,16 @@ public class EditorView extends JFrame{
             answerPanelRight.repaint();
             populateBlocks(blocksPanelLeft);
             responseLabel.setText(" ");
+        });
+
+        /* Save button logic */
+        saveButton.addActionListener(e -> {
+            if (problem == null) {
+                JOptionPane.showMessageDialog(this, "No problem loaded yet.");
+            } else {
+                service.saveProblem(problem);
+                JOptionPane.showMessageDialog(this, "Problem saved successfully!");
+            }
         });
 
         setVisible(true);

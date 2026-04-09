@@ -1,5 +1,5 @@
 package com.parsons.controller.student;
-import com.parsons.controller.GuiConstants;
+import com.parsons.controller.Utils;
 import com.parsons.model.*;
 import com.parsons.service.ParsonsProblemsService;
 
@@ -8,21 +8,22 @@ import javax.swing.table.DefaultTableModel;
 import java.awt.*;
 import java.util.List;
 
-import static com.parsons.controller.GuiConstants.*;
-import static com.parsons.controller.GuiConstants.PANEL_PAD;
+import static com.parsons.controller.Utils.*;
+import static com.parsons.controller.Utils.PANEL_PAD;
 
 /**
  * StudentWelcomeView displays a list of Parsons problems for the student.
  * The student can click a row to open the problem in a new window.
- *
+ * <p>
  * Frame Layout:
  *   NORTH  -- nav bar
  *   CENTER -- welcome + instructions + table
  *   SOUTH  -- credits
+ * </p>
  */
 
 public class StudentWelcomeView extends JFrame {
-    public StudentWelcomeView(List<ParsonsProblem> problems, ParsonsProblemsService service) {
+    public StudentWelcomeView(ParsonsProblemsService service) {
         setTitle("Parsons Problems: Student View");
         setSize(NARROW_FRAME_WIDTH, FRAME_HEIGHT);
         JLabel welcome = new JLabel("Welcome Learner!", JLabel.LEFT);
@@ -41,6 +42,7 @@ public class StudentWelcomeView extends JFrame {
         String[] columns = {"ID", "Title"};
         DefaultTableModel tableModel = new DefaultTableModel(columns, 0);
         /* fill the tableModel. DefaultTableModel only accepts array of Object class */
+        List<ParsonsProblem> problems = service.getAllProblems();
         for (ParsonsProblem p : problems) {
             tableModel.addRow(new Object[]{p.getId(), p.getTitle()});
         }
@@ -64,7 +66,7 @@ public class StudentWelcomeView extends JFrame {
             }
         });
         /* Add nav bar using helper functions. */
-        JPanel navBar = GuiConstants.createNavBar(false,false, this);
+        JPanel navBar = Utils.createNavBar(false,false, this);
         navBar.setBorder(BorderFactory.createEmptyBorder(PANEL_PAD, PANEL_PAD, PANEL_PAD, PANEL_PAD));
         this.add(navBar, BorderLayout.NORTH);
 
@@ -77,7 +79,7 @@ public class StudentWelcomeView extends JFrame {
         add(centerPanel, BorderLayout.CENTER);
 
         /* Add credit footer using helper functions. */
-        add(GuiConstants.createCreditsPanel(), BorderLayout.SOUTH);
+        add(Utils.createCreditsPanel(), BorderLayout.SOUTH);
         setVisible(true);
     }
 
