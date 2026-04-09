@@ -88,7 +88,7 @@ public class EditorView extends JFrame{
     }
 
     // ADD JAVA DOC FOR CONSTRUCTOR
-    public EditorView(ParsonsProblem problem, ParsonsProblemsService service, String name) {
+    public EditorView(ParsonsProblem problem, ParsonsProblemsService service, String name, SetterWelcomeView parent) {
 
         // TODO: The names of the panels are very confusing, south center etc. Find a reasonable Naming pattern.
 
@@ -97,6 +97,7 @@ public class EditorView extends JFrame{
 
         /* Set name */
         this.name = name;
+
 
         /* Set frame title and size. */
         String title = "";

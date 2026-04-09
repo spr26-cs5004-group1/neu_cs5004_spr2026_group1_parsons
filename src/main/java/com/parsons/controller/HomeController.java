@@ -68,7 +68,7 @@ public class HomeController extends JFrame {
                 JOptionPane.showMessageDialog(this, "Please enter an account name.");
                 return;
             }
-            new SetterWelcomeView(service);
+            new SetterWelcomeView(service, name);
         });
 
         setVisible(true);
