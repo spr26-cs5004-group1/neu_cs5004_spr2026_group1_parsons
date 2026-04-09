@@ -58,7 +58,7 @@ public class MainController extends JFrame {
                 JOptionPane.showMessageDialog(this, "Please enter an account name.");
                 return;
             }
-            new StudentWelcomeView(service.getAllProblems());
+            new StudentWelcomeView(service.getAllProblems(), service);
         });
         setVisible(true);
     }
