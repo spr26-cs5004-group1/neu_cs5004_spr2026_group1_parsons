@@ -64,19 +64,20 @@ public class Utils {
         for (java.util.List<String> chunk : problemChunks) {
             try {
                 int id = Integer.parseInt(chunk.getFirst());
-                String instructions = chunk.get(1);
+                String title = chunk.get(1);        // added this
+                String instructions = chunk.get(2); // was chunk.get(1)
                 List<CodeBlock> codeBlocks = new ArrayList<>();
-
-                for (int i = 2; i < chunk.size(); i++) {
+                for (int i = 3; i < chunk.size(); i++) {
                     String[] parts = chunk.get(i).split("\\|");
                     boolean isDistractor = parts[0].trim().toLowerCase(Locale.ROOT).startsWith("t");
                     Integer orderIndex = Integer.parseInt(parts[1].trim());
-                    String codeContent = parts[2].stripTrailing();
+                    //String codeContent = parts[2].stripTrailing();
+                    // TODO: delete the line above in cleaning
+                    String codeContent = parts[2].stripTrailing().replace("\\t", "    ");
                     codeBlocks.add(new CodeBlock(codeContent, isDistractor, orderIndex));
                 }
-                // TODO: title set in gui editor, but probably should add title to file, that way fresh ones dont
-                // have to be titled manually.
-                ParsonsProblem problem = new ParsonsProblem("", instructions, codeBlocks);
+                // Done Arsh TODO: title set in gui editor,
+                ParsonsProblem problem = new ParsonsProblem(title, instructions, codeBlocks);
                 problem.setId(id);
                 problemList.add(problem);
             } catch (Exception e) {
