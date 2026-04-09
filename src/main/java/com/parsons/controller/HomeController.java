@@ -19,7 +19,7 @@ public class HomeController extends JFrame {
     |  [ Setter ]      [ Student ]     |
     +----------------------------------+
      */
-    public MainController(ParsonsProblemsService service) {
+    public HomeController(ParsonsProblemsService service) {
         /* Set up JFrame */
         this.setTitle("Parson's Problem App: Choose Your Role");
         this.setSize(LAUNCHER_WIDTH, LAUNCHER_HEIGHT);
