@@ -14,22 +14,17 @@ public class ParsonsApplication {
 
     /**
      * Main method — creates an XmlParsonsProblemsRepository object and a ParsonsProblemsService object and calls the
-     * HomeView (controller)
+     * MainController.
      *
      * @param args command line arguments (not used).
      */
     public static void main(String[] args) {
-        // repository points to local XML file
-        XmlParsonsProblemsRepository repository =
-                new XmlParsonsProblemsRepository("data/problems.xml");
-
-        // service receives repository via dependency injection
+        /* Repository points to local XML file. */
+        XmlParsonsProblemsRepository repository = new XmlParsonsProblemsRepository(
+                "src/main/resources/DemoRepo.xml");
+        /* Service receives repository via dependency injection. */
         ParsonsProblemsService service = new ParsonsProblemsService(repository);
+        /* Call MainController. */
         SwingUtilities.invokeLater(() -> new MainController(service));
-        // logic to work out - call controller.HomeView
-        // controller.HomeView will call
-        //      controller.setter.SetterCli OR
-        //      controller.setter.SetterView (welcome/browse problems) OR
-        //      controller.student.StudentView (welcome/browse problems)
     }
 }
