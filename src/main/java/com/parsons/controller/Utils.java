@@ -15,7 +15,7 @@ import java.awt.event.MouseEvent;
 public class Utils {
 
     /** Utility class -- do not instantiate */
-    private GuiConstants() {}
+    private Utils() {}
 
     /* Shared Constants
      derived based on the two panel drag and drop
