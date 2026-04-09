@@ -23,7 +23,7 @@ import static com.parsons.controller.Utils.PANEL_PAD;
  */
 
 public class StudentWelcomeView extends JFrame {
-    public StudentWelcomeView(List<ParsonsProblem> problems, ParsonsProblemsService service) {
+    public StudentWelcomeView(ParsonsProblemsService service) {
         setTitle("Parsons Problems: Student View");
         setSize(NARROW_FRAME_WIDTH, FRAME_HEIGHT);
         JLabel welcome = new JLabel("Welcome Learner!", JLabel.LEFT);
@@ -42,6 +42,7 @@ public class StudentWelcomeView extends JFrame {
         String[] columns = {"ID", "Title"};
         DefaultTableModel tableModel = new DefaultTableModel(columns, 0);
         /* fill the tableModel. DefaultTableModel only accepts array of Object class */
+        List<ParsonsProblem> problems = service.getAllProblems();
         for (ParsonsProblem p : problems) {
             tableModel.addRow(new Object[]{p.getId(), p.getTitle()});
         }
