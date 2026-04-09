@@ -64,7 +64,8 @@ public class EditorView extends JFrame{
 
     /**
      * Checks the answer locally against a new problem loaded from text file.
-     * Used in EditorView since the problem may not yet be saved to the repo.
+     * Seemingly violates DRY but used in EditorView since the problem may not yet be saved to the repo.
+     * Service needs id, we need to test before saving.
      *
      * @param answer the list of CodeBlocks the student arranged in the answer panel
      * @return true if the answer matches the solution, false otherwise
