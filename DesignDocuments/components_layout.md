@@ -32,7 +32,7 @@ flowchart TD
     subgraph EV_layout [EditorView layout]
         ev_n[NORTH: navBar - Home Close Quit]
         ev_c[CENTER: setterInstr + fileBrowser + title + instr + splitPane]
-        ev_cs[inner SOUTH: Submit + response + Retry]
+        ev_cs[inner CENTER-SOUTH: Submit + response + Retry]
         ev_s[SOUTH: Save + Delete]
     end
 ```
