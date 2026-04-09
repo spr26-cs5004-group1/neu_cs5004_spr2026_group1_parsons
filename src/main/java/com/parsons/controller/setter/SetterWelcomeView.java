@@ -19,7 +19,7 @@ public class SetterWelcomeView extends JFrame {
     public SetterWelcomeView(ParsonsProblemsService service, String name) {
         setTitle("Parsons Problems: Setter's View");
         setSize(NARROW_FRAME_WIDTH, FRAME_HEIGHT);
-        JLabel welcome = new JLabel("Welcome {name}!", JLabel.LEFT);
+        JLabel welcome = new JLabel("Welcome " + name + "!", JLabel.LEFT);
         JTextArea instr = new JTextArea("""
                 Add a new problem: click first row,\s
                 or select a parson's problem from the table to edit below.
@@ -54,14 +54,14 @@ public class SetterWelcomeView extends JFrame {
                 if (row != -1) {// protect against click anywhere but a row, which leads to deselection
                     Object idValue = tableModel.getValueAt(row, 0);
                     if (row == 0 || idValue.equals("NEW")) {
-                        new EditorView(null, service);
+                        new EditorView(null, service, name);
                     } else {
                         int id = (int) idValue;
                         ParsonsProblem selected = problems.stream()
                                 .filter(p -> p.getId() == id)
                                 .findFirst()
                                 .orElse(null);
-                        new EditorView(selected, service);
+                        new EditorView(selected, service, name);
                     }
                 }
             }
