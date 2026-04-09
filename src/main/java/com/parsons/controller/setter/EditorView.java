@@ -86,6 +86,9 @@ public class EditorView extends JFrame{
 
     // ADD JAVA DOC FOR CONSTRUCTOR
     public EditorView(ParsonsProblem problem, ParsonsProblemsService service) {
+
+        // TODO: The names of the panels are very confusing, south center etc. Find a reasonable Naming pattern.
+
         /* Set problem */
         this.problem = problem;
 
@@ -106,19 +109,40 @@ public class EditorView extends JFrame{
         this.add(navBar, BorderLayout.NORTH);
         navBar.setBorder(BorderFactory.createEmptyBorder(PANEL_PAD, PANEL_PAD, PANEL_PAD, PANEL_PAD));
 
-        /* Make a centerPanel which will hold topPanel (title, instructions), SplitPane, and submit button. */
-        JPanel centerPanel = new JPanel(new BorderLayout());
-        centerPanel.setBorder(BorderFactory.createEmptyBorder(PANEL_PAD, PANEL_PAD, PANEL_PAD, PANEL_PAD));
+        /* Make a centerFramePanel which will hold topPanel (title, instructions), SplitPane, and submit button. */
+        JPanel centerFramePanel = new JPanel(new BorderLayout());
+        centerFramePanel.setBorder(BorderFactory.createEmptyBorder(PANEL_PAD, PANEL_PAD, PANEL_PAD, PANEL_PAD));
 
-        /* Make a fileBrowserPanel for centerPanel. */
+        /* Make a fileBrowserPanel for centerFramePanel. */
         JPanel fileBrowserPanel = new JPanel(new FlowLayout(FlowLayout.LEFT));
         JButton browseButton = new JButton("Browse .txt file");
         JLabel fileStatusLabel = new JLabel("No file selected");
         fileBrowserPanel.add(browseButton);
         fileBrowserPanel.add(fileStatusLabel);
 
-        /* Create topPanel that holds title and instructions */
-        JPanel topPanel = new JPanel(new GridLayout(3, 1));
+        /* Create topPanel that holds title, instructions for setter, student instructions from problem. */
+        //JPanel topPanel = new JPanel(new GridLayout(4, 1));
+        JPanel topPanel = new JPanel();
+        topPanel.setLayout(new BoxLayout(topPanel, BoxLayout.Y_AXIS));
+        JTextArea setterInstr = new JTextArea("""
+        SETTER INSTRUCTIONS:
+        - Upload a .txt file to add a new problem (id assigned automatically)
+        - WARNING: if a file is uploaded for an existing problem, it will be overwritten
+        - TXT File format: 
+        - line 1 = title, line 2 = instructions,
+        - remaining = code blocks. Code block format: isDistractor | orderIndex | codeContent
+        - isDistractor: f/false = solution block, t/true = distractor
+        - orderIndex is expected to be 0-indexed and complete
+        - Use \\t for indentation (converted to 4 spaces)
+        - Problems separated by ---
+        """);
+        setterInstr.setEditable(false);
+        setterInstr.setBackground(null);
+        JScrollPane setterInstrScroll = new JScrollPane(setterInstr);
+        setterInstrScroll.setPreferredSize(new Dimension(FRAME_WIDTH, 120));
+        topPanel.add(setterInstrScroll);
+
+        /* Add title and problem instructions to topPanel. */
         topPanel.add(new JLabel(title));
         String instr = "";
         if (problem != null) {
@@ -126,8 +150,9 @@ public class EditorView extends JFrame{
         }
         topPanel.add(new JTextArea(instr));
         topPanel.add(fileBrowserPanel);
-        /* add it to centerPanel */
-        centerPanel.add(topPanel, BorderLayout.NORTH);
+
+        /* add topPanel to centerFramePanel of Frame wrapped in a JScrollPanel. */
+        centerFramePanel.add(topPanel, BorderLayout.NORTH);
 
         /* Create the Split Pane */
         JPanel blocksPanelLeft = new JPanel(new GridLayout(20, 1, TIGHT_GAP, TIGHT_GAP));
@@ -138,10 +163,10 @@ public class EditorView extends JFrame{
                 new JScrollPane(blocksPanelLeft),
                 new JScrollPane(answerPanelRight));
         splitPane.setDividerLocation(DIVIDER_LOCATION);
-        /* Add it to centerPanel */
-        centerPanel.add(splitPane, BorderLayout.CENTER);
+        /* Add it to centerFramePanel */
+        centerFramePanel.add(splitPane, BorderLayout.CENTER);
 
-        /* Create a southPanel that will go to south of centerPanel. It will have submitButton and responseLabel. */
+        /* Create a southPanel that will go to south of centerFramePanel. It will have submitButton and responseLabel. */
         JPanel southPanel = new JPanel(new GridLayout(2, 1));
 
         /* Create submit button */
@@ -160,19 +185,68 @@ public class EditorView extends JFrame{
         JButton retryButton = new JButton("Retry");
         southPanel.add(retryButton);
 
-        /* Add southPanel to centerPanel. */
-        centerPanel.add(southPanel, BorderLayout.SOUTH);
+        /* Add southPanel to centerFramePanel. */
+        centerFramePanel.add(southPanel, BorderLayout.SOUTH);
 
-        /* Add centerPanel to this frame, */
-        this.add(centerPanel, BorderLayout.CENTER);
+        /* Add centerFramePanel to this frame, */
+        this.add(centerFramePanel, BorderLayout.CENTER);
 
-        /* Create a Save problem button at panel South */
+        /* Create a southButtonsPanel */
+        JPanel southButtonsPanel = new JPanel(new FlowLayout(FlowLayout.CENTER));
+
+        /* Create a Save problem button at southButtonsPanel*/
         JButton saveButton = new JButton("Save This Problem");
-        add(saveButton, BorderLayout.SOUTH);
+        if (problem == null) {
+            saveButton.setEnabled(false);  // disable at start since there is no problem loaded
+        }
+        southButtonsPanel.add(saveButton);
+
+        /* Create a delete problem button at southButtonsPanel*/
+        JButton deleteButton = new JButton("Delete Problem");
+        deleteButton.setForeground(Color.RED);  // red to signal danger
+        if (problem == null) {
+            deleteButton.setEnabled(false);  // disable at start since there is no problem loaded
+        }
+        southButtonsPanel.add(deleteButton);
+
+        /* Add southButtonsPanel to this */
+        this.add(southButtonsPanel, BorderLayout.SOUTH);
 
         /*******************/
         /* Business Logic. */
         /*******************/
+
+        /* Browser Button Logic to create new problems, or update existing ones. */
+        browseButton.addActionListener(e -> {
+            if (this.problem != null && this.problem.getId() > 0) {
+                int confirm = JOptionPane.showConfirmDialog(this,
+                        "Uploading a file will overwrite the existing problem. Are you sure?",
+                        "Confirm Overwrite", JOptionPane.YES_NO_OPTION);
+                if (confirm != JOptionPane.YES_OPTION) return;
+            }
+            JFileChooser fileChooser = new JFileChooser();
+            /* file browser should open resource dir not home dir */
+            // TODO: update path for production -- use System.getProperty("user.dir") when packaged
+            fileChooser.setCurrentDirectory(new File("src/main/resources"));
+            int result = fileChooser.showOpenDialog(this);
+            if (result == JFileChooser.APPROVE_OPTION) {
+                File file = fileChooser.getSelectedFile();
+                try {
+                    List<ParsonsProblem> parsed = Utils.parseFile(file.getAbsolutePath());
+                    if (parsed != null && !parsed.isEmpty()) {
+                        this.problem = parsed.get(0);
+                        populateBlocks(blocksPanelLeft);
+                        fileStatusLabel.setText("Loaded: " + file.getName());
+                        submitButton.setEnabled(true);
+                        saveButton.setEnabled(true);
+                    } else {
+                        fileStatusLabel.setText("Error: invalid file format");
+                    }
+                } catch (IOException ex) {
+                    fileStatusLabel.setText("Error reading file: " + ex.getMessage());
+                }
+            }
+        });
 
         /* Scramble codeBlocks and add to blocksPanelLeft. */
         this.populateBlocks(blocksPanelLeft);
@@ -204,37 +278,38 @@ public class EditorView extends JFrame{
         saveButton.addActionListener(e -> {
             if (this.problem == null) {
                 JOptionPane.showMessageDialog(this, "No problem loaded yet.");
-            } else if (this.problem.getId() <= 0) {
+            } else if (this.problem.getId() > 0) {
+                int confirm = JOptionPane.showConfirmDialog(this,
+                        "This will overwrite the existing problem. Are you sure?",
+                        "Confirm Save", JOptionPane.YES_NO_OPTION);
+                if (confirm == JOptionPane.YES_OPTION) {
+                    service.updateProblem(this.problem.getId(), this.problem);
+                    JOptionPane.showMessageDialog(this, "Problem updated successfully!");
+                }
+            } else {
                 service.saveProblem(this.problem);
                 JOptionPane.showMessageDialog(this, "Problem saved successfully!");
-            } else {
-                service.updateProblem(this.problem.getId(), this.problem);
-                JOptionPane.showMessageDialog(this, "Problem updated successfully!");
             }
         });
 
-        /* Browser Button Logic to create new problems, or update existing ones. */
-        browseButton.addActionListener(e -> {
-            JFileChooser fileChooser = new JFileChooser();
-            /* file browser should open resource dir not home dir */
-            // TODO: update path for production -- use System.getProperty("user.dir") when packaged
-            fileChooser.setCurrentDirectory(new File("src/main/resources"));
-            int result = fileChooser.showOpenDialog(this);
-            if (result == JFileChooser.APPROVE_OPTION) {
-                File file = fileChooser.getSelectedFile();
-                try {
-                    List<ParsonsProblem> parsed = Utils.parseFile(file.getAbsolutePath());
-                    if (parsed != null && !parsed.isEmpty()) {
-                        this.problem = parsed.get(0);
-                        populateBlocks(blocksPanelLeft);
-                        fileStatusLabel.setText("Loaded: " + file.getName());
-                        submitButton.setEnabled(true);
-                    } else {
-                        fileStatusLabel.setText("Error: invalid file format");
-                    }
-                } catch (IOException ex) {
-                    fileStatusLabel.setText("Error reading file: " + ex.getMessage());
-                }
+        /* deleteButton Business Logic.
+        Meaning for overall design:
+        * We are letting user add duplicate problems.
+        * If they have two problems with same titles, they can delete one.
+        * id is handled internally.
+        */
+        deleteButton.addActionListener(e -> {
+            if (this.problem == null || this.problem.getId() <= 0) {
+                JOptionPane.showMessageDialog(this, "No saved problem to delete.");
+                return;
+            }
+            int confirm = JOptionPane.showConfirmDialog(this,
+                    "Are you sure you want to delete this problem?",
+                    "Confirm Delete", JOptionPane.YES_NO_OPTION);
+            if (confirm == JOptionPane.YES_OPTION) {
+                service.deleteProblem(this.problem.getId());
+                JOptionPane.showMessageDialog(this, "Problem deleted.");
+                this.dispose();
             }
         });
 
