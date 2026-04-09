@@ -16,10 +16,10 @@ import static com.parsons.controller.Utils.*;
 import static com.parsons.controller.Utils.PANEL_PAD;
 
 public class SetterWelcomeView extends JFrame {
-    public SetterWelcomeView(ParsonsProblemsService service) {
+    public SetterWelcomeView(ParsonsProblemsService service, String name) {
         setTitle("Parsons Problems: Setter's View");
         setSize(NARROW_FRAME_WIDTH, FRAME_HEIGHT);
-        JLabel welcome = new JLabel("Welcome Setter!", JLabel.LEFT);
+        JLabel welcome = new JLabel("Welcome {name}!", JLabel.LEFT);
         JTextArea instr = new JTextArea("""
                 Add a new problem: click first row,\s
                 or select a parson's problem from the table to edit below.
