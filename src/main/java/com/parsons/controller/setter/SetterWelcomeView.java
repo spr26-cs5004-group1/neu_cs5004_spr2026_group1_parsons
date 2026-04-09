@@ -1,7 +1,6 @@
 package com.parsons.controller.setter;
 
 import com.parsons.controller.Utils;
-import com.parsons.controller.student.SolverView;
 import com.parsons.model.ParsonsProblem;
 import com.parsons.service.ParsonsProblemsService;
 
@@ -21,9 +20,10 @@ public class SetterWelcomeView extends JFrame {
         setTitle("Parsons Problems: Setter's View");
         setSize(NARROW_FRAME_WIDTH, FRAME_HEIGHT);
         JLabel welcome = new JLabel("Welcome Setter!", JLabel.LEFT);
-        JTextArea instr = new JTextArea("Add a new problem: click first row, \n" +
-                "or select a parson's problem from the table to edit below.\n" +
-                "The problem will open in a new window.");
+        JTextArea instr = new JTextArea("""
+                Add a new problem: click first row,\s
+                or select a parson's problem from the table to edit below.
+                The problem will open in a new window.""");
         instr.setEditable(false);
 
         /* Add welcome and instructions to a grid layout panel stacked vertically. */
