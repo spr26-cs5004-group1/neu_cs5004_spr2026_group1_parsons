@@ -14,11 +14,12 @@ import static com.parsons.controller.Utils.PANEL_PAD;
 /**
  * StudentWelcomeView displays a list of Parsons problems for the student.
  * The student can click a row to open the problem in a new window.
- *
+ * <p>
  * Frame Layout:
  *   NORTH  -- nav bar
  *   CENTER -- welcome + instructions + table
  *   SOUTH  -- credits
+ * </p>
  */
 
 public class StudentWelcomeView extends JFrame {
