@@ -6,10 +6,13 @@ import com.parsons.service.ParsonsProblemsService;
 
 import java.awt.*;
 import javax.swing.*;
+import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
+import java.util.stream.Collectors;
 
 import static com.parsons.controller.Utils.*;
 
@@ -17,8 +20,9 @@ public class EditorView extends JFrame{
     /**
      * The Parsons problem being solved by the student.
      * Stored as a field so it can be accessed by checkAnswer() outside the constructor.
+     * It can be null when "NEW" row is selected, and then setter can set it, no not final.
      */
-    private final ParsonsProblem problem;
+    private ParsonsProblem problem;
 
     /**
      * Populates the blocks panel with shuffled code blocks from the problem.
@@ -58,6 +62,26 @@ public class EditorView extends JFrame{
         return answer;
     }
 
+    /**
+     * Checks the answer locally against a new problem loaded from text file.
+     * Used in EditorView since the problem may not yet be saved to the repo.
+     *
+     * @param answer the list of CodeBlocks the student arranged in the answer panel
+     * @return true if the answer matches the solution, false otherwise
+     */
+    private boolean checkAnswer(List<CodeBlock> answer) {
+        List<CodeBlock> solution = problem.getCode().stream()
+                .filter(b -> !b.getIsDistractor())
+                .sorted(Comparator.comparing(CodeBlock::getOrderIndex))
+                .collect(Collectors.toList());
+        if (answer.size() != solution.size()) return false;
+        for (int i = 0; i < solution.size(); i++) {
+            if (!solution.get(i).getCodeContent().equals(answer.get(i).getCodeContent())) {
+                return false;
+            }
+        }
+        return true;
+    }
 
     // ADD JAVA DOC FOR CONSTRUCTOR
     public EditorView(ParsonsProblem problem, ParsonsProblemsService service) {
@@ -70,7 +94,6 @@ public class EditorView extends JFrame{
             title = problem.getTitle();
             this.setTitle("Testing Parson's Problem: " + title);
         } else {
-
             this.setTitle("Adding A New Parson's Problem");
         }
 
@@ -87,24 +110,21 @@ public class EditorView extends JFrame{
         centerPanel.setBorder(BorderFactory.createEmptyBorder(PANEL_PAD, PANEL_PAD, PANEL_PAD, PANEL_PAD));
 
         /* Make a fileBrowserPanel for centerPanel. */
-        if (problem == null) {
-            JPanel fileBrowserPanel = new JPanel(new FlowLayout(FlowLayout.LEFT));
-            JButton browseButton = new JButton("Browse .txt file");
-            JLabel fileStatusLabel = new JLabel("No file selected");
-            fileBrowserPanel.add(browseButton);
-            fileBrowserPanel.add(fileStatusLabel);
-            centerPanel.add(fileBrowserPanel, BorderLayout.NORTH);
-            /* Business Logic */
-            browseButton.addActionListener(e -> {
-                // TODO: file parsing logic -- being implemented by Parker
-            });
-        }
+        JPanel fileBrowserPanel = new JPanel(new FlowLayout(FlowLayout.LEFT));
+        JButton browseButton = new JButton("Browse .txt file");
+        JLabel fileStatusLabel = new JLabel("No file selected");
+        fileBrowserPanel.add(browseButton);
+        fileBrowserPanel.add(fileStatusLabel);
 
         /* Create topPanel that holds title and instructions */
         JPanel topPanel = new JPanel(new GridLayout(3, 1));
         topPanel.add(new JLabel(title));
-        String instr = problem.getInstructions();
+        String instr = "";
+        if (problem != null) {
+            instr = problem.getInstructions();
+        }
         topPanel.add(new JTextArea(instr));
+        topPanel.add(fileBrowserPanel);
         /* add it to centerPanel */
         centerPanel.add(topPanel, BorderLayout.NORTH);
 
@@ -125,6 +145,9 @@ public class EditorView extends JFrame{
 
         /* Create submit button */
         JButton submitButton = new JButton("Submit");
+        if (problem == null) {
+            submitButton.setEnabled(false);  // disable at start since there is no problem loaded
+        }
         southPanel.add(submitButton);
 
         /* Create response label */
@@ -156,7 +179,7 @@ public class EditorView extends JFrame{
         /* Submit and check response */
         submitButton.addActionListener(e -> {
             List<CodeBlock> answer = extractAnswer(answerPanelRight);
-            boolean correct = service.checkAnswer(problem.getId(), answer);
+            boolean correct = this.checkAnswer(answer);
             if (correct) {
                 responseLabel.setText("Correct! Well done!");
                 answerPanelRight.setBorder(BorderFactory.createLineBorder(Color.GREEN, 3));
@@ -178,11 +201,39 @@ public class EditorView extends JFrame{
 
         /* Save button logic */
         saveButton.addActionListener(e -> {
-            if (problem == null) {
+            if (this.problem == null) {
                 JOptionPane.showMessageDialog(this, "No problem loaded yet.");
-            } else {
-                service.saveProblem(problem);
+            } else if (this.problem.getId() <= 0) {
+                service.saveProblem(this.problem);
                 JOptionPane.showMessageDialog(this, "Problem saved successfully!");
+            } else {
+                service.updateProblem(this.problem.getId(), this.problem);
+                JOptionPane.showMessageDialog(this, "Problem updated successfully!");
+            }
+        });
+
+        /* Browser Button Logic to create new problems, or update existing ones. */
+        browseButton.addActionListener(e -> {
+            JFileChooser fileChooser = new JFileChooser();
+            /* file browser should open resource dir not home dir */
+            // TODO: update path for production -- use System.getProperty("user.dir") when packaged
+            fileChooser.setCurrentDirectory(new File("src/main/resources"));
+            int result = fileChooser.showOpenDialog(this);
+            if (result == JFileChooser.APPROVE_OPTION) {
+                File file = fileChooser.getSelectedFile();
+                try {
+                    List<ParsonsProblem> parsed = Utils.parseFile(file.getAbsolutePath());
+                    if (parsed != null && !parsed.isEmpty()) {
+                        this.problem = parsed.get(0);
+                        populateBlocks(blocksPanelLeft);
+                        fileStatusLabel.setText("Loaded: " + file.getName());
+                        submitButton.setEnabled(true);
+                    } else {
+                        fileStatusLabel.setText("Error: invalid file format");
+                    }
+                } catch (IOException ex) {
+                    fileStatusLabel.setText("Error reading file: " + ex.getMessage());
+                }
             }
         });
 
