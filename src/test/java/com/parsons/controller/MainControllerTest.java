@@ -7,7 +7,7 @@ import javax.swing.*;
 
 public class MainControllerTest {
     public static void main(String[] args) {
-        XmlParsonsProblemsRepository repo = new XmlParsonsProblemsRepository("data/problems.xml");
+        XmlParsonsProblemsRepository repo = new XmlParsonsProblemsRepository("src/main/resources/DemoRepo.xml");
         ParsonsProblemsService service = new ParsonsProblemsService(repo);
         SwingUtilities.invokeLater(() -> new MainController(service));
     }
