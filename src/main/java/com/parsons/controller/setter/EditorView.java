@@ -232,6 +232,7 @@ public class EditorView extends JFrame{
                         "Confirm Overwrite", JOptionPane.YES_NO_OPTION);
                 if (confirm != JOptionPane.YES_OPTION) return;
             }
+            int originalId = (this.problem != null) ? this.problem.getId() : -1;
             JFileChooser fileChooser = new JFileChooser();
             /* file browser should open resource dir not home dir */
             // TODO: update path for production -- use System.getProperty("user.dir") when packaged
@@ -243,6 +244,7 @@ public class EditorView extends JFrame{
                     List<ParsonsProblem> parsed = Utils.parseFile(file.getAbsolutePath());
                     if (parsed != null && !parsed.isEmpty()) {
                         this.problem = parsed.get(0);
+                        this.problem.setId(originalId);
                         populateBlocks(blocksPanelLeft);
                         fileStatusLabel.setText("Loaded: " + file.getName());
                         submitButton.setEnabled(true);
