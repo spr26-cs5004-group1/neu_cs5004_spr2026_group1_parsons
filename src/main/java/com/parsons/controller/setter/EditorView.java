@@ -88,8 +88,7 @@ public class EditorView extends JFrame{
     }
 
     // ADD JAVA DOC FOR CONSTRUCTOR
-    public EditorView(ParsonsProblem problem, ParsonsProblemsService service, String name) {
-
+    public EditorView(ParsonsProblem problem, ParsonsProblemsService service, String name, JFrame parent) {
         // TODO: The names of the panels are very confusing, south center etc. Find a reasonable Naming pattern.
 
         /* Set problem */
@@ -294,6 +293,8 @@ public class EditorView extends JFrame{
                 if (confirm == JOptionPane.YES_OPTION) {
                     service.updateProblem(this.problem.getId(), this.problem);
                     JOptionPane.showMessageDialog(this, "Problem updated successfully!");
+                    parent.dispose();
+                    this.dispose();
                     new SetterWelcomeView(service, name); // refresh the SetterWelcomeView
                 }
             } else { // NOT DRY
@@ -320,6 +321,7 @@ public class EditorView extends JFrame{
             if (confirm == JOptionPane.YES_OPTION) {
                 service.deleteProblem(this.problem.getId());
                 JOptionPane.showMessageDialog(this, "Problem deleted.");
+                parent.dispose();
                 this.dispose(); // close this window
                 new SetterWelcomeView(service, name); // refresh the SetterWelcomeView
             }

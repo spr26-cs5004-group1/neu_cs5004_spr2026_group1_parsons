@@ -11,7 +11,7 @@ public class EditorViewTest {
 
     public static void main(String[] args) {
         SwingUtilities.invokeLater(() ->
-                new EditorView(service.getAllProblems().get(0), service, "PlaceHolder")
+                new EditorView(service.getAllProblems().get(0), service, "PlaceHolder", null)
         );
     }
 }
