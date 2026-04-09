@@ -8,8 +8,8 @@ import javax.swing.table.DefaultTableModel;
 import java.awt.*;
 import java.util.List;
 
-import static com.parsons.controller.GuiConstants.FRAME_HEIGHT;
-import static com.parsons.controller.GuiConstants.NARROW_FRAME_WIDTH;
+import static com.parsons.controller.GuiConstants.*;
+import static com.parsons.controller.GuiConstants.PANEL_PAD;
 
 /**
  * StudentWelcomeView displays a list of Parsons problems for the student.
@@ -20,8 +20,9 @@ import static com.parsons.controller.GuiConstants.NARROW_FRAME_WIDTH;
  *   CENTER -- welcome + instructions + table
  *   SOUTH  -- credits
  */
+
 public class StudentWelcomeView extends JFrame {
-    public StudentWelcomeView(List<ParsonsProblem> problems) {
+    public StudentWelcomeView(List<ParsonsProblem> problems, ParsonsProblemsService service) {
         setTitle("Parsons Problems: Student View");
         setSize(NARROW_FRAME_WIDTH, FRAME_HEIGHT);
         JLabel welcome = new JLabel("Welcome Learner!", JLabel.LEFT);
@@ -34,6 +35,7 @@ public class StudentWelcomeView extends JFrame {
         topPanel.setLayout(new GridLayout(2, 1));
         topPanel.add(welcome);
         topPanel.add(instr);
+        topPanel.setBorder(BorderFactory.createEmptyBorder(PANEL_PAD, PANEL_PAD, PANEL_PAD, PANEL_PAD));
 
         /* create the datasheet that will be displayed in the JTable below the welcome message and instructions table */
         String[] columns = {"ID", "Title"};
@@ -57,19 +59,23 @@ public class StudentWelcomeView extends JFrame {
                             .filter(p -> p.getId() == id)
                             .findFirst()
                             .orElse(null);
-                    new SolverView(selected); // for testing
+                    new SolverView(selected, service);
                 }
             }
         });
         /* Add nav bar using helper functions. */
-        add(GuiConstants.createNavBar(false,false, this), BorderLayout.NORTH);
+        JPanel navBar = GuiConstants.createNavBar(false,false, this);
+        navBar.setBorder(BorderFactory.createEmptyBorder(PANEL_PAD, PANEL_PAD, PANEL_PAD, PANEL_PAD));
+        this.add(navBar, BorderLayout.NORTH);
 
         JPanel centerPanel = new JPanel(new BorderLayout());
+        centerPanel.setBorder(BorderFactory.createEmptyBorder(PANEL_PAD, PANEL_PAD, PANEL_PAD, PANEL_PAD));
         centerPanel.add(topPanel, BorderLayout.NORTH);
         /* Wrap the JTable in a scrolling pane and add to the center of panel */
         centerPanel.add(new JScrollPane(problemsTable), BorderLayout.CENTER);
         /* Add center panel in center of frame */
         add(centerPanel, BorderLayout.CENTER);
+
         /* Add credit footer using helper functions. */
         add(GuiConstants.createCreditsPanel(), BorderLayout.SOUTH);
         setVisible(true);
