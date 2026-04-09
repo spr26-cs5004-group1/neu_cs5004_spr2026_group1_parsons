@@ -52,13 +52,11 @@ public class SetterWelcomeView extends JFrame {
             if (!e.getValueIsAdjusting()) {
                 int row = problemsTable.getSelectedRow();
                 if (row != -1) {// protect against click anywhere but a row, which leads to deselection
-                    String ids = (String) tableModel.getValueAt(row, 0);
-                    if (ids.equals("NEW") || row == 0) {
-                        // opens new editorView
+                    Object idValue = tableModel.getValueAt(row, 0);
+                    if (row == 0 || idValue.equals("NEW")) {
                         new EditorView(null, service);
                     } else {
-                        // find problem with id from problems
-                        int id = (int) tableModel.getValueAt(row, 0); // extract id from row
+                        int id = (int) idValue;
                         ParsonsProblem selected = problems.stream()
                                 .filter(p -> p.getId() == id)
                                 .findFirst()
