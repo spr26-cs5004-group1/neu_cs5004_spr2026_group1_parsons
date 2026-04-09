@@ -1,6 +1,11 @@
 plugins {
     id 'java'
+    id 'application'
     id 'checkstyle'
+}
+
+application {
+    mainClass = 'com.parsons.ParsonsApplication'
 }
 
 checkstyle {

@@ -33,7 +33,6 @@ public class HomeController extends JFrame {
         namePanel.add(new JLabel("Account Name:"));
         namePanel.add(accountNameField);
 
-        /* Add button panel that will hold setter and student buttons. */
         JPanel buttonPanel = new JPanel(new FlowLayout(FlowLayout.CENTER));
         /* Buttons */
         JButton setterButton = new JButton("Setter");
@@ -59,7 +58,7 @@ public class HomeController extends JFrame {
                 JOptionPane.showMessageDialog(this, "Please enter an account name.");
                 return;
             }
-            new StudentWelcomeView(service, name);
+            new StudentWelcomeView(service);
         });
 
         /* setterButton actionListener */

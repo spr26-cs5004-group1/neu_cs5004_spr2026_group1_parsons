@@ -1,9 +1,0 @@
-1
-Check if a number is positive
-Arrange the code to define a function that returns True if n is positive, False otherwise.
-f|0|def is_positive(n):
-f|1|\t if n > 0:
-f|2|\t\t return True
-f|3|\t else:
-f|4|\t\t return False
-t|1|\t if n >= 0:

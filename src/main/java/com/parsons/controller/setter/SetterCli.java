@@ -1,9 +1,15 @@
 package com.parsons.controller.setter;
 
+import com.parsons.model.CodeBlock;
 import com.parsons.model.ParsonsProblem;
 import com.parsons.service.ParsonsProblemsService;
+
 import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.util.ArrayList;
 import java.util.List;
+import java.util.Locale;
 
 import static com.parsons.controller.Utils.parseFile;
 
@@ -15,7 +21,7 @@ public class SetterCli {
     /**
      * Instance of service for parsons problem management.
      */
-    private final ParsonsProblemsService service;
+    private ParsonsProblemsService service;
 
     /**
      * SetterCLI constructor that assigns and uses the passed in service instance..
@@ -47,7 +53,7 @@ public class SetterCli {
                     service.saveProblem(problemList.get(i));
                     added++;
                 }
-                // TODO: UPDATE TO OUTPUT STREAM
+                // TODO: UPDATE TO OUTPUTSTREAM
                 System.out.printf("Problems Updated: %d\nNewProblemsSaved: %d\n", updated, added);
             }
         } catch (IOException e) {
@@ -55,5 +61,4 @@ public class SetterCli {
             return;
         }
     }
-
 }
