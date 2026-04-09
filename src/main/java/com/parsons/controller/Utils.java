@@ -1,5 +1,8 @@
 package com.parsons.controller;
 
+import com.parsons.model.CodeBlock;
+import com.parsons.model.ParsonsProblem;
+
 import javax.swing.*;
 import java.awt.*;
 import java.awt.datatransfer.DataFlavor;
@@ -7,6 +10,12 @@ import java.awt.datatransfer.StringSelection;
 import java.awt.datatransfer.Transferable;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Locale;
 
 /**
  * Shared constants and UI helper methods for all views in the Parsons Problems app.
@@ -16,6 +25,74 @@ public class Utils {
 
     /** Utility class -- do not instantiate */
     private Utils() {}
+
+
+    /* NON GUI Methods */
+
+
+    /**
+     * File parser helper method for extracting new parsons problem from a .txt file.
+     *
+     * @param filepath the user provided path to the new problems file.
+     * @return A list of parsed ParsonsProblem objects.
+     * @throws IOException Occurs when the input file cannot be found or read.
+     */
+    public static java.util.List<ParsonsProblem> parseFile(String filepath) throws IOException {
+        //TODO: if time allows abstract this out to its own parser class.
+        int errorCount = 0;
+        java.util.List<String> errorLines = new ArrayList<>();
+
+        java.util.List<ParsonsProblem> problemList = new ArrayList<>();
+        // Note: Caller is responsible for error catching/reporting
+        java.util.List<String> lines = Files.readAllLines(Path.of(filepath));
+        java.util.List<java.util.List<String>> problemChunks = new ArrayList<>();
+        java.util.List<String> current = new ArrayList<>();
+
+
+        for (String line : lines) {
+            if (line.trim().isEmpty() || line.trim().startsWith("//")) continue;
+            if (line.trim().equals("---")) {
+                problemChunks.add(current);
+                current = new ArrayList<>();
+            } else {
+                current.add(line);
+            }
+        }
+
+        problemChunks.add(current);
+
+        for (java.util.List<String> chunk : problemChunks) {
+            try {
+                int id = Integer.parseInt(chunk.getFirst());
+                String instructions = chunk.get(1);
+                List<CodeBlock> codeBlocks = new ArrayList<>();
+
+                for (int i = 2; i < chunk.size(); i++) {
+                    String[] parts = chunk.get(i).split("\\|");
+                    boolean isDistractor = parts[0].trim().toLowerCase(Locale.ROOT).startsWith("t");
+                    Integer orderIndex = Integer.parseInt(parts[1].trim());
+                    String codeContent = parts[2].stripTrailing();
+                    codeBlocks.add(new CodeBlock(codeContent, isDistractor, orderIndex));
+                }
+                // TODO: title set in gui editor, but probably should add title to file, that way fresh ones dont
+                // have to be titled manually.
+                ParsonsProblem problem = new ParsonsProblem("", instructions, codeBlocks);
+                problem.setId(id);
+                problemList.add(problem);
+            } catch (Exception e) {
+                // TODO: instantiate these variables as fields instead of local so they can
+                //  be reported in error catch under the run method.
+                errorCount++;
+                errorLines.add("Failed to parse chunk starting at: '" + (chunk.isEmpty() ?
+                        "(empty)" : chunk.getFirst()) + "' \n" + e.getMessage());
+            }
+        }
+        return problemList;
+    }
+
+
+    /********* GUI METHODS *************/
+
 
     /* Shared Constants
      derived based on the two panel drag and drop
