@@ -78,7 +78,9 @@ public class EditorView extends JFrame{
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
         /* Add navigation bar using helper functions. */
-        this.add(Utils.createNavBar(true,true, this), BorderLayout.NORTH);
+        JPanel navBar = Utils.createNavBar(true,true, this);
+        this.add(navBar, BorderLayout.NORTH);
+        navBar.setBorder(BorderFactory.createEmptyBorder(PANEL_PAD, PANEL_PAD, PANEL_PAD, PANEL_PAD));
 
         /* Make a centerPanel which will hold topPanel (title, instructions), SplitPane, and submit button. */
         JPanel centerPanel = new JPanel(new BorderLayout());
@@ -144,9 +146,10 @@ public class EditorView extends JFrame{
         JButton saveButton = new JButton("Save This Problem");
         saveButton.addActionListener(e -> {
             if (problem == null) {
-                service.saveProblem(problem);   // what do you pass here?
+                JOptionPane.showMessageDialog(this, "No problem loaded yet.");
             } else {
-                service.updateProblem(problem.getId(), problem);   // and here?
+                service.saveProblem(problem);
+                JOptionPane.showMessageDialog(this, "Problem saved successfully!");
             }
         });
         add(saveButton, BorderLayout.SOUTH);
