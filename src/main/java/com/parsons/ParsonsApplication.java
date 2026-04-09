@@ -1,6 +1,6 @@
 package com.parsons;
 
-import com.parsons.controller.MainController;
+import com.parsons.controller.HomeController;
 import com.parsons.repository.XmlParsonsProblemsRepository;
 import com.parsons.service.ParsonsProblemsService;
 
@@ -25,6 +25,6 @@ public class ParsonsApplication {
         /* Service receives repository via dependency injection. */
         ParsonsProblemsService service = new ParsonsProblemsService(repository);
         /* Call MainController. */
-        SwingUtilities.invokeLater(() -> new MainController(service));
+        SwingUtilities.invokeLater(() -> new HomeController(service));
     }
 }
