@@ -17,6 +17,9 @@ import java.util.stream.Collectors;
 import static com.parsons.controller.Utils.*;
 
 public class EditorView extends JFrame{
+    /** Account name of the current user, used for personalized messages and refresh. */
+    private final String name;
+
     /**
      * The Parsons problem being solved by the student.
      * Stored as a field so it can be accessed by checkAnswer() outside the constructor.
@@ -85,12 +88,15 @@ public class EditorView extends JFrame{
     }
 
     // ADD JAVA DOC FOR CONSTRUCTOR
-    public EditorView(ParsonsProblem problem, ParsonsProblemsService service) {
+    public EditorView(ParsonsProblem problem, ParsonsProblemsService service, String name) {
 
         // TODO: The names of the panels are very confusing, south center etc. Find a reasonable Naming pattern.
 
         /* Set problem */
         this.problem = problem;
+
+        /* Set name */
+        this.name = name;
 
         /* Set frame title and size. */
         String title = "";
@@ -113,17 +119,12 @@ public class EditorView extends JFrame{
         JPanel centerFramePanel = new JPanel(new BorderLayout());
         centerFramePanel.setBorder(BorderFactory.createEmptyBorder(PANEL_PAD, PANEL_PAD, PANEL_PAD, PANEL_PAD));
 
-        /* Make a fileBrowserPanel for centerFramePanel. */
-        JPanel fileBrowserPanel = new JPanel(new FlowLayout(FlowLayout.LEFT));
-        JButton browseButton = new JButton("Browse .txt file");
-        JLabel fileStatusLabel = new JLabel("No file selected");
-        fileBrowserPanel.add(browseButton);
-        fileBrowserPanel.add(fileStatusLabel);
-
         /* Create topPanel that holds title, instructions for setter, student instructions from problem. */
         //JPanel topPanel = new JPanel(new GridLayout(4, 1));
         JPanel topPanel = new JPanel();
         topPanel.setLayout(new BoxLayout(topPanel, BoxLayout.Y_AXIS));
+
+        /* setterInstr textArea, will put in JScrollPanel */
         JTextArea setterInstr = new JTextArea("""
         SETTER INSTRUCTIONS:
         - Upload a .txt file to add a new problem (id assigned automatically)
@@ -142,14 +143,20 @@ public class EditorView extends JFrame{
         setterInstrScroll.setPreferredSize(new Dimension(FRAME_WIDTH, 120));
         topPanel.add(setterInstrScroll);
 
+        /* Make a fileBrowserPanel for centerFramePanel. */
+        JPanel fileBrowserPanel = new JPanel(new FlowLayout(FlowLayout.LEFT));
+        JButton browseButton = new JButton("Browse .txt file");
+        JLabel fileStatusLabel = new JLabel("No file selected");
+        fileBrowserPanel.add(browseButton);
+        fileBrowserPanel.add(fileStatusLabel);
+        topPanel.add(fileBrowserPanel);
+
         /* Add title and problem instructions to topPanel. */
         topPanel.add(new JLabel(title));
-        String instr = "";
-        if (problem != null) {
-            instr = problem.getInstructions();
-        }
-        topPanel.add(new JTextArea(instr));
-        topPanel.add(fileBrowserPanel);
+        String instr = (problem != null) ? problem.getInstructions() : "";
+        JTextArea instrArea = new JTextArea(instr);
+        instrArea.setEditable(false);
+        topPanel.add(instrArea);
 
         /* add topPanel to centerFramePanel of Frame wrapped in a JScrollPanel. */
         centerFramePanel.add(topPanel, BorderLayout.NORTH);
@@ -239,6 +246,8 @@ public class EditorView extends JFrame{
                         fileStatusLabel.setText("Loaded: " + file.getName());
                         submitButton.setEnabled(true);
                         saveButton.setEnabled(true);
+                        instrArea.setText(this.problem.getInstructions());
+                        topPanel.add(instrArea);
                     } else {
                         fileStatusLabel.setText("Error: invalid file format");
                     }
@@ -285,10 +294,12 @@ public class EditorView extends JFrame{
                 if (confirm == JOptionPane.YES_OPTION) {
                     service.updateProblem(this.problem.getId(), this.problem);
                     JOptionPane.showMessageDialog(this, "Problem updated successfully!");
+                    new SetterWelcomeView(service, name); // refresh the SetterWelcomeView
                 }
-            } else {
+            } else { // NOT DRY
                 service.saveProblem(this.problem);
                 JOptionPane.showMessageDialog(this, "Problem saved successfully!");
+                new SetterWelcomeView(service, name); // refresh the SetterWelcomeView
             }
         });
 
@@ -309,7 +320,8 @@ public class EditorView extends JFrame{
             if (confirm == JOptionPane.YES_OPTION) {
                 service.deleteProblem(this.problem.getId());
                 JOptionPane.showMessageDialog(this, "Problem deleted.");
-                this.dispose();
+                this.dispose(); // close this window
+                new SetterWelcomeView(service, name); // refresh the SetterWelcomeView
             }
         });
 

@@ -26,7 +26,7 @@ public class StudentWelcomeView extends JFrame {
     public StudentWelcomeView(ParsonsProblemsService service, String name) {
         setTitle("Parsons Problems: Student View");
         setSize(NARROW_FRAME_WIDTH, FRAME_HEIGHT);
-        JLabel welcome = new JLabel("Welcome {name}!", JLabel.LEFT);
+        JLabel welcome = new JLabel("Welcome " + name + "!", JLabel.LEFT);
         JTextArea instr = new JTextArea("Select a parson's problem from the table below.\n" +
                 "The problem will open in a new window.");
         instr.setEditable(false);
