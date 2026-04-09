@@ -103,7 +103,7 @@ public class GuiConstants {
             navPanel.add(homeButton, BorderLayout.WEST);
         } else {
             /** Home label shown in welcome views -- indicates current location */
-            JLabel homeLabel = new JLabel("Parsons Problems");
+            JLabel homeLabel = new JLabel("Home");
             navPanel.add(homeLabel, BorderLayout.WEST);
         }
 
