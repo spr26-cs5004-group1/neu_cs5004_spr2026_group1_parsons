@@ -58,8 +58,19 @@ public class HomeController extends JFrame {
                 JOptionPane.showMessageDialog(this, "Please enter an account name.");
                 return;
             }
-            new StudentWelcomeView(service.getAllProblems(), service);
+            new StudentWelcomeView(service);
         });
+
+        /* setterButton actionListener */
+        setterButton.addActionListener(e -> {
+            String name = accountNameField.getText().trim();
+            if (name.isEmpty()) {
+                JOptionPane.showMessageDialog(this, "Please enter an account name.");
+                return;
+            }
+            new SetterWelcomeView(service);
+        });
+
         setVisible(true);
     }
 }
