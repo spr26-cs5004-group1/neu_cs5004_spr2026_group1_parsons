@@ -1,0 +1,10 @@
+0
+Find the minimum value in a list
+Arrange the code to define a function that returns the smallest value in a list.
+f|0|def find_min(lst):
+f|1|\t min_val = lst[0]
+f|2|\t for x in lst:
+f|3|\t\t if x < min_val:
+f|4|\t\t\t min_val = x
+f|5|\t return min_val
+t|3|\t\t if x > min_val:
