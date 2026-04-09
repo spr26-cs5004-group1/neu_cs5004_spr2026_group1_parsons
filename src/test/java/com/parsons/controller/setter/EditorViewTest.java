@@ -11,7 +11,11 @@ public class EditorViewTest {
 
     public static void main(String[] args) {
         SwingUtilities.invokeLater(() ->
+<<<<<<< HEAD
                 new EditorView(service.getAllProblems().get(0), service)
+=======
+                new EditorView(service.getAllProblems().get(0), service, "PlaceHolder", null)
+>>>>>>> 0b2e981 (Setter welcome view now takes reference to a parent)
         );
     }
 }
