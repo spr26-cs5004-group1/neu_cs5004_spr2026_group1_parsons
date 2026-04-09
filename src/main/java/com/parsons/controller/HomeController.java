@@ -32,7 +32,10 @@ public class HomeController extends JFrame {
         JPanel namePanel = new JPanel(new FlowLayout(FlowLayout.CENTER));
         namePanel.add(new JLabel("Account Name:"));
         namePanel.add(accountNameField);
+        /* save name */
+        String name = accountNameField.getText().trim();
 
+        /* Add button panel that will hold setter and student buttons. */
         JPanel buttonPanel = new JPanel(new FlowLayout(FlowLayout.CENTER));
         /* Buttons */
         JButton setterButton = new JButton("Setter");
@@ -53,22 +56,20 @@ public class HomeController extends JFrame {
 
         /* studentButton actionListener */
         studentButton.addActionListener(e -> {
-            String name = accountNameField.getText().trim();
             if (name.isEmpty()) {
                 JOptionPane.showMessageDialog(this, "Please enter an account name.");
                 return;
             }
-            new StudentWelcomeView(service);
+            new StudentWelcomeView(service, name);
         });
 
         /* setterButton actionListener */
         setterButton.addActionListener(e -> {
-            String name = accountNameField.getText().trim();
             if (name.isEmpty()) {
                 JOptionPane.showMessageDialog(this, "Please enter an account name.");
                 return;
             }
-            new SetterWelcomeView(service);
+            new SetterWelcomeView(service, name);
         });
 
         setVisible(true);
