@@ -1,5 +1,5 @@
 package com.parsons.controller.setter;
-import com.parsons.controller.GuiConstants;
+import com.parsons.controller.Utils;
 import com.parsons.model.CodeBlock;
 import com.parsons.model.ParsonsProblem;
 import com.parsons.service.ParsonsProblemsService;
@@ -10,7 +10,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
-import static com.parsons.controller.GuiConstants.*;
+import static com.parsons.controller.Utils.*;
 
 public class EditorView extends JFrame{
     /**
@@ -34,7 +34,7 @@ public class EditorView extends JFrame{
         Collections.shuffle(shuffled);
         for (CodeBlock block : shuffled) {
             if (block != null && block.getCodeContent() != null) {
-                blocksPanelLeft.add(GuiConstants.makeCodeBlock(block.getCodeContent()));
+                blocksPanelLeft.add(Utils.makeCodeBlock(block.getCodeContent()));
             }
         }
         blocksPanelLeft.revalidate();
@@ -77,7 +77,7 @@ public class EditorView extends JFrame{
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
         /* Add navigation bar using helper functions. */
-        this.add(GuiConstants.createNavBar(true,true, this), BorderLayout.NORTH);
+        this.add(Utils.createNavBar(true,true, this), BorderLayout.NORTH);
 
         /* Make a centerPanel which will hold topPanel (title, instructions), SplitPane, and submit button. */
         JPanel centerPanel = new JPanel(new BorderLayout());
@@ -108,8 +108,8 @@ public class EditorView extends JFrame{
         /* Create the Split Pane */
         JPanel blocksPanelLeft = new JPanel(new GridLayout(20, 1, TIGHT_GAP, TIGHT_GAP));
         JPanel answerPanelRight = new JPanel(new GridLayout(20, 1, TIGHT_GAP, TIGHT_GAP));
-        GuiConstants.makeDropTarget(blocksPanelLeft);
-        GuiConstants.makeDropTarget(answerPanelRight);
+        Utils.makeDropTarget(blocksPanelLeft);
+        Utils.makeDropTarget(answerPanelRight);
         JSplitPane splitPane = new JSplitPane(JSplitPane.HORIZONTAL_SPLIT,
                 new JScrollPane(blocksPanelLeft),
                 new JScrollPane(answerPanelRight));
