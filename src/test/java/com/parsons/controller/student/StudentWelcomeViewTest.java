@@ -11,7 +11,7 @@ public class StudentWelcomeViewTest {
     private static final ParsonsProblemsService service = new ParsonsProblemsService(repository);
     public static void main(String[] args) {
         SwingUtilities.invokeLater(() ->
-                new StudentWelcomeView(service.getAllProblems(), service)
+                new StudentWelcomeView(service)
         );
     }
 }
