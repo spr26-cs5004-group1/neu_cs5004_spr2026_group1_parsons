@@ -185,7 +185,7 @@ public class EditorView extends JFrame{
                 JOptionPane.showMessageDialog(this, "Problem saved successfully!");
             }
         });
-        
+
         setVisible(true);
     }
 }
