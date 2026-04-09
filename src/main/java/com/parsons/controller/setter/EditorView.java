@@ -144,14 +144,6 @@ public class EditorView extends JFrame{
 
         /* Create a Save problem button at panel South */
         JButton saveButton = new JButton("Save This Problem");
-        saveButton.addActionListener(e -> {
-            if (problem == null) {
-                JOptionPane.showMessageDialog(this, "No problem loaded yet.");
-            } else {
-                service.saveProblem(problem);
-                JOptionPane.showMessageDialog(this, "Problem saved successfully!");
-            }
-        });
         add(saveButton, BorderLayout.SOUTH);
 
         /*******************/
@@ -184,6 +176,16 @@ public class EditorView extends JFrame{
             responseLabel.setText(" ");
         });
 
+        /* Save button logic */
+        saveButton.addActionListener(e -> {
+            if (problem == null) {
+                JOptionPane.showMessageDialog(this, "No problem loaded yet.");
+            } else {
+                service.saveProblem(problem);
+                JOptionPane.showMessageDialog(this, "Problem saved successfully!");
+            }
+        });
+        
         setVisible(true);
     }
 }
