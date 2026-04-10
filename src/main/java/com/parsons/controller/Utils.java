@@ -276,7 +276,7 @@ public class Utils {
 
         for (java.util.List<String> chunk : problemChunks) {
             try {
-                int id = Integer.parseInt(chunk.getFirst());
+                String title = chunk.getFirst();
                 String instructions = chunk.get(1);
                 List<CodeBlock> codeBlocks = new ArrayList<>();
 
@@ -287,10 +287,7 @@ public class Utils {
                     String codeContent = parts[2].stripTrailing();
                     codeBlocks.add(new CodeBlock(codeContent, isDistractor, orderIndex));
                 }
-                // TODO: title set in gui editor, but probably should add title to file, that way fresh ones dont
-                // have to be titled manually.
-                ParsonsProblem problem = new ParsonsProblem("", instructions, codeBlocks);
-                problem.setId(id);
+                ParsonsProblem problem = new ParsonsProblem(title, instructions, codeBlocks);
                 problemList.add(problem);
             } catch (Exception e) {
                 // TODO: instantiate these variables as fields instead of local so they can

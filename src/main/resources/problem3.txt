@@ -1,0 +1,7 @@
+Absolute Value
+Arrange the code to define a function that returns the absolute value of n.
+f|0|def absolute(n):
+f|1|    if n < 0:
+f|2|        return -n
+f|3|    return n
+t|1|    if n > 0:
