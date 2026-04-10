@@ -130,8 +130,8 @@ public class EditorView extends JFrame{
         SETTER INSTRUCTIONS:
         - Upload a .txt file to add a new problem (id assigned automatically)
         - WARNING: if a file is uploaded for an existing problem, it will be overwritten
-        - TXT File format: 
-        - line 1 = title, line 2 = instructions,
+        - TXT File format:
+        - line 1 = id, line 2 = title, line 3 = instructions,
         - remaining = code blocks. Code block format: isDistractor | orderIndex | codeContent
         - isDistractor: f/false = solution block, t/true = distractor
         - orderIndex is expected to be 0-indexed and complete

@@ -1,0 +1,9 @@
+2
+Sum a List Using a For Loop
+Arrange the code to define a function that returns the sum of all elements in a list.
+f|0|def sum_list(lst):
+f|1|    total = 0
+f|2|    for x in lst:
+f|3|        total += x
+f|4|    return total
+t|3|        total -= x
