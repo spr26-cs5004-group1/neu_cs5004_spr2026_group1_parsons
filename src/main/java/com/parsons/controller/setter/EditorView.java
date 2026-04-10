@@ -298,11 +298,13 @@ public class EditorView extends JFrame{
                     service.updateProblem(this.problem.getId(), this.problem);
                     JOptionPane.showMessageDialog(this, "Problem updated successfully!");
                     new SetterWelcomeView(service, name); // refresh the SetterWelcomeView
+                    this.dispose();
                 }
             } else { // NOT DRY
                 service.saveProblem(this.problem);
                 JOptionPane.showMessageDialog(this, "Problem saved successfully!");
                 new SetterWelcomeView(service, name); // refresh the SetterWelcomeView
+                this.dispose();
             }
         });
 
