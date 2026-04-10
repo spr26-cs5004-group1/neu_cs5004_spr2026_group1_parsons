@@ -1,4 +1,3 @@
-3
 Absolute Value
 Arrange the code to define a function that returns the absolute value of n.
 f|0|def absolute(n):
