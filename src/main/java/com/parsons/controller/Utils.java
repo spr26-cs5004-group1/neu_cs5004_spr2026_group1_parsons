@@ -276,12 +276,11 @@ public class Utils {
 
         for (java.util.List<String> chunk : problemChunks) {
             try {
-                int id = Integer.parseInt(chunk.getFirst());
-                String title = chunk.get(1);
-                String instructions = chunk.get(2);
+                String title = chunk.getFirst();
+                String instructions = chunk.get(1);
                 List<CodeBlock> codeBlocks = new ArrayList<>();
 
-                for (int i = 3; i < chunk.size(); i++) {
+                for (int i = 2; i < chunk.size(); i++) {
                     String[] parts = chunk.get(i).split("\\|");
                     boolean isDistractor = parts[0].trim().toLowerCase(Locale.ROOT).startsWith("t");
                     Integer orderIndex = Integer.parseInt(parts[1].trim());
@@ -289,7 +288,6 @@ public class Utils {
                     codeBlocks.add(new CodeBlock(codeContent, isDistractor, orderIndex));
                 }
                 ParsonsProblem problem = new ParsonsProblem(title, instructions, codeBlocks);
-                problem.setId(id);
                 problemList.add(problem);
             } catch (Exception e) {
                 // TODO: instantiate these variables as fields instead of local so they can
