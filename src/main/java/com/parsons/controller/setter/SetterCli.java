@@ -16,12 +16,12 @@ import static com.parsons.controller.Utils.parseFile;
 /**
  * Controller class for Problem setter, allows problem creation via CLI.
  */
-public class SetterCli {
+public class SetterCli implements ICli{
 
     /**
      * Instance of service for parsons problem management.
      */
-    private ParsonsProblemsService service;
+    private final ParsonsProblemsService service;
 
     /**
      * SetterCLI constructor that assigns and uses the passed in service instance..
@@ -40,22 +40,18 @@ public class SetterCli {
      */
     public void run(String filePath) {
         try {
-            int updated = 0;
             int added = 0;
-            //call parseFile(filepath)
+
             List<ParsonsProblem> problemList = parseFile(filePath);
-            //call parseFile(filepath)
-            for (int i = 0; i < problemList.size(); i++) {
-                if (service.getProblemById(problemList.get(i).getId()) != null) {
-                    service.updateProblem(problemList.get(i).getId(), problemList.get(i));
-                    updated++;
-                } else {
-                    service.saveProblem(problemList.get(i));
-                    added++;
-                }
-                // TODO: UPDATE TO OUTPUTSTREAM
-                System.out.printf("Problems Updated: %d\nNewProblemsSaved: %d\n", updated, added);
+
+            for (ParsonsProblem parsonsProblem : problemList) {
+
+                service.saveProblem(parsonsProblem);
+                added++;
+
+                System.out.printf("New Problems Saved: %d\n", added);
             }
+            return;
         } catch (IOException e) {
             System.out.printf("Error while processing input file: %s\n", e);
             return;

@@ -1,6 +1,8 @@
 package com.parsons;
 
 import com.parsons.controller.HomeController;
+import com.parsons.controller.setter.ICli;
+import com.parsons.controller.setter.SetterCli;
 import com.parsons.repository.XmlParsonsProblemsRepository;
 import com.parsons.service.ParsonsProblemsService;
 
@@ -24,7 +26,15 @@ public class ParsonsApplication {
                 "src/main/resources/DemoRepo.xml");
         /* Service receives repository via dependency injection. */
         ParsonsProblemsService service = new ParsonsProblemsService(repository);
-        /* Call MainController. */
-        SwingUtilities.invokeLater(() -> new HomeController(service));
+
+        if (args != null && args.length > 0) {
+            if (args[0].equalsIgnoreCase("-cli")) {
+                ICli cli = new SetterCli(service);
+                cli.run(args[1]);
+            }
+        } else {
+            /* Call MainController. */
+            SwingUtilities.invokeLater(() -> new HomeController(service));
+        }
     }
 }
