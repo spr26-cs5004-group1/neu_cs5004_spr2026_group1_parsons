@@ -6,9 +6,17 @@ This will open the file chooser dialogue, allowing selection of a file. Once sel
 
 ![File Chooser Dialogue](02_select_and_open_file.png)
 
-Now that the problem has been imported, the setter has the ability to test the problem for themselves. The problem can then be saved to the local problems repository by clicking "Save this Problem".
+If the user chose to update an existing problem, they will be warned that they will be overwriting the current problem by uploading a new file.
+
+![.txt file browsing: overwrite warning](031_overwrite_warning_on_update_browse.png)
+
+Now that the problem has been imported, the setter has the ability to test the problem for themselves. The problem can then be saved to the local repository by clicking "Save this Problem".
 
 ![Save problem to local repository](03_save_opened_problem.png)
+
+If the user is updating an existing problem, they'll receive a warning when they save the problem to the local repo.
+
+![Overwrite warning on save](041_overwrite_warning_save_to_repo.png)
 
 After the button press, a successful save notification will appear. 
 
