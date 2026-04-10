@@ -303,6 +303,7 @@ public class EditorView extends JFrame{
                 service.saveProblem(this.problem);
                 JOptionPane.showMessageDialog(this, "Problem saved successfully!");
                 new SetterWelcomeView(service, name); // refresh the SetterWelcomeView
+                this.dispose();
             }
         });
 
