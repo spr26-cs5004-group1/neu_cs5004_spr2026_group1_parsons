@@ -156,6 +156,27 @@ public class DragAndDrop {
             );
             splitPane.setDividerLocation(DIVIDER_LOCATION);
 
+            // Submit, retry, and exit buttons location bottom right
+            JPanel bottomPanel = new JPanel(new FlowLayout(FlowLayout.RIGHT));
+
+            // Submit button and layout
+            JButton submit = new JButton("Submit");
+            submit.setActionCommand("Submit Button"); // How we will refer to it in the controller, similar for the ones below
+            bottomPanel.add(submit);
+
+            // Retry button and layout
+            JButton retry = new JButton("Retry");
+            retry.setActionCommand("Retry Button");
+            bottomPanel.add(retry);
+
+            // Exit button and layout
+            JButton exit = new JButton("Exit");
+            exit.setActionCommand("Exit Button");
+            bottomPanel.add(exit);
+
+
+
+            frame.add(bottomPanel, BorderLayout.SOUTH);
             frame.add(instrPanel, BorderLayout.NORTH);
             frame.add(splitPane, BorderLayout.CENTER);
             frame.setVisible(true);
