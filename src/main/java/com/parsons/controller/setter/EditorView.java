@@ -297,12 +297,14 @@ public class EditorView extends JFrame{
                 if (confirm == JOptionPane.YES_OPTION) {
                     service.updateProblem(this.problem.getId(), this.problem);
                     JOptionPane.showMessageDialog(this, "Problem updated successfully!");
+                    if (parent != null) parent.dispose();
                     new SetterWelcomeView(service, name); // refresh the SetterWelcomeView
                     this.dispose();
                 }
             } else { // NOT DRY
                 service.saveProblem(this.problem);
                 JOptionPane.showMessageDialog(this, "Problem saved successfully!");
+                if (parent != null) parent.dispose();
                 new SetterWelcomeView(service, name); // refresh the SetterWelcomeView
                 this.dispose();
             }
@@ -325,8 +327,9 @@ public class EditorView extends JFrame{
             if (confirm == JOptionPane.YES_OPTION) {
                 service.deleteProblem(this.problem.getId());
                 JOptionPane.showMessageDialog(this, "Problem deleted.");
-                this.dispose(); // close this window
+                if (parent != null) parent.dispose();
                 new SetterWelcomeView(service, name); // refresh the SetterWelcomeView
+                this.dispose(); // close this window
             }
         });
 
