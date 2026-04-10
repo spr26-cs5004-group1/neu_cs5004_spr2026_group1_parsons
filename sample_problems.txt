@@ -1,5 +1,6 @@
 // Problem 1: Check if a number is positive
 1
+Check if a Number is Positive
 Arrange the code to define a function that returns True if n is positive, False otherwise.
 f|0|def is_positive(n):
 f|1|    if n > 0:
@@ -12,6 +13,7 @@ t|1|    if n >= 0:
 
 // Problem 2: Sum a list using a for loop
 2
+Sum a List Using a For Loop
 Arrange the code to define a function that returns the sum of all elements in a list.
 f|0|def sum_list(lst):
 f|1|    total = 0
@@ -24,6 +26,7 @@ t|3|        total -= x
 
 // Problem 3: Absolute value
 3
+Absolute Value
 Arrange the code to define a function that returns the absolute value of n.
 f|0|def absolute(n):
 f|1|    if n < 0:
@@ -35,6 +38,7 @@ t|1|    if n > 0:
 
 // Problem 4: Print even numbers from 0 to 10
 4
+Print Even Numbers from 0 to 10
 Arrange the code to print all even numbers from 0 to 10 inclusive.
 f|0|for i in range(11):
 f|1|    if i % 2 == 0:
@@ -45,6 +49,7 @@ t|1|    if i % 2 == 1:
 
 // Problem 5: Find the maximum value in a list
 5
+Find the Maximum Value in a List
 Arrange the code to define a function that returns the largest value in a list.
 f|0|def find_max(lst):
 f|1|    max_val = lst[0]
@@ -58,6 +63,7 @@ t|3|        if x < max_val:
 
 // Problem 6: Letter grade from score
 6
+Letter Grade from Score
 Arrange the code to define a function that returns a letter grade for a given numeric score.
 f|0|def get_grade(score):
 f|1|    if score >= 90:
