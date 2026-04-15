@@ -131,7 +131,7 @@ public class EditorView extends JFrame{
         - Upload a .txt file to add a new problem (id assigned automatically)
         - WARNING: if a file is uploaded for an existing problem, it will be overwritten
         - TXT File format:
-        - line 1 = id, line 2 = title, line 3 = instructions,
+        - line 1 = title, line 2 = instructions,
         - remaining = code blocks. Code block format: isDistractor | orderIndex | codeContent
         - isDistractor: f/false = solution block, t/true = distractor
         - orderIndex is expected to be 0-indexed and complete
@@ -297,12 +297,14 @@ public class EditorView extends JFrame{
                 if (confirm == JOptionPane.YES_OPTION) {
                     service.updateProblem(this.problem.getId(), this.problem);
                     JOptionPane.showMessageDialog(this, "Problem updated successfully!");
+                    if (parent != null) parent.dispose();
                     new SetterWelcomeView(service, name); // refresh the SetterWelcomeView
                     this.dispose();
                 }
             } else { // NOT DRY
                 service.saveProblem(this.problem);
                 JOptionPane.showMessageDialog(this, "Problem saved successfully!");
+                if (parent != null) parent.dispose();
                 new SetterWelcomeView(service, name); // refresh the SetterWelcomeView
                 this.dispose();
             }
@@ -325,8 +327,9 @@ public class EditorView extends JFrame{
             if (confirm == JOptionPane.YES_OPTION) {
                 service.deleteProblem(this.problem.getId());
                 JOptionPane.showMessageDialog(this, "Problem deleted.");
-                this.dispose(); // close this window
+                if (parent != null) parent.dispose();
                 new SetterWelcomeView(service, name); // refresh the SetterWelcomeView
+                this.dispose(); // close this window
             }
         });
 
