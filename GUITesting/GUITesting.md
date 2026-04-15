@@ -108,12 +108,13 @@ Fig. . The Solver view, multiple windows displaying at once.
 ## Student Welcome View
 
 ![001_studentwelcomeview.png](images_StudentWelcomeView/001_studentwelcomeview.png)
-Fig. .
+Fig. . Student view initial window displaying correctly. 
 
 ![002_studentwelcomeview.png](images_StudentWelcomeView/002_studentwelcomeview.png)
-
+Fig. . Student view with choice of Parson's problems.
 
 ![003_studentwelcomeview_selectable.png](images_StudentWelcomeView/003_studentwelcomeview_selectable.png)
-
+Fig. . Selection of problems displaying correctly.
 
 ![004_studentwelcomeview_cosmetic.png](images_StudentWelcomeView/004_studentwelcomeview_cosmetic.png)
+Fig. . Student view with cosmetic improvements applied.
