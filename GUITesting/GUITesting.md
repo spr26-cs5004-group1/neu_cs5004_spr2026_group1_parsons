@@ -59,5 +59,61 @@ Fig. 0. Setter's View, welcome screen.
 
 
 ## Solver View
+![001_solver_view.png](images_SolverView/001_solver_view.png)
+Fig. . Initial empty window is ready to accept elements.
+
+![002_solver_view_changetitle.png](images_SolverView/002_solver_view_changetitle.png)
+Fig. . Window title is displaying correctly.
+
+![003_solver_view_addTitleInstr.png](images_SolverView/003_solver_view_addTitleInstr.png)
+Fig. . Problem title and instructions displaying correctly.
+
+![004_solver_view_addPanel_padding.png](images_SolverView/004_solver_view_addPanel_padding.png)
+Fig. . The padding on the panel has been added.
+
+![005_solver_view_addSubmit.png](images_SolverView/005_solver_view_addSubmit.png)
+Fig. . The `Submit` button has been added.
+
+![006_solver_view_populatedShuffledCodeBlocks.png](images_SolverView/006_solver_view_populatedShuffledCodeBlocks.png)
+Fig. . The shuffled code block populates correctly.
+
+![007_solver_view_draggable.png](images_SolverView/007_solver_view_draggable.png)
+Fig. . Drag-and-drop feature functioning in the Solver view.
+
+![008_solver_view_addRetyButton.png](images_SolverView/008_solver_view_addRetyButton.png)
+Fig. . Retry button added and displaying correctly.
+
+![009_solver_view_dragWrong.png](images_SolverView/009_solver_view_dragWrong.png)
+Fig. . Drag-and-drop is not restricted to correct solution elements — incorrect 
+elements can be moved as well.
+
+![010_solver_view_afterReset.png](images_SolverView/010_solver_view_afterReset.png)
+Fig. . Display after the `Reset` button has been clicked.
+
+![011_solver_view_emptyIsIncorrect.png](images_SolverView/011_solver_view_emptyIsIncorrect.png)
+Fig. . Incorrect answer view. An empty answer is highlighted with a red frame.
+
+![012_solver_view_incorrectResponse.png](images_SolverView/012_solver_view_incorrectResponse.png)
+Fig. . An incorrect response highlighted by a red frame.
+
+![013_solver_view_correctResonse.png](images_SolverView/013_solver_view_correctResonse.png)
+Fig. . Correct response view. The correct answer is highlighted by a green frame.
+
+![014_solver_view_opensFromStudentWelcomeView.png](images_SolverView/014_solver_view_opensFromStudentWelcomeView.png)
+Fig. . The Solver view open from the Student welcome view.
+
+![015_solver_view_manyWindows.png](images_SolverView/015_solver_view_manyWindows.png)
+Fig. . The Solver view, multiple windows displaying at once.
+
+## Student Welcome View
+
+![001_studentwelcomeview.png](images_StudentWelcomeView/001_studentwelcomeview.png)
+Fig. .
+
+![002_studentwelcomeview.png](images_StudentWelcomeView/002_studentwelcomeview.png)
 
 
+![003_studentwelcomeview_selectable.png](images_StudentWelcomeView/003_studentwelcomeview_selectable.png)
+
+
+![004_studentwelcomeview_cosmetic.png](images_StudentWelcomeView/004_studentwelcomeview_cosmetic.png)
