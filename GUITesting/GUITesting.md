@@ -29,6 +29,9 @@ Fig.07. Demonstration that blocks of code can be dragged from the right field an
 
 ## Editor View
 
+This section was most affected by the data loss our team experienced during a version control mishap
+involving a revert to an earlier commit. Originally, there were ___images.
+
 ![001_EditorView.png](images_EditorView/001_EditorView.png)
 Fig. 08. Setting a problem by arranging code blocks into the correct order, which will be saved as the answer key. 
 All other arrangements are considered incorrect.
@@ -51,8 +54,6 @@ Fig. . The main controller is called from the program `main()`.
 Fig. . The main controller, called from `main()`, calls up for display the program welcome screen.
 
 ## Setter View
-This section was most affected by the data loss our team experienced during a version control mishap
-involving a revert to an earlier commit. Originally, there were ___images.
 
 ![001_setterwelcomeview_copiedfrom_studentwelcomeview.png](images_SetterWelcomeView/001_setterwelcomeview_copiedfrom_studentwelcomeview.png)
 Fig. 0. Setter's View, welcome screen.
