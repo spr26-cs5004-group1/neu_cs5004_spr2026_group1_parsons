@@ -27,7 +27,7 @@ correct order from top to bottom.
 
 [Design Document](DesignDocuments/README.md)
 
-Manual - _link still needed!_
+[Manual](Manual/README.md)
 
 
 **Instructions**
