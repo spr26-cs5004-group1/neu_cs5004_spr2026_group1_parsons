@@ -13,9 +13,9 @@ Ask yourself, if you started here in the readme, would you have what you need to
 # Final Project for CS 5004 - Parsons Problem Authoring & Delivery Tool
 
 ## Authors: (Group 1)
-### McKillop, Parker (GitHub Account)
+### McKillop, Parker @pem2k
 ### O'Bannon, Michael @oban2319
-### Pooley, Oksana (GitHub Account)
+### Pooley, Oksana @OksanaPooley
 ### Singh, Arsh @arshsinghphd
 
 **Name and Description**
@@ -25,7 +25,7 @@ educator to upload new problems. The problems themselves are called Parsons Prob
 teaching programming concepts. The user, normally a student, will attempt to arrange blocks of code into the
 correct order from top to bottom.
 
-Design Document - _link still needed!_
+[Design Document](DesignDocuments/README.md)
 
 Manual - _link still needed!_
 
@@ -39,10 +39,8 @@ When the student option is selected. The user will be taken to the next screen. 
 and the user will select one of them, taking them to the Parsons Problem itself.
 
 Once we are in this environment, we might have the following four blocks of code:
- - printf("Hello, World!\n"); 
- - }
- - return 0;
- - int main() {
+
+![Hello World Parsons Problem](Manual/images_SolverView/HelloWorldParsonsProblem.png)
 
 It will be up to the user to drag and drop each of the block into the order that produces the correct coding structure.
 Once the user has determined that they have solved the problem they simply click the submit button. They will be greeted
@@ -75,4 +73,4 @@ _isDistractor_ is an indicator for whether a line is meant to be distracting lin
 This portion will either affirm that it is a distractor with 't' or is not with 'f'.
 _Order Index_ indicates the order of the code, starting with 0 and going for the number of non-distrctor lines.
 If something is a distractor line its order index is -1.
-_Code Content_ is where the actual code lines are written. Each line must end with a semicolon ';'.
+_Code Content_ is where the actual code lines are written.
