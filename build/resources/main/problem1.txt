@@ -1,0 +1,8 @@
+Check if a Number is Positive
+Arrange the code to define a function that returns True if n is positive, False otherwise.
+f|0|def is_positive(n):
+f|1|    if n > 0:
+f|2|        return True
+f|3|    else:
+f|4|        return False
+t|1|    if n >= 0:
