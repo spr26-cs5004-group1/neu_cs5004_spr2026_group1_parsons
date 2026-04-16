@@ -64,7 +64,9 @@ follow a specific format.
 The format is as follows:
 
 _Title_
+
 _Instructions_
+
 _Code Blocks_
 
 Within the _Code Blocks_ section of this file there are some further information required.
