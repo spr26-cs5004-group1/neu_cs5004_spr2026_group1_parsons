@@ -1,0 +1,6 @@
+Hello World
+Arrange the code to print out "Hello, World!"
+f | 0 | printf("Hello, World!\n");
+f | 1 | }
+f | 2 | return 0;
+f | 3 | int main() { 
