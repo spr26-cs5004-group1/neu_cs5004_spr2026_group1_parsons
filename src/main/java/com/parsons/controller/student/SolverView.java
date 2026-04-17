@@ -58,7 +58,7 @@ public class SolverView extends JFrame{
     }
 
     // ADD JAVA DOC FOR CONSTRUCTOR
-    public SolverView(ParsonsProblem problem, ParsonsProblemsService service) {
+    public SolverView(ParsonsProblem problem, ParsonsProblemsService service, int index) {
         /* Set problem */
         this.problem = problem;
 
@@ -111,6 +111,10 @@ public class SolverView extends JFrame{
         JButton retryButton = new JButton("Retry");
         southPanel.add(retryButton);
 
+        /* Create next buttom */
+        JButton nextButton = new JButton("Next");
+        southPanel.add(nextButton);
+
         /* Add southPanel to centerPanel. */
         centerPanel.add(southPanel, BorderLayout.SOUTH);
 
@@ -144,6 +148,18 @@ public class SolverView extends JFrame{
             answerPanelRight.repaint();
             populateBlocks(blocksPanelLeft);
             responseLabel.setText(" ");
+        });
+
+        /* nextButton listener. */
+        nextButton.addActionListener(e -> {
+            // We might add a problem while the app is running, get the newest problem list.
+            List<ParsonsProblem> newestProblems = service.getAllProblems();
+            if (index + 1 < newestProblems.size()) {
+                this.dispose();
+                new SolverView(newestProblems.get(index + 1), service, index + 1);
+            } else {
+                responseLabel.setText("Congrats! You have reach the end!");
+            }
         });
 
         setVisible(true);
