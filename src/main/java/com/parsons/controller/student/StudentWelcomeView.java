@@ -61,7 +61,8 @@ public class StudentWelcomeView extends JFrame {
                             .filter(p -> p.getId() == id)
                             .findFirst()
                             .orElse(null);
-                    new SolverView(selected, service);
+                    int index = problems.indexOf(selected);
+                    new SolverView(selected, service, index);
                 }
             }
         });
