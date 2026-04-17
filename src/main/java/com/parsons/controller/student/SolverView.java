@@ -111,8 +111,9 @@ public class SolverView extends JFrame{
         JButton retryButton = new JButton("Retry");
         southPanel.add(retryButton);
 
-        /* Create next buttom */
+        /* Create next button */
         JButton nextButton = new JButton("Next");
+        nextButton.setEnabled(false);
         southPanel.add(nextButton);
 
         /* Add southPanel to centerPanel. */
@@ -135,6 +136,7 @@ public class SolverView extends JFrame{
             if (correct) {
                 responseLabel.setText("Correct! Well done!");
                 answerPanelRight.setBorder(BorderFactory.createLineBorder(Color.GREEN, 3));
+                nextButton.setEnabled(true);
             } else {
                 responseLabel.setText("Incorrect. Try again!");
                 answerPanelRight.setBorder(BorderFactory.createLineBorder(Color.RED, 3));
