@@ -1,0 +1,9 @@
+Find the Maximum Value in a List
+Arrange the code to define a function that returns the largest value in a list.
+f|0|def find_max(lst):
+f|1|    max_val = lst[0]
+f|2|    for x in lst:
+f|3|        if x > max_val:
+f|4|            max_val = x
+f|5|    return max_val
+t|3|        if x < max_val:
