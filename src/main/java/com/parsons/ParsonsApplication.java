@@ -22,8 +22,7 @@ public class ParsonsApplication {
      */
     public static void main(String[] args) {
         /* Repository points to local XML file. */
-        XmlParsonsProblemsRepository repository = new XmlParsonsProblemsRepository(
-                "src/main/resources/DemoRepo.xml");
+        IParsonsProblemsRepository repository = new XmlParsonsProblemsRepository("src/main/resources/DemoRepo.xml");
         /* Service receives repository via dependency injection. */
         ParsonsProblemsService service = new ParsonsProblemsService(repository);
 
