@@ -3,6 +3,7 @@ package com.parsons;
 import com.parsons.controller.HomeController;
 import com.parsons.controller.setter.ICli;
 import com.parsons.controller.setter.SetterCli;
+import com.parsons.repository.IParsonsProblemsRepository;
 import com.parsons.repository.XmlParsonsProblemsRepository;
 import com.parsons.service.ParsonsProblemsService;
 
