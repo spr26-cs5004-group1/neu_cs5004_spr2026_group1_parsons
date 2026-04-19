@@ -19,6 +19,7 @@ Ask yourself if you started here in the readme, would you have what you need to 
 ### Singh, Arsh @arshsinghphd
 
 **Name and Description**
+
 Our project application is called "Parsons Problem". This application that has two major aspects. The first of them being
 an interactive educational tool where the user attempts to solve some problem. Second, it provides the environment for an
 educator to upload new problems. The problems themselves are called Parsons Problems. These are an effective way of
