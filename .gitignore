@@ -37,4 +37,5 @@ idea/
 .DS_Store
 works/
 
-claude/
+# remove this when uploading fat jar
+build/
