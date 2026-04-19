@@ -5,10 +5,9 @@ import com.fasterxml.jackson.dataformat.xml.XmlMapper;
 
 import java.io.File;
 import java.io.IOException;
-import java.util.ArrayList;
 import java.util.List;
 
-public class XmlParsonsProblemsRepository implements IParsonsProblemsRepository{
+public class XmlParsonsProblemsRepository implements IParsonsProblemsRepository {
 
     /** Stores Jackson XMLMapper. */
     private final XmlMapper xmlMapper = new XmlMapper();
@@ -33,7 +32,9 @@ public class XmlParsonsProblemsRepository implements IParsonsProblemsRepository{
      */
     private ProblemsList readFromRepo() {
         try {
-            if (!repo.exists()) return new ProblemsList();
+            if (!repo.exists()) {
+                return new ProblemsList();
+            }
             return xmlMapper.readValue(repo, ProblemsList.class);
         } catch (IOException e) {
             throw new RuntimeException("Failed to read from XML file: " + e.getMessage(), e);
@@ -99,7 +100,7 @@ public class XmlParsonsProblemsRepository implements IParsonsProblemsRepository{
     public ParsonsProblem findById(int id) {
         ProblemsList list = readFromRepo();
         List<ParsonsProblem> problems = list.getProblems();
-        for(ParsonsProblem problem: problems) {
+        for (ParsonsProblem problem: problems) {
             if (problem.getId() == id) {
                 return problem;
             }

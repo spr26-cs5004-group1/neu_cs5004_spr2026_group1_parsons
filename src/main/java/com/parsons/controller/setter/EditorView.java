@@ -34,8 +34,7 @@ public final class EditorView extends BaseParsonsView {
      * @param problem the Parsons problem to edit, or null when creating a new problem
      * @param service the service used to save, update, and delete problems
      * @param name    the account name of the current setter user
-     * @param parent  the SetterWelcomeView to dispose and refresh after a save or delete;
-     *                may be null
+     * @param parent  the SetterWelcomeView to dispose and refresh after a save or delete; may be null
      */
     public EditorView(ParsonsProblem problem,
                       ParsonsProblemsService service,
@@ -43,60 +42,45 @@ public final class EditorView extends BaseParsonsView {
                       SetterWelcomeView parent) {
         super(problem, buildTitle(problem));
         this.name = name;
-
         /* Prefix setter instructions and file browser to the shared top panel. */
         buildTopExtras();
-
         /* Get references shared via superclass getters. */
         JPanel topPanel = getTopPanel();
         JPanel centerPanel = getCenterPanel();
         JPanel answerPanelRight = getAnswerPanelRight();
-
         /* File status label, referenced by the browse listener below. */
         JLabel fileStatusLabel = new JLabel("No file selected");
-
         /* Instructions text area, referenced by the browse listener to refresh on file load. */
         String instr = (problem != null) ? problem.getInstructions() : "";
         JTextArea instrArea = new JTextArea(instr);
         instrArea.setEditable(false);
         topPanel.add(instrArea);
-
         /* South panel holds submit, response label, and retry. */
         JPanel southPanel = new JPanel(new GridLayout(3, 1));
-
         /* Submit button: disabled when no problem is loaded. */
         JButton submitButton = new JButton("Submit");
         submitButton.setEnabled(problem != null);
         southPanel.add(submitButton);
-
         /* Response label from superclass. */
         southPanel.add(getResponseLabel());
-
         /* Retry button. */
         JButton retryButton = new JButton("Retry");
         southPanel.add(retryButton);
-
         centerPanel.add(southPanel, BorderLayout.SOUTH);
-
         /* Bottom button strip for save and delete. */
         JPanel southButtonsPanel = new JPanel(new FlowLayout(FlowLayout.CENTER));
-
         /* Save button: disabled when no problem is loaded. */
         JButton saveButton = new JButton("Save This Problem");
         saveButton.setEnabled(problem != null);
         southButtonsPanel.add(saveButton);
-
         /* Delete button: red to signal danger; disabled when no problem is loaded. */
         JButton deleteButton = new JButton("Delete Problem");
         deleteButton.setForeground(Color.RED);
         deleteButton.setEnabled(problem != null);
         southButtonsPanel.add(deleteButton);
-
         this.add(southButtonsPanel, BorderLayout.SOUTH);
 
-        /* ******************/
         /* Business Logic. */
-        /* ******************/
 
         /* File browser panel wired here since it references submitButton and saveButton. */
         JPanel fileBrowserPanel = new JPanel(new FlowLayout(FlowLayout.LEFT));
@@ -147,7 +131,6 @@ public final class EditorView extends BaseParsonsView {
 
         /* Populate blocks if a problem was passed in at construction time. */
         this.populateBlocks();
-
         /* Submit: check answer locally since the problem may not yet be saved. */
         submitButton.addActionListener(e -> {
             List<CodeBlock> answer = extractAnswer();
@@ -160,7 +143,6 @@ public final class EditorView extends BaseParsonsView {
                 answerPanelRight.setBorder(BorderFactory.createLineBorder(Color.RED, 3));
             }
         });
-
         /* Retry: clear the answer panel and reshuffle blocks. */
         retryButton.addActionListener(e -> resetForRetry());
 

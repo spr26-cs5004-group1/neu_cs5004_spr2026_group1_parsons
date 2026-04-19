@@ -1,40 +1,26 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<testsuite name="com.parsons.controller.SetterCliTests" tests="10" skipped="0" failures="0" errors="0" timestamp="2026-04-08T23:03:13.700Z" hostname="pem-dev" time="0.119">
+<testsuite name="com.parsons.controller.SetterCliTests" tests="9" skipped="0" failures="0" errors="0" timestamp="2026-04-19T20:34:12.558Z" hostname="pem-dev" time="0.055">
   <properties/>
-  <testcase name="runUpdatesExistingProblem()" classname="com.parsons.controller.SetterCliTests" time="0.055"/>
-  <testcase name="parseFileSkipsChunkWithMissingPipeSeparators()" classname="com.parsons.controller.SetterCliTests" time="0.013"/>
-  <testcase name="parseFileCorrectlyParsesCodeBlocks()" classname="com.parsons.controller.SetterCliTests" time="0.004"/>
-  <testcase name="parseFileSkipsCommentAndBlankLines()" classname="com.parsons.controller.SetterCliTests" time="0.005"/>
-  <testcase name="parseFileSkipsChunkWithNonNumericOrderIndex()" classname="com.parsons.controller.SetterCliTests" time="0.005"/>
-  <testcase name="parseFileSkipsChunkWithNonNumericId()" classname="com.parsons.controller.SetterCliTests" time="0.005"/>
-  <testcase name="runHandlesMixOfNewAndExistingProblems()" classname="com.parsons.controller.SetterCliTests" time="0.005"/>
-  <testcase name="parseFileCorrectlyParsesMultipleProblems()" classname="com.parsons.controller.SetterCliTests" time="0.004"/>
-  <testcase name="parseFileSkipsChunkMissingInstructionsLine()" classname="com.parsons.controller.SetterCliTests" time="0.005"/>
-  <testcase name="runSavesNewProblem()" classname="com.parsons.controller.SetterCliTests" time="0.004"/>
-  <system-out><![CDATA[Problems Updated: 1
-NewProblemsSaved: 0
-Problems Updated: 0
-NewProblemsSaved: 1
-Problems Updated: 0
-NewProblemsSaved: 1
-Problems Updated: 0
-NewProblemsSaved: 1
-Problems Updated: 0
-NewProblemsSaved: 1
-Problems Updated: 0
-NewProblemsSaved: 1
-Problems Updated: 1
-NewProblemsSaved: 0
-Problems Updated: 1
-NewProblemsSaved: 1
-Problems Updated: 0
-NewProblemsSaved: 1
-Problems Updated: 0
-NewProblemsSaved: 2
-Problems Updated: 0
-NewProblemsSaved: 1
-Problems Updated: 0
-NewProblemsSaved: 1
+  <testcase name="runUpdatesExistingProblem()" classname="com.parsons.controller.SetterCliTests" time="0.024"/>
+  <testcase name="parseFileSkipsChunkWithMissingPipeSeparators()" classname="com.parsons.controller.SetterCliTests" time="0.007"/>
+  <testcase name="parseFileCorrectlyParsesCodeBlocks()" classname="com.parsons.controller.SetterCliTests" time="0.003"/>
+  <testcase name="parseFileSkipsCommentAndBlankLines()" classname="com.parsons.controller.SetterCliTests" time="0.003"/>
+  <testcase name="parseFileSkipsChunkWithNonNumericOrderIndex()" classname="com.parsons.controller.SetterCliTests" time="0.002"/>
+  <testcase name="runHandlesMixOfNewAndExistingProblems()" classname="com.parsons.controller.SetterCliTests" time="0.002"/>
+  <testcase name="parseFileCorrectlyParsesMultipleProblems()" classname="com.parsons.controller.SetterCliTests" time="0.003"/>
+  <testcase name="parseFileSkipsChunkMissingInstructionsLine()" classname="com.parsons.controller.SetterCliTests" time="0.002"/>
+  <testcase name="runSavesNewProblem()" classname="com.parsons.controller.SetterCliTests" time="0.002"/>
+  <system-out><![CDATA[New Problems Saved: 1
+New Problems Saved: 1
+New Problems Saved: 1
+New Problems Saved: 1
+New Problems Saved: 1
+New Problems Saved: 1
+New Problems Saved: 2
+New Problems Saved: 1
+New Problems Saved: 2
+New Problems Saved: 1
+New Problems Saved: 1
 ]]></system-out>
   <system-err><![CDATA[]]></system-err>
 </testsuite>

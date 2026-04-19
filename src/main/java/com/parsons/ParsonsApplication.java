@@ -13,7 +13,12 @@ import javax.swing.SwingUtilities;
  * Entry point for the Parsons Problem Tool application.
  * Initializes the repository, service, and launches the Swing UI.
  */
-public class ParsonsApplication {
+public final class ParsonsApplication {
+
+    /**
+     * Empty Constructor to prevent instantiation.
+     */
+    private ParsonsApplication() { }
 
     /**
      * Main method — creates an XmlParsonsProblemsRepository object and a ParsonsProblemsService object and calls the

@@ -23,16 +23,20 @@ import static com.parsons.controller.Utils.*;
  */
 public abstract class WelcomeView extends JFrame {
 
-    protected final ParsonsProblemsService service;
-    protected final List<ParsonsProblem> problems;
-    protected final DefaultTableModel tableModel;
+    /** The service used to retrieve and persist Parsons problems. */
+    private final ParsonsProblemsService service;
+
+    /** The full list of problems loaded from the repository. */
+    private final List<ParsonsProblem> problems;
+
+    /** The table model backing the problems JTable. */
+    private final DefaultTableModel tableModel;
 
     protected WelcomeView(ParsonsProblemsService service, String frameTitle, String welcomeText, String instrText) {
-        
-        /** Stores the service object passed to this. */
+        // Stores the service object passed to this.
         this.service = service;
 
-        /** Stores the List<ParsonsProblem> of the repo. */
+        // Stores the List<ParsonsProblem> of the repo.
         this.problems = service.getAllProblems();
 
         setTitle(frameTitle);
@@ -80,6 +84,30 @@ public abstract class WelcomeView extends JFrame {
         add(Utils.createCreditsPanel(), BorderLayout.SOUTH);
 
         setVisible(true);
+    }
+
+    /**
+     * Getter for parent TableModel that stores parsons titles/ids for table to consume.
+     * @return a TableModel for the jtable to consume.
+     */
+    public DefaultTableModel getTableModel() {
+        return tableModel;
+    }
+
+    /**
+     * Getter for retrieval of saved parsons problems.
+     * @return a list of saved parsons problems.
+     */
+    public List<ParsonsProblem> getParsonsProblems() {
+        return problems;
+    }
+
+    /**
+     * Getter for the service used to interact with parsons problems.
+     * @return an instance of the service layer.
+     */
+    public ParsonsProblemsService getService() {
+        return service;
     }
 
     /**

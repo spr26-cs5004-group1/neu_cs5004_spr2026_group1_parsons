@@ -30,8 +30,9 @@ public class ParsonsProblemsService {
 
     /**
      * Saves the Parson Problem in the local repo.
-     * returns the id that gets automatically assigned to the problem in the repo. 
+     * returns the id that gets automatically assigned to the problem in the repo.
      *
+     * @param problem the ParsonsProblem to save.
      * @return assigned id
      */
     public int saveProblem(ParsonsProblem problem) {
@@ -84,8 +85,8 @@ public class ParsonsProblemsService {
     /**
      * Get the ParsonsProblem in repository at id.
      *
-     * @param id
-     * @return
+     * @param id the id of the problem to retrieve.
+     * @return the ParsonsProblem with the given id, or null if not found.
      */
     public ParsonsProblem getProblemById(int id) {
         return repo.findById(id);
