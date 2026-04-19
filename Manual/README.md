@@ -164,6 +164,6 @@ t|3|        total -= x
 To bulk add multiple problems from a single file, run the program with two additional arguments: the `-cli` flag, and the relative path to the source `.txt` file; if running via gradle, the full command is:
 
 ```
-java -jar build/libs/parsons-problem-tool-0.1.jar -cli ./path/to/file
+java -jar parsons-problem-tool-0.1.jar -cli ./path/to/file
 ```
 
