@@ -73,12 +73,7 @@ public abstract class BaseParsonsView extends JFrame {
         String problemTitle = (problem != null) ? problem.getTitle() : "";
         topPanel.add(new JLabel(problemTitle));
 
-        /* Instructions row. */
-        String instr = (problem != null) ? problem.getInstructions() : "";
-        JTextArea instrArea = new JTextArea(instr);
-        instrArea.setEditable(false);
-        topPanel.add(instrArea);
-
+        /* add topPanel to centerPanel */
         centerPanel.add(topPanel, BorderLayout.NORTH);
 
         /* Build split pane with drag-and-drop enabled panels. */
