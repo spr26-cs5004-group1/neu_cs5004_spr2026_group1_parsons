@@ -1,22 +1,17 @@
 package com.parsons.controller.setter;
 
-import com.parsons.model.CodeBlock;
 import com.parsons.model.ParsonsProblem;
 import com.parsons.service.ParsonsProblemsService;
 
 import java.io.IOException;
-import java.nio.file.Files;
-import java.nio.file.Path;
-import java.util.ArrayList;
 import java.util.List;
-import java.util.Locale;
 
 import static com.parsons.controller.Utils.parseFile;
 
 /**
  * Controller class for Problem setter, allows problem creation via CLI.
  */
-public class SetterCli implements ICli{
+public class SetterCli implements ICli {
 
     /**
      * Instance of service for parsons problem management.

@@ -19,6 +19,9 @@ import java.util.Map;
 
 import static org.junit.jupiter.api.Assertions.*;
 
+/**
+ * Test Class for SetterCli functionality.
+ */
 public class SetterCliTests {
 
     @TempDir
@@ -175,54 +178,44 @@ public class SetterCliTests {
     }
 
     /**
-     * Verifies that a chunk with a non-numeric id is skipped
-     * while subsequent valid chunks are still parsed.
-     */
-    @Test
-    void parseFileSkipsChunkWithNonNumericId() throws IOException {
-        String path = writeTempFile("problems.txt",
-                "not_an_id\nInstructions\nf|0|int i;\n---\n2\nValid\nf|0|int x;\n");
-        cli.run(path);
-        assertNull(service.getProblemById(1));
-        assertNotNull(service.getProblemById(2));
-    }
-
-    /**
      * Verifies that a chunk missing the instructions line is skipped
      * while subsequent valid chunks are still parsed.
+     * The valid chunk receives id=1 since ids are auto-assigned.
      */
     @Test
     void parseFileSkipsChunkMissingInstructionsLine() throws IOException {
         String path = writeTempFile("problems.txt",
                 "1\n---\n2\nValid\nf|0|int x;\n");
         cli.run(path);
-        assertNull(service.getProblemById(1));
-        assertNotNull(service.getProblemById(2));
+        assertEquals(1, service.getAllProblems().size());
+        assertNotNull(service.getProblemById(1));
     }
 
     /**
      * Verifies that a chunk with a code block line missing pipe separators
      * is skipped while subsequent valid chunks are still parsed.
+     * The valid chunk receives id=1 since ids are auto-assigned.
      */
     @Test
     void parseFileSkipsChunkWithMissingPipeSeparators() throws IOException {
         String path = writeTempFile("problems.txt",
                 "1\nInstructions\nnopipes\n---\n2\nValid\nf|0|int x;\n");
         cli.run(path);
-        assertNull(service.getProblemById(1));
-        assertNotNull(service.getProblemById(2));
+        assertEquals(1, service.getAllProblems().size());
+        assertNotNull(service.getProblemById(1));
     }
 
     /**
      * Verifies that a chunk with a non-numeric order index is skipped
      * while subsequent valid chunks are still parsed.
+     * The valid chunk receives id=1 since ids are auto-assigned.
      */
     @Test
     void parseFileSkipsChunkWithNonNumericOrderIndex() throws IOException {
         String path = writeTempFile("problems.txt",
                 "1\nInstructions\nf|notanumber|int i;\n---\n2\nValid\nf|0|int x;\n");
         cli.run(path);
-        assertNull(service.getProblemById(1));
-        assertNotNull(service.getProblemById(2));
+        assertEquals(1, service.getAllProblems().size());
+        assertNotNull(service.getProblemById(1));
     }
 }

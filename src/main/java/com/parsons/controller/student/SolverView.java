@@ -1,149 +1,98 @@
 package com.parsons.controller.student;
-import com.parsons.controller.Utils;
+
+import com.parsons.controller.BaseParsonsView;
 import com.parsons.model.CodeBlock;
 import com.parsons.model.ParsonsProblem;
 import com.parsons.service.ParsonsProblemsService;
 
 import java.awt.*;
 import javax.swing.*;
-import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 
-import static com.parsons.controller.Utils.*;
+/**
+ * View for a student solving a single Parsons problem.
+ * Extends BaseParsonsView with submit, retry, and next buttons.
+ * On correct submission the next button is enabled, allowing the student
+ * to advance to the following problem in the list.
+ */
+public final class SolverView extends BaseParsonsView {
 
-public class SolverView extends JFrame{
     /**
-     * The Parsons problem being solved by the student.
-     * Stored as a field so it can be accessed by checkAnswer() outside the constructor.
-     */
-    private final ParsonsProblem problem;
-
-    /**
-     * Populates the blocks panel with shuffled code blocks from the problem.
-     * Called on load and again when the student clicks Retry.
+     * Constructs the SolverView, wires button listeners, populates code blocks,
+     * and makes the frame visible.
      *
-     * @param blocksPanelLeft the panel to populate with code blocks
+     * @param problem the Parsons problem to solve
+     * @param service the service used to check answers and fetch the problem list
+     * @param index   the zero-based index of this problem in the full problem list,
+     *                used by the Next button to load the following problem
      */
-    private void populateBlocks(JPanel blocksPanelLeft) {
-        if (blocksPanelLeft == null || problem == null || problem.getCode() == null)
-            return;
-        blocksPanelLeft.removeAll();
-        List<CodeBlock> shuffled = new ArrayList<>(problem.getCode());
-        System.out.println("Block count: " + problem.getCode().size());
-        Collections.shuffle(shuffled);
-        for (CodeBlock block : shuffled) {
-            if (block != null && block.getCodeContent() != null) {
-                blocksPanelLeft.add(Utils.makeCodeBlock(block.getCodeContent()));
-            }
-        }
-        blocksPanelLeft.revalidate();
-        blocksPanelLeft.repaint();
-    }
+    public SolverView(ParsonsProblem problem, ParsonsProblemsService service, int index) {
+        super(problem, "Solving Parson's Problem: " + problem.getTitle());
 
-    /**
-     * Extracts the student's answer from the answer panel as a list of CodeBlocks.
-     *
-     * @param answerPanel the panel containing the student's arranged code blocks
-     * @return list of CodeBlocks in the order the student arranged them
-     */
-    private List<CodeBlock> extractAnswer(JPanel answerPanel) {
-        List<CodeBlock> answer = new ArrayList<>();
-        for (Component c : answerPanel.getComponents()) {
-            if (c instanceof JLabel labelBlock) {
-                answer.add(new CodeBlock(labelBlock.getText(), false, null));
-            }
-        }
-        return answer;
-    }
+        /* Get reference shared via superclass getters. */
+        JPanel topPanel = getTopPanel();
 
-    // ADD JAVA DOC FOR CONSTRUCTOR
-    public SolverView(ParsonsProblem problem, ParsonsProblemsService service) {
-        /* Set problem */
-        this.problem = problem;
+        /* Add instructions row to Top Panel of centerPanel. */
+        String instr = problem.getInstructions(); // we always have a problem in SolverView, never null.
+        JTextArea instrArea = new JTextArea(instr);
+        instrArea.setEditable(false);
+        topPanel.add(instrArea);
 
-        /* Set frame title and size. */
-        String title = problem.getTitle();
-        this.setTitle("Solving Parson's Problem: " + title);
-        this.setSize(FRAME_WIDTH, FRAME_HEIGHT);
-        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        /* South panel holds submit, retry, and next buttons plus the response label. */
+        JPanel southPanel = new JPanel(new GridLayout(4, 1));
 
-        /* Add navigation bar using helper functions. */
-        this.add(Utils.createNavBar(true,true, this), BorderLayout.NORTH);
-
-        /* Make a centerPanel which will hold topPanel (title, instructions), SplitPane, and submit button. */
-        JPanel centerPanel = new JPanel(new BorderLayout());
-        centerPanel.setBorder(BorderFactory.createEmptyBorder(PANEL_PAD, PANEL_PAD, PANEL_PAD, PANEL_PAD));
-
-        /* Create topPanel that holds title and instructions */
-        JPanel topPanel = new JPanel(new GridLayout(2, 1));
-        topPanel.add(new JLabel(title));
-        String instr = problem.getInstructions();
-        topPanel.add(new JTextArea(instr));
-        /* add it to centerPanel */
-        centerPanel.add(topPanel, BorderLayout.NORTH);
-
-        /* Create the Split Pane */
-        JPanel blocksPanelLeft = new JPanel(new GridLayout(20, 1, TIGHT_GAP, TIGHT_GAP));
-        JPanel answerPanelRight = new JPanel(new GridLayout(20, 1, TIGHT_GAP, TIGHT_GAP));
-        Utils.makeDropTarget(blocksPanelLeft);
-        Utils.makeDropTarget(answerPanelRight);
-        JSplitPane splitPane = new JSplitPane(JSplitPane.HORIZONTAL_SPLIT,
-                new JScrollPane(blocksPanelLeft),
-                new JScrollPane(answerPanelRight));
-        splitPane.setDividerLocation(DIVIDER_LOCATION);
-        /* Add it to centerPanel */
-        centerPanel.add(splitPane, BorderLayout.CENTER);
-
-        /* Create a southPanel that will go to south of centerPanel. It will have submitButton and responseLabel. */
-        JPanel southPanel = new JPanel(new GridLayout(2, 1));
-
-        /* Create submit button */
+        /* Submit button. */
         JButton submitButton = new JButton("Submit");
         southPanel.add(submitButton);
 
-        /* Create response label */
-        JLabel responseLabel = new JLabel(" ");  // empty before submit
-        responseLabel.setHorizontalAlignment(JLabel.CENTER);
-        southPanel.add(responseLabel);
+        /* Response label from superclass. */
+        southPanel.add(getResponseLabel());
 
-        /* Create retry button */
+        /* Retry button. */
         JButton retryButton = new JButton("Retry");
         southPanel.add(retryButton);
 
-        /* Add southPanel to centerPanel. */
-        centerPanel.add(southPanel, BorderLayout.SOUTH);
+        /* Next button, disabled until the student submits a correct answer. */
+        JButton nextButton = new JButton("Next");
+        nextButton.setEnabled(false);
+        southPanel.add(nextButton);
 
-        /* Add centerPanel to this frame, */
-        this.add(centerPanel, BorderLayout.CENTER);
+        getCenterPanel().add(southPanel, BorderLayout.SOUTH);
 
-        /*******************/
-        /* Business Logic. */
-        /*******************/
+        /* ***************** */
+        /* Business Logic.   */
+        /* ***************** */
 
-        /* Scramble codeBlocks and add to blocksPanelLeft. */
-        this.populateBlocks(blocksPanelLeft);
+        /* Shuffle and populate code blocks on the left panel. */
+        this.populateBlocks();
 
-        /* Submit and check response */
+        /* Submit: check answer, colour the border, enable Next on correct. */
         submitButton.addActionListener(e -> {
-            List<CodeBlock> answer = extractAnswer(answerPanelRight);
+            List<CodeBlock> answer = extractAnswer();
             boolean correct = service.checkAnswer(problem.getId(), answer);
             if (correct) {
-                responseLabel.setText("Correct! Well done!");
-                answerPanelRight.setBorder(BorderFactory.createLineBorder(Color.GREEN, 3));
+                getResponseLabel().setText("Correct! Well done!");
+                getAnswerPanelRight().setBorder(BorderFactory.createLineBorder(Color.GREEN, 3));
+                nextButton.setEnabled(true);
             } else {
-                responseLabel.setText("Incorrect. Try again!");
-                answerPanelRight.setBorder(BorderFactory.createLineBorder(Color.RED, 3));
+                getResponseLabel().setText("Incorrect. Try again!");
+                getAnswerPanelRight().setBorder(BorderFactory.createLineBorder(Color.RED, 3));
             }
         });
-        /* retryButton listener. */
-        retryButton.addActionListener(e -> {
-            answerPanelRight.setBorder(null);
-            answerPanelRight.removeAll();
-            answerPanelRight.revalidate();
-            answerPanelRight.repaint();
-            populateBlocks(blocksPanelLeft);
-            responseLabel.setText(" ");
+
+        /* Retry: clear the answer panel and reshuffle blocks. */
+        retryButton.addActionListener(e -> resetForRetry());
+
+        /* Next: load the following problem, or congratulate when the list is exhausted. */
+        nextButton.addActionListener(e -> {
+            /* Fetch the newest problem list in case problems were added during the session. */
+            List<ParsonsProblem> newestProblems = service.getAllProblems();
+            if (index + 1 < newestProblems.size()) {
+                this.dispose();
+                new SolverView(newestProblems.get(index + 1), service, index + 1);
+            } else {
+                getResponseLabel().setText("Congrats! You have reached the end!");
+            }
         });
 
         setVisible(true);

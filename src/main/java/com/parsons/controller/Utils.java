@@ -21,10 +21,10 @@ import java.util.Locale;
  * Shared constants and UI helper methods for all views in the Parsons Problems app.
  * Not instantiable -- all members are static.
  */
-public class Utils {
+public final class Utils {
 
-    /** Utility class -- do not instantiate */
-    private Utils() {}
+    /** Utility class -- do not instantiate. */
+    private Utils() { }
 
     /* Shared Constants
      derived based on the two panel drag and drop
@@ -33,36 +33,38 @@ public class Utils {
      maintain 16:9 ratio
      */
 
-    /** Height for launcher window */
+    /** Width for the launcher window. */
     public static final int LAUNCHER_WIDTH = 500;
+
+    /** Height for the launcher window. */
     public static final int LAUNCHER_HEIGHT = 500;
 
 
-    /** Width for single-panel views such as StudentWelcomeView */
+    /** Width for single-panel views such as StudentWelcomeView. */
     public static final int NARROW_FRAME_WIDTH = 720;
 
-    /** Full width for two-panel views such as SolverView */
+    /** Full width for two-panel views such as SolverView. */
     public static final int FRAME_WIDTH = 1280;
 
-    /** Frame height shared across all views (16:9 ratio) */
+    /** Frame height shared across all views (16:9 ratio). */
     public static final int FRAME_HEIGHT = 720;
 
-    /** Width of one code block panel (MAX_COLS * ~13px per char) */
+    /** Width of one code block panel (MAX_COLS * ~13px per char). */
     public static final int BLOCK_PANEL_WIDTH = 624;
 
-    /** Maximum number of characters per line in a code block */
+    /** Maximum number of characters per line in a code block. */
     public static final int MAX_COLS = 40;
 
-    /** Default divider position splitting the frame into two equal halves */
+    /** Default divider position splitting the frame into two equal halves. */
     public static final int DIVIDER_LOCATION = FRAME_WIDTH / 2;
 
-    /** Gap between tightly related elements such as code blocks in a list */
+    /** Gap between tightly related elements such as code blocks in a list. */
     public static final int TIGHT_GAP = 5;
 
-    /** Padding around panels */
+    /** Padding around panels. */
     public static final int PANEL_PAD = 10;
 
-    /** Margin around the outer edges of the frame */
+    /** Margin around the outer edges of the frame. */
     public static final int FRAME_MARGIN = 20;
 
     /* Shared Components
@@ -82,7 +84,7 @@ public class Utils {
     makeDropTarget(JPanel panel)
      */
 
-    /** Tracks which label is currently being dragged -- shared across all drag-and-drop views */
+    /** Tracks which label is currently being dragged -- shared across all drag-and-drop views. */
     private static JLabel draggedLabel = null;
 
     /**
@@ -98,36 +100,36 @@ public class Utils {
      */
     public static JPanel createNavBar(boolean showHomeButton, boolean showClose, JFrame frameParam) {
 
-        /** Top-level panel using BorderLayout to split left and right sections */
+        // Top-level panel using BorderLayout to split left and right sections
         JPanel navPanel = new JPanel(new BorderLayout());
 
         // -- LEFT: Home as button or label --
         if (showHomeButton) {
-            /** Home button shown in SolverView and EditorView -- navigates back to welcome */
+            // Home button shown in SolverView and EditorView -- navigates back to welcome
             JButton homeButton = new JButton("Home");
             homeButton.addActionListener(e -> {
                 frameParam.dispose();
-                // TODO: open StudentWelcomeView or SetterWelcomeView here
+
             });
             navPanel.add(homeButton, BorderLayout.WEST);
         } else {
-            /** Home label shown in welcome views -- indicates current location */
+            // Home label shown in welcome views -- indicates current location
             JLabel homeLabel = new JLabel("Home");
             navPanel.add(homeLabel, BorderLayout.WEST);
         }
 
         // -- RIGHT: Quit (always) + Close (optional) --
-        /** Panel to hold right-side buttons, laid out right to left */
+        // Panel to hold right-side buttons, laid out right to left
         JPanel rightButtonsPanel = new JPanel(new FlowLayout(FlowLayout.RIGHT));
 
         if (showClose) {
-            /** Close button shown in SolverView and EditorView -- closes this window only */
+            // Close button shown in SolverView and EditorView -- closes this window only
             JButton closeButton = new JButton("Close Window");
             closeButton.addActionListener(e -> frameParam.dispose());
             rightButtonsPanel.add(closeButton);
         }
 
-        /** Quit button shown in all views -- exits the entire application */
+        // Quit button shown in all views -- exits the entire application
         JButton quitButton = new JButton("Quit App");
         quitButton.addActionListener(e -> System.exit(0));
         rightButtonsPanel.add(quitButton);
@@ -145,14 +147,14 @@ public class Utils {
      * @return a JPanel to place in BorderLayout.SOUTH
      */
     public static JPanel createCreditsPanel() {
-        /** Panel centered horizontally to display team credits */
+        // Panel centered horizontally to display team credits
         JPanel creditsPanel = new JPanel(new FlowLayout(FlowLayout.CENTER));
 
-        /** Label listing all team members */
-        JLabel creditsLabel = new JLabel("Developed by: Parker McKillop, " +
-                "Michael O'Bannon, " +
-                "Oksana Pooley, " +
-                "and Arsh Singh");
+        // Label listing all team members
+        JLabel creditsLabel = new JLabel("Developed by: Parker McKillop, "
+                + "Michael O'Bannon, "
+                + "Oksana Pooley, "
+                + "and Arsh Singh");
 
         creditsPanel.add(creditsLabel);
         return creditsPanel;
@@ -174,7 +176,7 @@ public class Utils {
         labelCodeBlock.setOpaque(true);
         labelCodeBlock.setBackground(Color.WHITE);
 
-        /** TransferHandler exports the label text as a string on drag */
+        // TransferHandler exports the label text as a string on drag
         labelCodeBlock.setTransferHandler(new TransferHandler() {
             @Override
             public int getSourceActions(JComponent c) {
@@ -187,7 +189,7 @@ public class Utils {
             }
         });
 
-        /** Remember which label is being dragged when mouse is pressed */
+        // Remember which label is being dragged when mouse is pressed
         labelCodeBlock.addMouseListener(new MouseAdapter() {
             @Override
             public void mousePressed(MouseEvent e) {
@@ -219,7 +221,7 @@ public class Utils {
                     String text = (String) support.getTransferable()
                             .getTransferData(DataFlavor.stringFlavor);
 
-                    /** Remove block from source panel */
+                    // Remove block from source panel
                     if (draggedLabel != null) {
                         Container sourceParent = draggedLabel.getParent();
                         if (sourceParent != null) {
@@ -230,7 +232,7 @@ public class Utils {
                         draggedLabel = null;
                     }
 
-                    /** Add new block to target panel */
+                    // Add new block to target panel
                     panelParam.add(makeCodeBlock(text));
                     panelParam.revalidate();
                     panelParam.repaint();
@@ -251,7 +253,7 @@ public class Utils {
      * @throws IOException Occurs when the input file cannot be found or read.
      */
     public static List<ParsonsProblem> parseFile(String filepath) throws IOException {
-        //TODO: if time allows abstract this out to its own parser class.
+
         int errorCount = 0;
         java.util.List<String> errorLines = new ArrayList<>();
 
@@ -263,7 +265,9 @@ public class Utils {
 
 
         for (String line : lines) {
-            if (line.trim().isEmpty() || line.trim().startsWith("//")) continue;
+            if (line.trim().isEmpty() || line.trim().startsWith("//")) {
+                continue;
+            }
             if (line.trim().equals("---")) {
                 problemChunks.add(current);
                 current = new ArrayList<>();
@@ -290,11 +294,9 @@ public class Utils {
                 ParsonsProblem problem = new ParsonsProblem(title, instructions, codeBlocks);
                 problemList.add(problem);
             } catch (Exception e) {
-                // TODO: instantiate these variables as fields instead of local so they can
-                //  be reported in error catch under the run method.
                 errorCount++;
-                errorLines.add("Failed to parse chunk starting at: '" + (chunk.isEmpty() ?
-                        "(empty)" : chunk.getFirst()) + "' \n" + e.getMessage());
+                errorLines.add("Failed to parse chunk starting at: '" + (chunk.isEmpty()
+                        ? "(empty)" : chunk.getFirst()) + "' \n" + e.getMessage());
             }
         }
         return problemList;

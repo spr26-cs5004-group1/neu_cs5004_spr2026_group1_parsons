@@ -14,6 +14,9 @@ import java.io.File;
  */
 class ParsonsApplicationTests {
 
+    /**
+     * Instance of the service used to interact with the problem repository.
+     */
     private ParsonsProblemsService service;
 
     /**

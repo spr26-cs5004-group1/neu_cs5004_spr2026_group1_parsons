@@ -2,12 +2,12 @@
 (remove this and add your sections/elements)
 This readme should contain the following information: 
 
-* The group member's names and github accounts
+* The group member's names and GitHub accounts
 * The application name and a brief description of the application
 * Links to design documents and manuals
 * Instructions on how to run the application
 
-Ask yourself, if you started here in the readme, would you have what you need to work on this project and/or use the application?
+Ask yourself if you started here in the readme, would you have what you need to work on this project and/or use the application?
 -->
 
 # Final Project for CS 5004 - Parsons Problem Authoring & Delivery Tool
@@ -27,7 +27,7 @@ correct order from top to bottom.
 
 [Design Document](DesignDocuments/README.md)
 
-Manual - _link still needed!_
+[Manual](Manual/README.md)
 
 
 **Instructions**
@@ -58,7 +58,7 @@ Naturally, as previously mentioned the user can submit their answer at any point
 
 For the setter option, as mentioned above, this application can be used as a tool for uploading a Parsons Problem.
 The author, normally an educator, can create lines of code with the intention that each line will be broken up so
-that the parsons problem can be created. The educator will need to create their code in a .txt file and it must
+that the parsons problem can be created. The educator will need to create their code in a .txt file, and it must
 follow a specific format.
 
 The format is as follows:
@@ -73,6 +73,6 @@ Within the _Code Blocks_ section of this file there are some further information
 Each line must be of the structure _isDistractor_ | _Order Index_ | _Code Content_.
 _isDistractor_ is an indicator for whether a line is meant to be distracting line of code; used to create red herrings.
 This portion will either affirm that it is a distractor with 't' or is not with 'f'.
-_Order Index_ indicates the order of the code, starting with 0 and going for the number of non-distrctor lines.
+_Order Index_ indicates the order of the code, starting with 0 and going for the number of non-distractor lines.
 If something is a distractor line its order index is -1.
 _Code Content_ is where the actual code lines are written.

@@ -26,7 +26,6 @@ replay_pid*
 .gradle
 
 # Ignore Gradle build output directory
-build
 bin
 
 # ingore ide files
@@ -38,4 +37,5 @@ idea/
 .DS_Store
 works/
 
-claude/
+# remove this when uploading fat jar
+build/
