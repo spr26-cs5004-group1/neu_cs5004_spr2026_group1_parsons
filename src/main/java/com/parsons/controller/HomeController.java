@@ -1,6 +1,5 @@
 package com.parsons.controller;
 
-import com.parsons.model.ParsonsProblem;
 import com.parsons.service.ParsonsProblemsService;
 import com.parsons.controller.student.*;
 import com.parsons.controller.setter.*;
@@ -18,6 +17,11 @@ public class HomeController extends JFrame {
     |                                  |
     |  [ Setter ]      [ Student ]     |
     +----------------------------------+
+     */
+    /**
+     * Constructs a HomeController frame for choosing a role.
+     *
+     * @param service the service used to load and persist Parsons problems.
      */
     public HomeController(ParsonsProblemsService service) {
         /* Set up JFrame */

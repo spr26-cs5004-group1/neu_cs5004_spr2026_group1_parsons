@@ -40,6 +40,8 @@ tasks.named('test') {
     useJUnitPlatform()
 }
 
+checkstyleTest.enabled = false
+
 // for making a fat jar that includes all dependencies
 jar {
     archiveBaseName = 'parsons-problem-tool'

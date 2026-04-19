@@ -14,7 +14,12 @@ public class SetterWelcomeView extends WelcomeView {
     /** Stores the name passed to this. */
     private final String name;
 
-    /** Constructor for SetterWelcomeView. */
+    /**
+     * Constructor for SetterWelcomeView.
+     *
+     * @param service the service used to load and persist Parsons problems.
+     * @param name    the setter's account name, displayed in the welcome greeting.
+     */
     public SetterWelcomeView(ParsonsProblemsService service, String name) {
         super(
             service,
@@ -30,24 +35,24 @@ public class SetterWelcomeView extends WelcomeView {
 
     @Override
     protected void populateTable() {
-        tableModel.addRow(new Object[]{"NEW", "Add New Problem..."});
-        for (ParsonsProblem p : problems) {
-            tableModel.addRow(new Object[]{p.getId(), p.getTitle()});
+        getTableModel().addRow(new Object[]{"NEW", "Add New Problem..."});
+        for (ParsonsProblem p : getParsonsProblems()) {
+            getTableModel().addRow(new Object[]{p.getId(), p.getTitle()});
         }
     }
 
     @Override
     protected void onRowSelected(int row) {
-        Object idValue = tableModel.getValueAt(row, 0);
+        Object idValue = getTableModel().getValueAt(row, 0);
         if (row == 0 || idValue.equals("NEW")) {
-            new EditorView(null, service, name, this);
+            new EditorView(null, getService(), name, this);
         } else {
             int id = (int) idValue;
-            ParsonsProblem selected = problems.stream()
+            ParsonsProblem selected = getParsonsProblems().stream()
                     .filter(p -> p.getId() == id)
                     .findFirst()
                     .orElse(null);
-            new EditorView(selected, service, name, this);
+            new EditorView(selected, getService(), name, this);
         }
     }
 }
