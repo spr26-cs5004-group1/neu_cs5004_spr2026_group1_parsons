@@ -27,16 +27,17 @@ educator to upload new problems. The problems themselves are called Parsons Prob
 teaching programming concepts. The user, normally a student, will attempt to arrange blocks of code into the
 correct order from top to bottom.
 
-[Features Implemented](./DesignDocuments/FeaturesImplemented.md)
-
-[Project UML Diagrams](./DesignDocuments/ConceptualDesignUML.md)
-
 [Manual](Manual/README.md)
 
-[Javadoc](./JavaDocumentation/index.html)
+[Features Implemented](DesignDocuments/FeaturesImplemented.md)
 
-[GUI Testing History](./GUITesting/GUI_Development+Testing.md)
+[Conceptual Design UML](DesignDocuments/ConceptualDesignUML.md)
 
+[Initial Design Document](DesignDocuments/README.md)
+
+[GUI Testing](GUITesting/GUI_Development+Testing.md)
+
+[Java Documentation](JavaDocumentation/index.html)
 
 **Instructions**
 
