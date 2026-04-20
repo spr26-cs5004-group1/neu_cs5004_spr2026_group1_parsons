@@ -2,150 +2,153 @@
 
 ```mermaid
 classDiagram
-direction BT
+  direction TB
 
-class BaseParsonsView {
-  # BaseParsonsView(ParsonsProblem, String)
-  - JPanel answerPanelRight
-  - JLabel responseLabel
-  - ParsonsProblem problem
-  - JPanel centerPanel
-  - JPanel topPanel
-  # populateBlocks() void
-  # resetForRetry() void
-  # extractAnswer() List~CodeBlock~
-   JPanel answerPanelRight
-   ParsonsProblem problem
-   JLabel responseLabel
-   JPanel topPanel
-   JPanel centerPanel
-}
+  class ParsonsApplication {
+    - ParsonsApplication()
+    + main(String[]) void
+  }
 
-class CodeBlock {
-  + CodeBlock(String, boolean, Integer)
-  + CodeBlock()
-  - int id
-  - String codeContent
-  - Integer orderIndex
-   boolean isDistractor
-   Integer orderIndex
-   int id
-   String codeContent
-}
+  namespace Controller_View {
+      class BaseParsonsView {
+        # BaseParsonsView(ParsonsProblem, String)
+        - JPanel answerPanelRight
+        - JLabel responseLabel
+        - ParsonsProblem problem
+        - JPanel centerPanel
+        - JPanel topPanel
+        # populateBlocks() void
+        # resetForRetry() void
+        # extractAnswer() List~CodeBlock~
+        JPanel answerPanelRight
+        ParsonsProblem problem
+        JLabel responseLabel
+        JPanel topPanel
+        JPanel centerPanel
+      }
 
-class EditorView {
-  + EditorView(ParsonsProblem, ParsonsProblemsService, String, SetterWelcomeView)
-  - buildTitle(ParsonsProblem) String
-  - checkAnswerLocally(List~CodeBlock~) boolean
-  - buildTopExtras() void
-  - refreshAndClose(SetterWelcomeView, ParsonsProblemsService) void
-}
+      class CodeBlock {
+        + CodeBlock(String, boolean, Integer)
+        + CodeBlock()
+        - int id
+        - String codeContent
+        - Integer orderIndex
+        boolean isDistractor
+        Integer orderIndex
+        int id
+        String codeContent
+      }
 
-class HomeController {
-  + HomeController(ParsonsProblemsService)
-}
+      class EditorView {
+        + EditorView(ParsonsProblem, ParsonsProblemsService, String, SetterWelcomeView)
+        - buildTitle(ParsonsProblem) String
+        - checkAnswerLocally(List~CodeBlock~) boolean
+        - buildTopExtras() void
+        - refreshAndClose(SetterWelcomeView, ParsonsProblemsService) void
+      }
 
-class ICli {
-  <<Interface>>
-  + run(String) void
-}
+      class HomeController {
+        + HomeController(ParsonsProblemsService)
+      }
 
-class IParsonsProblemsRepository {
-  <<Interface>>
-  + save(ParsonsProblem) int
-  + existsById(int) boolean
-  + deleteById(int) void
-  + findById(int) ParsonsProblem
-  + findAll() List~ParsonsProblem~
-}
+      class ICli {
+        <<Interface>>
+        + run(String) void
+      }
 
-class ParsonsApplication {
-  - ParsonsApplication()
-  + main(String[]) void
-}
+      class SetterWelcomeView {
+        + SetterWelcomeView(ParsonsProblemsService, String)
+        # populateTable() void
+        # onRowSelected(int) void
+      }
 
-class ParsonsProblem {
-  + ParsonsProblem(String, String, List~CodeBlock~)
-  + ParsonsProblem()
-  - List~CodeBlock~ code
-  - String title
-  - String instructions
-  - int id
-   List~CodeBlock~ code
-   int id
-   String title
-   String instructions
-}
+      class SolverView {
+        + SolverView(ParsonsProblem, ParsonsProblemsService, int)
+      }
 
-class ParsonsProblemsService {
-  + ParsonsProblemsService(IParsonsProblemsRepository)
-  + updateProblem(int, ParsonsProblem) ParsonsProblem
-  + deleteProblem(int) void
-  - getSortedSolution(ParsonsProblem) List~CodeBlock~
-  + getProblemById(int) ParsonsProblem
-  + checkAnswer(int, List~CodeBlock~) boolean
-  + saveProblem(ParsonsProblem) int
-   List~ParsonsProblem~ allProblems
-}
+      class StudentWelcomeView {
+        + StudentWelcomeView(ParsonsProblemsService)
+        # onRowSelected(int) void
+        # populateTable() void
+      }
 
-class ProblemsList {
-  + ProblemsList()
-  - List~ParsonsProblem~ problems
-   List~ParsonsProblem~ problems
-}
+      class Utils {
+        - Utils()
+        + createCreditsPanel() JPanel
+        + createNavBar(boolean, boolean, JFrame) JPanel
+        + makeCodeBlock(String) JLabel
+        + makeDropTarget(JPanel) void
+        + parseFile(String) List~ParsonsProblem~
+      }
 
-class SetterCli {
-  + SetterCli(ParsonsProblemsService)
-  + run(String) void
-}
+      class WelcomeView {
+        # WelcomeView(ParsonsProblemsService, String, String, String)
+        - DefaultTableModel tableModel
+        - ParsonsProblemsService service
+        # populateTable() void
+        # onRowSelected(int) void
+        ParsonsProblemsService service
+        DefaultTableModel tableModel
+        List~ParsonsProblem~ parsonsProblems
+      }
+  }
 
-class SetterWelcomeView {
-  + SetterWelcomeView(ParsonsProblemsService, String)
-  # populateTable() void
-  # onRowSelected(int) void
-}
+  namespace Model {
+    class IParsonsProblemsRepository {
+      <<Interface>>
+      + save(ParsonsProblem) int
+      + existsById(int) boolean
+      + deleteById(int) void
+      + findById(int) ParsonsProblem
+      + findAll() List~ParsonsProblem~
+    }
 
-class SolverView {
-  + SolverView(ParsonsProblem, ParsonsProblemsService, int)
-}
+    class ParsonsProblem {
+      + ParsonsProblem(String, String, List~CodeBlock~)
+      + ParsonsProblem()
+      - List~CodeBlock~ code
+      - String title
+      - String instructions
+      - int id
+      List~CodeBlock~ code
+      int id
+      String title
+      String instructions
+    }
 
-class StudentWelcomeView {
-  + StudentWelcomeView(ParsonsProblemsService)
-  # onRowSelected(int) void
-  # populateTable() void
-}
+    class ParsonsProblemsService {
+      + ParsonsProblemsService(IParsonsProblemsRepository)
+      + updateProblem(int, ParsonsProblem) ParsonsProblem
+      + deleteProblem(int) void
+      - getSortedSolution(ParsonsProblem) List~CodeBlock~
+      + getProblemById(int) ParsonsProblem
+      + checkAnswer(int, List~CodeBlock~) boolean
+      + saveProblem(ParsonsProblem) int
+      List~ParsonsProblem~ allProblems
+    }
 
-class Utils {
-  - Utils()
-  + createCreditsPanel() JPanel
-  + createNavBar(boolean, boolean, JFrame) JPanel
-  + makeCodeBlock(String) JLabel
-  + makeDropTarget(JPanel) void
-  + parseFile(String) List~ParsonsProblem~
-}
+    class ProblemsList {
+      + ProblemsList()
+      - List~ParsonsProblem~ problems
+      List~ParsonsProblem~ problems
+    }
 
-class WelcomeView {
-  # WelcomeView(ParsonsProblemsService, String, String, String)
-  - DefaultTableModel tableModel
-  - ParsonsProblemsService service
-  # populateTable() void
-  # onRowSelected(int) void
-   ParsonsProblemsService service
-   DefaultTableModel tableModel
-   List~ParsonsProblem~ parsonsProblems
-}
+    class SetterCli {
+      + SetterCli(ParsonsProblemsService)
+      + run(String) void
+    }
 
-class XmlParsonsProblemsRepository {
-  + XmlParsonsProblemsRepository(String)
-  - readFromRepo() ProblemsList
-  + save(ParsonsProblem) int
-  - writeToRepo(ProblemsList) void
-  + deleteById(int) void
-  + findAll() List~ParsonsProblem~
-  + existsById(int) boolean
-  + findById(int) ParsonsProblem
-}
-
+    class XmlParsonsProblemsRepository {
+      + XmlParsonsProblemsRepository(String)
+      - readFromRepo() ProblemsList
+      + save(ParsonsProblem) int
+      - writeToRepo(ProblemsList) void
+      + deleteById(int) void
+      + findAll() List~ParsonsProblem~
+      + existsById(int) boolean
+      + findById(int) ParsonsProblem
+    }
+  }
 %% extends
 EditorView --|> BaseParsonsView
 SolverView --|> BaseParsonsView
