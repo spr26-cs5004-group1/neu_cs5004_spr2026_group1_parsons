@@ -18,6 +18,7 @@ Ask yourself if you started here in the readme, would you have what you need to 
 ### Pooley, Oksana @OksanaPooley
 ### Singh, Arsh @arshsinghphd
 
+
 **Name and Description**
 
 Our project application is called "Parsons Problem". This application that has two major aspects. The first of them being
@@ -38,6 +39,7 @@ correct order from top to bottom.
 
 
 **Instructions**
+
 When the application starts, the user will be greeted with a welcome screen. Once here, the user will be asked to input
 an account name. Next, they will choose their role, selecting whether they are _student_ (solving a problem) or
 a _setter_ (uploading a problem).
