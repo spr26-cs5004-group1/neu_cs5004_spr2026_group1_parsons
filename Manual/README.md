@@ -89,13 +89,20 @@ This will open the file chooser dialog, allowing selection of a file. Once selec
 
 ![File Chooser Dialogue](ux_review/EditorView_ux/02_select_and_open_file.png)
 
-If the user chose to update an existing problem, they will be warned that they will be overwriting the current problem by uploading a new file.
+If the user chose to update an existing problem, they will be warned that they will be overwriting the current problem by uploading a new file. 
+
+**Note**: if the text file has mutiple problems the first one is returned by default
 
 ![.txt file browsing: overwrite warning](ux_review/EditorView_ux/031_overwrite_warning_on_update_browse.png)
 
-Now that the problem has been imported, the setter can test the problem for themselves. The problem can then be saved to the local repository by clicking "Save this Problem".
+Now that the problem(s) has been imported, and the drag and drop interface has been populated with the code blocks of the first problem, the setter can test the problem for themselves. 
+
+If the setter is not satisfied they can "Delete Problem", make changes to the txt file and upload it again, many times.
+
+The problem can then be saved to the local repository by clicking "Save this Problem". 
 
 ![Save problem to local repository](ux_review/EditorView_ux/03_save_opened_problem.png)
+
 
 If the user is updating an existing problem, they'll receive a warning when they save the problem to the local repo.
 
