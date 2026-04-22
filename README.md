@@ -39,7 +39,9 @@ correct order from top to bottom.
 
 [Java Documentation](JavaDocumentation/index.html)
 
-**Instructions**
+A Javajar Packaging: App can be launched from the terminal using "java -jar parsons-application-0.1.jar" or "java -jar parsons-application-0.1.jar -CLI" to use command line interface.
+
+[zipped file](../ParsonsApp.zip) for a linux/macOS app-image packaging that can be double clicked to launch the HomeController GUI directly - no terminal, no Java installation needed. Slightly bulky (~100 MB).
 
 When the application starts, the user will be greeted with a welcome screen. Once here, the user will be asked to input
 an account name. Next, they will choose their role, selecting whether they are _student_ (solving a problem) or
