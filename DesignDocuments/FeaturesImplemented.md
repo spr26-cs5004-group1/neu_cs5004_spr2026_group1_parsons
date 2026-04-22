@@ -5,6 +5,8 @@ Additional Features:
 1. XML database persistence via Jackson
 2. Home View for strict separation of concerns for setter and solver 
 3. Home View requires a login name for personalization 
+4. A Javajar packaging: app can be launched from the terminal using "java -jar parsons-application-0.1.jar" or "java -jar parsons-application-0.1.jar -CLI" to use command line interface.
+5. A linuc/macOS app-image packing that can be double clicked to launch the HomeController GUI directly - no terminal, no Java installation needed. Slightly bulky (~100 MB) so a [zipped file](../ParsonsApp.zip) is added.
 
 For Setter/Editor:
 
