@@ -35,35 +35,47 @@ Likewise, the student button will open the StudentWelcomeView.
 
 From the SolverView, the user can exit the program by clicking `Close Window`, `Quit App`, or the `X` in the top right corner of the frame.   
 
-![003_solverview_sumalistproblem.png](ux_review/images_SolverView/003_solverview_sumalistproblem.png)   
+![InitialScreenAllButtonsuttons.png](ux_review/images_SolverView/InitialScreenAllButtons.png)   
 
 The left-hand side of the solving problem screen contains puzzle pieces of a problem arranged in no particular order. In addition to the correct code, it also contains distractor piece(s).   
 
-![006_solverview_blockscanonlyaddatbottom.png](ux_review/images_SolverView/006_solverview_blockscanonlyaddatbottom.png)   
+![DragAndDropIntoWrongPos.png](ux_review/images_SolverView/DragAndDropIntoWrongPos.png)   
 
 The user moves puzzle pieces from the left side of the screen to the right side and arranges them in a presumably correct order. The pieces can only be added at the bottom.   
 
-![007_solverview_blocksmovedfromtoptobottom.png](ux_review/images_SolverView/007_solverview_blocksmovedfromtoptobottom.png)   
+![DragAndDropIntoCorrectPos.png](ux_review/images_SolverView/DragAndDropIntoCorrectPos.png)   
 
 They can, however, be moved from the top or the middle to the bottom, or removed altogether and returned to the left-hand side of the screen. Once the user is satisfied with the order of the code puzzle pieces, clicking `Submit` will check if the answer is correct.     
 
-![005_solverview_correctanswer.png](ux_review/images_SolverView/005_solverview_correctanswer.png)   
+![SuccessEqualsGreen.png](ux_review/images_SolverView/SuccessEqualsGreen.png)
 
-If the answer is incorrect, the user can try again by clicking the `Retry` button and the puzzle pieces will return to the left panel.      
+Once the correct answer has been given, the `Next` button will be enabled.
 
-![004_solverview_incorrectanswer.png](ux_review/images_SolverView/004_solverview_incorrectanswer.png)
- 
+![NextIsEnabled.png](ux_review/images_SolverView/NextIsEnabled.png)
+
+When clicked, this will take you to the next problem in the set.
+
+![TakesYouToTheNextProblem.png](ux_review/images_SolverView/TakesYouToTheNextProblem.png)
+
 Another option in case of an incorrect answer,    
 
-![008_solverview_incorrectanswer.png](ux_review/images_SolverView/008_solverview_incorrectanswer.png)
+![FailureEqualsRed.png](ux_review/images_SolverView/FailureEqualsRed.png)
 
-if the user sees the minor mistake and would like to correct it right away, they can move the few incorrect pieces,   
+If the answer attempted is incorrect, the user can try again by clicking the `Retry` button and the puzzle pieces will return to the left panel.
 
-![009_solverview_movingblocksback.png](ux_review/images_SolverView/009_solverview_movingblocksback.png)   
+![RetryRestarts.png](ux_review/images_SolverView/RetryRestarts.png)
+
+Alternatively, if the user sees the minor mistake and would like to correct it right away, they can move the few incorrect pieces,   
+
+![DropThemBack.png](ux_review/images_SolverView/DropThemBack.png)   
 
 rearrange them correctly, and try again by clicking `Submit`:   
 
-![010_solverview_submitagain.png](ux_review/images_SolverView/010_solverview_submitagain.png)
+![ResubmitForSuccess.png](ux_review/images_SolverView/ResubmitForSuccess.png)
+
+Once the user has reached the end of the problem set, they can submit their problem and they will get a congratulations message. 
+
+![FinishingTheProblemSet](ux_review/images_SolverView/FinishingTheProblemSet.png)
 
 ## Setter Instructions: Setter/Editor View
 
