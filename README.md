@@ -39,7 +39,7 @@ correct order from top to bottom.
 
 [Java Documentation](JavaDocumentation/index.html)
 
-A Javajar Packaging: App can be launched from the terminal using "java -jar parsons-application-0.1.jar" or "java -jar parsons-application-0.1.jar -CLI" to use command line interface.
+A Java jar Packaging: App can be launched from the terminal using "java -jar parsons-application-0.1.jar" or "java -jar parsons-application-0.1.jar -CLI" to use command line interface.
 
 [zipped file](../ParsonsApp.zip) for a linux/macOS app-image packaging that can be double clicked to launch the HomeController GUI directly - no terminal, no Java installation needed. Slightly bulky (~100 MB).
 
