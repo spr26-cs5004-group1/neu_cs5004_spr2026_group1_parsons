@@ -147,21 +147,30 @@ Fig.26. An incorrect response highlighted by a red frame.
 Fig.27. Correct response view. The correct answer is highlighted by a green frame.   
 
 ![014_solver_view_opensFromStudentWelcomeView.png](images_SolverView/014_solver_view_opensFromStudentWelcomeView.png)   
-Fig.28. The Solver view open from the Student welcome view.   
+Fig.28. The Solver view open from the Student welcome view.
+
+![InitialScreenAllButtons.png](images_SolverView/InitialScreenAllButtons.png)
+Fig. 29 The next button added and displaying correctly. Won't be enabled until the correct answer is provided.
+
+![SuccessEqualsGreen.png](images_SolverView/SuccessEqualsGreen.png)
+Fig. 30 Enabled when correct.
+
+![FailureEqualsRed.png](images_SolverView/FailureEqualsRed.png)
+Fig. 31 Not enabled when incorrect.
 
 ![015_solver_view_manyWindows.png](images_SolverView/015_solver_view_manyWindows.png)   
-Fig.29. The Solver view, multiple windows displaying at once.   
+Fig.32. The Solver view, multiple windows displaying at once.   
 
 ## Student Welcome View
 
 ![001_studentwelcomeview.png](images_StudentWelcomeView/001_studentwelcomeview.png)   
-Fig.30. Student view initial window displaying correctly.    
+Fig.33. Student view initial window displaying correctly.    
 
 ![002_studentwelcomeview.png](images_StudentWelcomeView/002_studentwelcomeview.png)   
-Fig.31. Student view with choice of Parson's problems.   
+Fig.34. Student view with choice of Parson's problems.   
 
 ![003_studentwelcomeview_selectable.png](images_StudentWelcomeView/003_studentwelcomeview_selectable.png)   
-Fig.32. Selection of problems displaying correctly.   
+Fig.35. Selection of problems displaying correctly.   
 
 ![004_studentwelcomeview_cosmetic.png](images_StudentWelcomeView/004_studentwelcomeview_cosmetic.png)   
-Fig.33. Student view with cosmetic improvements applied.   
+Fig.36. Student view with cosmetic improvements applied.   
