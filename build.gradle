@@ -1,0 +1,58 @@
+plugins {
+    id 'java'
+    //id 'application' // comment out to make fat jar
+    id 'checkstyle'
+}
+// comment out to make fat jar
+//application {
+//    mainClass = 'com.parsons.ParsonsApplication'
+//}
+
+checkstyle {
+    toolVersion = '10.12.0'
+    configFile = file('checkstyle-rules.xml')
+}
+
+group = 'com'
+version = '0.0.1-SNAPSHOT'
+description = 'parsons'
+
+java {
+    toolchain {
+        languageVersion = JavaLanguageVersion.of(21)
+    }
+}
+
+repositories {
+    mavenCentral()
+}
+
+dependencies {
+    // Jackson XML
+    implementation 'com.fasterxml.jackson.dataformat:jackson-dataformat-xml:2.17.0'
+
+    // Testing
+    testImplementation 'org.junit.jupiter:junit-jupiter:5.10.0'
+    testRuntimeOnly 'org.junit.platform:junit-platform-launcher'
+}
+
+tasks.named('test') {
+    useJUnitPlatform()
+}
+
+checkstyleTest.enabled = false
+
+// for making a fat jar that includes all dependencies
+jar {
+    archiveBaseName = 'parsons-problem-tool'
+    archiveVersion = '0.1'
+    manifest {
+        attributes 'Main-Class': 'com.parsons.ParsonsApplication'
+    }
+    from {
+        configurations.runtimeClasspath.collect {
+            it.isDirectory() ? it : zipTree(it)
+        }
+    }
+    duplicatesStrategy = DuplicatesStrategy.EXCLUDE
+}
