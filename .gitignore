@@ -24,7 +24,6 @@ replay_pid*
 
 # Ignore Gradle files
 .gradle
-gradle/
 
 # Presentation files
 presentation_outline.txt
