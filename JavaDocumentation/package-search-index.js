@@ -1,0 +1,1 @@
+packageSearchIndex = [{"l":"All Packages","u":"allpackages-index.html"},{"l":"com.parsons"},{"l":"com.parsons.controller"},{"l":"com.parsons.controller.setter"},{"l":"com.parsons.controller.student"},{"l":"com.parsons.model"},{"l":"com.parsons.repository"},{"l":"com.parsons.service"}];updateSearchResults();

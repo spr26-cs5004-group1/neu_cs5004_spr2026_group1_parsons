@@ -18,19 +18,29 @@ Ask yourself if you started here in the readme, would you have what you need to 
 ### Pooley, Oksana @OksanaPooley
 ### Singh, Arsh @arshsinghphd
 
+
 **Name and Description**
+
 Our project application is called "Parsons Problem". This application that has two major aspects. The first of them being
 an interactive educational tool where the user attempts to solve some problem. Second, it provides the environment for an
-educator to upload new problems. The problems themselves are called Parsons Problems. These are an effective way for
+educator to upload new problems. The problems themselves are called Parsons Problems. These are an effective way of
 teaching programming concepts. The user, normally a student, will attempt to arrange blocks of code into the
 correct order from top to bottom.
 
-[Design Document](DesignDocuments/README.md)
-
 [Manual](Manual/README.md)
 
+[Features Implemented](DesignDocuments/FeaturesImplemented.md)
+
+[Conceptual Design UML](DesignDocuments/ConceptualDesignUML.md)
+
+[Initial Design Document](DesignDocuments/README.md)
+
+[GUI Testing](GUITesting/GUI_Development+Testing.md)
+
+[Java Documentation](JavaDocumentation/index.html)
 
 **Instructions**
+
 When the application starts, the user will be greeted with a welcome screen. Once here, the user will be asked to input
 an account name. Next, they will choose their role, selecting whether they are _student_ (solving a problem) or
 a _setter_ (uploading a problem).
@@ -54,7 +64,7 @@ Secondly the user may return home at any point by clicking the _Home_ button. Th
 screen where they can choose another problem or exit the application.
 Thirdly, the user may exit the entire application by clicking the _Quit App_ button. This will end the application.
 
-Naturally, as previously mentioned the user can submit their answer at any point by clicking _Submit_.
+As previously mentioned, the user can submit their answer at any point by clicking _Submit_.
 
 For the setter option, as mentioned above, this application can be used as a tool for uploading a Parsons Problem.
 The author, normally an educator, can create lines of code with the intention that each line will be broken up so
