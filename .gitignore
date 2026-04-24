@@ -24,10 +24,10 @@ replay_pid*
 
 # Ignore Gradle files
 .gradle
-build.gradle
-gradlew
-gradlew.bat
 gradle/
+
+# Presentation files
+presentation_outline.txt
 
 # Ignore Gradle build output directory
 bin
